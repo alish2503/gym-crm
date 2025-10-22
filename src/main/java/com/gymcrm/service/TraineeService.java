@@ -1,10 +1,10 @@
-package com.gymcrm.dao;
+package com.gymcrm.service;
 
 import com.gymcrm.model.Trainee;
 
 /**
  * @author Alish
  */
-public interface TraineeDao extends UserDao<Trainee> {
+public interface TraineeService extends UserService<Trainee> {
     void delete(String username);
 }
