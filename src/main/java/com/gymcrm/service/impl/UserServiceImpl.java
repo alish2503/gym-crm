@@ -3,6 +3,7 @@ package com.gymcrm.service.impl;
 import com.gymcrm.dao.UserDao;
 import com.gymcrm.model.User;
 import com.gymcrm.service.UserService;
+import com.gymcrm.util.PasswordGenerator;
 
 /**
  * @author Alish

@@ -3,6 +3,7 @@ package com.gymcrm.dao.impl;
 import com.gymcrm.dao.TrainingDao;
 import com.gymcrm.model.Training;
 import com.gymcrm.storage.InMemoryStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,12 +14,13 @@ public class TrainingDaoImpl extends BaseDaoImpl<Training, Long> implements Trai
 
     private long idCounter = 0;
 
+    @Autowired
     public TrainingDaoImpl(InMemoryStorage storage) {
         super(storage, "trainings");
 
         if (!storageMap.isEmpty()) {
             idCounter = storageMap.keySet().stream()
-                    .mapToLong(id -> (Long) id)
+                    .mapToLong(Long::longValue)
                     .max()
                     .orElse(0L);
         }

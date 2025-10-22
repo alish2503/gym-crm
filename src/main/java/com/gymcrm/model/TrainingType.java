@@ -4,5 +4,9 @@ package com.gymcrm.model;
  * @author Alish
  */
 public class TrainingType {
-    private String name;
+    private TrainingTypeEnum name;
+
+    public TrainingType(TrainingTypeEnum name) {
+        this.name = name;
+    }
 }
