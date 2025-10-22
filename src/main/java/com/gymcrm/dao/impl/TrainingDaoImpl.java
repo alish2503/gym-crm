@@ -6,6 +6,8 @@ import com.gymcrm.storage.InMemoryStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * @author Alish
  */
@@ -36,8 +38,8 @@ public class TrainingDaoImpl extends BaseDaoImpl<Training, Long> implements Trai
     }
 
     @Override
-    public Training findById(Long id) {
-        return storageMap.get(id);
+    public Optional<Training> findById(Long id) {
+        return Optional.of(storageMap.get(id));
     }
 }
 

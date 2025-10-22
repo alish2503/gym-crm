@@ -9,12 +9,16 @@ public class Trainee extends User {
     private LocalDate dateOfBirth;
     private String address;
 
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public Trainee(String firstName, String lastName, LocalDate dateOfBirth, String address) {
+        super(firstName, lastName);
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Trainee{username='%s', firstName='%s', lastName='%s'}",
+                getUsername(), getFirstName(), getLastName());
+    }
+
 }

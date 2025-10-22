@@ -6,7 +6,14 @@ package com.gymcrm.model;
 public class Trainer extends User {
     private TrainingType specialization;
 
-    public void setSpecialization(TrainingType specialization) {
+    public Trainer(String firstName, String lastName, TrainingType specialization) {
+        super(firstName, lastName);
         this.specialization = specialization;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Trainer{username='%s', specialization='%s'}",
+                getUsername(), specialization);
     }
 }

@@ -22,7 +22,9 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
 
     @Override
     public void delete(String username) {
+        log.info("Deleting trainee with username: {}", username);
         traineeDao.delete(username);
+        log.debug("Trainee {} deleted", username);
     }
 }
 

@@ -10,6 +10,11 @@ public abstract class User {
     private String password;
     private boolean isActive = true;
 
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -28,14 +33,6 @@ public abstract class User {
 
     public boolean isActive() {
         return isActive;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public void setUsername(String username) {

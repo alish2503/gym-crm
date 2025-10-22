@@ -4,6 +4,8 @@ import com.gymcrm.dao.UserDao;
 import com.gymcrm.model.User;
 import com.gymcrm.storage.InMemoryStorage;
 
+import java.util.Optional;
+
 /**
  * @author Alish
  */
@@ -14,8 +16,8 @@ public abstract class UserDaoImpl<T extends User> extends BaseDaoImpl<T, String>
     }
 
     @Override
-    public T findByUsername(String username) {
-        return storageMap.get(username);
+    public Optional<T> findByUsername(String username) {
+        return Optional.ofNullable(storageMap.get(username));
     }
 
     @Override

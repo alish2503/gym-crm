@@ -1,0 +1,25 @@
+# ===== Trainees =====
+TRAINEE;John;Smith;1998-03-15;123 Main St, London
+TRAINEE;Anna;White;1995-06-21;56 Oxford St, London
+TRAINEE;Mark;Brown;2000-11-05;14 Queen Ave, Manchester
+TRAINEE;Sophia;Davis;1997-02-19;9 Green Rd, Bristol
+TRAINEE;Liam;Wilson;1999-09-30;77 King St, Leeds
+
+# ===== Trainers =====
+TRAINER;Mike;Black;Fitness
+TRAINER;Olivia;Green;Yoga
+TRAINER;James;Taylor;Zumba
+TRAINER;Emily;Johnson;Stretching
+TRAINER;Daniel;Lee;Resistance
+
+# ===== Trainings =====
+TRAINING;John.Smith;Mike.Black;Morning Cardio;Fitness;2025-10-10;60
+TRAINING;Anna.White;Olivia.Green;Evening Yoga;Yoga;2025-10-11;90
+TRAINING;Mark.Brown;James.Taylor;Zumba Energy;Zumba;2025-10-12;75
+TRAINING;Sophia.Davis;Emily.Johnson;Deep Stretch;Stretching;2025-10-13;50
+TRAINING;Liam.Wilson;Daniel.Lee;Power Resistance;Resistance;2025-10-14;70
+TRAINING;John.Smith;James.Taylor;Zumba Blast;Zumba;2025-10-15;80
+TRAINING;Anna.White;Mike.Black;Full Body Strength;Fitness;2025-10-16;60
+TRAINING;Mark.Brown;Olivia.Green;Morning Yoga Flow;Yoga;2025-10-17;90
+TRAINING;Sophia.Davis;Daniel.Lee;Core Resistance;Resistance;2025-10-18;70
+TRAINING;Liam.Wilson;Emily.Johnson;Evening Stretch;Stretching;2025-10-19;50

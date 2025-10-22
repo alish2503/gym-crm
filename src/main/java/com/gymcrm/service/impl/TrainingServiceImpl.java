@@ -1,6 +1,7 @@
 package com.gymcrm.service.impl;
 
 import com.gymcrm.dao.TrainingDao;
+import com.gymcrm.exception.EntityNotFoundException;
 import com.gymcrm.model.Training;
 import com.gymcrm.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,20 @@ public class TrainingServiceImpl extends BaseServiceImpl<Training, Long> impleme
 
     @Override
     public Training create(Training training) {
-        return trainingDao.save(training);
+        log.info("Creating training: {} for trainee {} and trainer {}",
+                training.getTrainingName(),
+                training.getTrainee().getUsername(),
+                training.getTrainer().getUsername());
+
+        Training saved = trainingDao.save(training);
+        log.debug("Training created successfully: {}", saved);
+        return saved;
     }
 
     @Override
     public Training getById(Long id) {
-        return trainingDao.findById(id);
+        log.debug("Fetching training by id: {}", id);
+        return trainingDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Training not found: " + id));
     }
 }

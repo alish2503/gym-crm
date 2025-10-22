@@ -30,4 +30,24 @@ public class Training {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getTrainingName() {
+        return trainingName;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public Trainee getTrainee() {
+        return trainee;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Training{id=%d, name='%s', trainee='%s', trainer='%s'}",
+                id, trainingName,
+                trainee.getUsername(),
+                trainer.getUsername());
+    }
 }
