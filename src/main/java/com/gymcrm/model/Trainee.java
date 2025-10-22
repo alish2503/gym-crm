@@ -14,11 +14,4 @@ public class Trainee extends User {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
-
-    @Override
-    public String toString() {
-        return String.format("Trainee{username='%s', firstName='%s', lastName='%s'}",
-                getUsername(), getFirstName(), getLastName());
-    }
-
 }

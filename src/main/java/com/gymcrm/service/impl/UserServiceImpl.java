@@ -53,6 +53,7 @@ public abstract class UserServiceImpl<T extends User> extends BaseServiceImpl<T,
         if (userDao.findByUsername(user.getUsername()).isEmpty()) {
             throw new EntityNotFoundException("User not found: " + user.getUsername());
         }
+        userDao.update(user);
         log.debug("User {} updated", user.getUsername());
     }
 }

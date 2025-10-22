@@ -42,12 +42,4 @@ public class Training {
     public Trainee getTrainee() {
         return trainee;
     }
-
-    @Override
-    public String toString() {
-        return String.format("Training{id=%d, name='%s', trainee='%s', trainer='%s'}",
-                id, trainingName,
-                trainee.getUsername(),
-                trainer.getUsername());
-    }
 }
