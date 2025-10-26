@@ -53,21 +53,23 @@ Training training = facade.createTraining(new Training("Morning Yoga", new Train
 ## Project Structure
 
 ```
-src/main/java
- ├─ 
- ├─ config 
+com.gymcrm
+ ├─ application 
+ |  ├─ facade
+ |  └─ service
  ├─ domain 
- ├─ repository  
+ |  ├─ exception
+ |  ├─ model
+ |  └─ port
+ ├─ infrastructure
+ |  ├─ assembler
+ |  ├─ config
+ |  ├─ mapper
+ |  └─ persistence
+ |     ├─ dao
+ |     └─ strorage
  ├─ service
- ├─ storage
- ├─ facade
- ├─ exception
- ├─ mapper
- ├─ util 
  └─ GymApp.java
-
-src/test/java
- └─ (unit tests for Service layers)
 ```
 
 ---
