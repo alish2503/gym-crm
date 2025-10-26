@@ -38,8 +38,8 @@ mvn exec:java -Dexec.mainClass="com.gymcrm.GymApp"
 ```java
 GymFacade facade = context.getBean(GymFacade.class);
 
-Trainee trainee = facade.createTrainee(new Trainee("John", "Doe", LocalDate.of(1995, 1, 1), "NY"));
-Trainer trainer = facade.createTrainer(new Trainer("Alex", "Stone", new TrainingType(TrainingTypeEnum.YOGA)));
+Trainee trainee = facade.createTrainee(new Trainee("John", "Doe", true, LocalDate.of(1995, 1, 1), "NY"));
+Trainer trainer = facade.createTrainer(new Trainer("Alex", "Stone", true, new TrainingType(TrainingTypeEnum.YOGA)));
 Training training = facade.createTraining(new Training("Morning Yoga", new TrainingType(TrainingTypeEnum.YOGA),
                 LocalDate.of(2025, 10, 22), 60, trainer, trainee));
 ```
@@ -54,13 +54,15 @@ Training training = facade.createTraining(new Training("Morning Yoga", new Train
 
 ```
 src/main/java
- ├─ aop
+ ├─ 
  ├─ config 
- ├─ model 
- ├─ dao  
+ ├─ domain 
+ ├─ repository  
  ├─ service
  ├─ storage
  ├─ facade
+ ├─ exception
+ ├─ mapper
  ├─ util 
  └─ GymApp.java
 

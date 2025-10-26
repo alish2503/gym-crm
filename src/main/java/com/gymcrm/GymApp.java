@@ -1,6 +1,6 @@
 package com.gymcrm;
 
-import com.gymcrm.config.AppConfig;
+import com.gymcrm.infrastructure.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
