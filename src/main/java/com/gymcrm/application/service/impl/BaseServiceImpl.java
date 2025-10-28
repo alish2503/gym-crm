@@ -1,4 +1,4 @@
-package com.gymcrm.service;
+package com.gymcrm.application.service.impl;
 
 import com.gymcrm.domain.port.BaseRepository;
 import com.gymcrm.application.service.BaseService;

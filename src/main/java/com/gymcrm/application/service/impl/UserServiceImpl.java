@@ -1,4 +1,4 @@
-package com.gymcrm.service;
+package com.gymcrm.application.service.impl;
 
 import com.gymcrm.domain.port.UserRepository;
 import com.gymcrm.domain.exception.EntityNotFoundException;

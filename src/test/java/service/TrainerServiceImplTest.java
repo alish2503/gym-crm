@@ -5,7 +5,7 @@ import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.application.service.PasswordService;
-import com.gymcrm.service.TrainerServiceImpl;
+import com.gymcrm.application.service.impl.TrainerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

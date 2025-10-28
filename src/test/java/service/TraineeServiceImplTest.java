@@ -4,7 +4,7 @@ import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.application.service.PasswordService;
-import com.gymcrm.service.TraineeServiceImpl;
+import com.gymcrm.application.service.impl.TraineeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

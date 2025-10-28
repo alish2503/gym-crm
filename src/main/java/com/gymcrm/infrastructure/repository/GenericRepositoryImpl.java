@@ -3,6 +3,8 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.port.GenericRepository;
 import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,9 @@ public abstract class GenericRepositoryImpl<E, D, ID> implements GenericReposito
         this.storageMap = storage.getNamespace(namespace);
     }
 
+    @Override
+    public List<E> findAll() {
+        return new ArrayList<>(storageMap.values()).stream().map(this::mapToDomain).toList();
+    }
     protected abstract E mapToDomain(D dao);
 }

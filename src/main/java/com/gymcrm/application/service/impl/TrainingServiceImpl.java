@@ -1,4 +1,4 @@
-package com.gymcrm.service;
+package com.gymcrm.application.service.impl;
 
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;

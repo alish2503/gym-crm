@@ -1,7 +1,7 @@
 package service;
 
 import com.gymcrm.application.service.PasswordService;
-import com.gymcrm.infrastructure.service.PasswordServiceImpl;
+import com.gymcrm.application.service.impl.PasswordServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

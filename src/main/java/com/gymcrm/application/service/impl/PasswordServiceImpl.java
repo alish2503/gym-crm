@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.service;
+package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.service.PasswordService;
 import org.springframework.stereotype.Component;
