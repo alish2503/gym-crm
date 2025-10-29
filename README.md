@@ -65,10 +65,11 @@ com.gymcrm
  |  ├─ assembler
  |  ├─ config
  |  ├─ mapper
- |  └─ persistence
- |     ├─ dao
- |     └─ strorage
- ├─ service
+ |  ├─ persistence
+ |  |  ├─ dao
+ |  |  └─ storage
+ |  └─ repository
+ |
  └─ GymApp.java
 ```
 

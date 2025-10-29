@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * @author Alish
  */
-public abstract class UserRepositoryImpl<E extends User, D extends UserDao>
+abstract class UserRepositoryImpl<E extends User, D extends UserDao>
         extends BaseRepositoryImpl<E, D, String> implements UserRepository<E> {
 
     protected UserRepositoryImpl(InMemoryStorage storage, String namespace) {

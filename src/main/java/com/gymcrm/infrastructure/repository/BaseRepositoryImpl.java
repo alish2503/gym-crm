@@ -6,7 +6,7 @@ import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
 /**
  * @author Alish
  */
-public abstract class BaseRepositoryImpl<E, D, ID> extends GenericRepositoryImpl<E, D, ID> implements BaseRepository<E> {
+abstract class BaseRepositoryImpl<E, D, ID> extends GenericRepository<E, D, ID> implements BaseRepository<E> {
 
     public BaseRepositoryImpl(InMemoryStorage storage, String namespace) {
         super(storage, namespace);

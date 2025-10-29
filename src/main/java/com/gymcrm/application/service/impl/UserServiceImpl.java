@@ -5,16 +5,18 @@ import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.application.service.PasswordService;
 import com.gymcrm.application.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Alish
  */
-public abstract class UserServiceImpl<E extends User> extends BaseServiceImpl<E> implements UserService<E> {
+abstract class UserServiceImpl<E extends User> implements UserService<E> {
+    protected final Logger log = LoggerFactory.getLogger(getClass());
     private final UserRepository<E> userRepository;
     private final PasswordService passwordService;
 
     protected UserServiceImpl(UserRepository<E> userRepository, PasswordService passwordService) {
-        super(userRepository);
         this.userRepository = userRepository;
         this.passwordService = passwordService;
     }

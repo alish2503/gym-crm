@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Alish
  */
-public class PasswordGeneratorTest {
+class PasswordGeneratorTest {
     private final PasswordService passwordService = new PasswordServiceImpl();
 
     @Test

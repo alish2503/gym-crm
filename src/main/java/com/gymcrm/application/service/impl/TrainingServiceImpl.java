@@ -6,6 +6,8 @@ import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.application.service.TrainingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Service;
  * @author Alish
  */
 @Service
-public class TrainingServiceImpl extends BaseServiceImpl<Training> implements TrainingService {
+public class TrainingServiceImpl implements TrainingService {
+    protected final Logger log = LoggerFactory.getLogger(TrainingServiceImpl.class);
     private final TrainingRepository trainingRepository;
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
@@ -24,7 +27,6 @@ public class TrainingServiceImpl extends BaseServiceImpl<Training> implements Tr
             TraineeRepository traineeRepository,
             TrainerRepository trainerRepository) {
 
-        super(trainingRepository);
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;

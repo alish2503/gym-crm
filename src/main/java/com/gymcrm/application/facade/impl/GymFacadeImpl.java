@@ -10,8 +10,6 @@ import com.gymcrm.application.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @author Alish
  */
@@ -50,11 +48,6 @@ public class GymFacadeImpl implements GymFacade {
     }
 
     @Override
-    public List<Trainee> getAllTrainees() {
-        return traineeService.getAll();
-    }
-
-    @Override
     public Trainer createTrainer(Trainer trainer) {
         return trainerService.create(trainer);
     }
@@ -70,11 +63,6 @@ public class GymFacadeImpl implements GymFacade {
     }
 
     @Override
-    public List<Trainer> getAllTrainers() {
-        return trainerService.getAll();
-    }
-
-    @Override
     public Training createTraining(Training training) {
         return trainingService.create(training);
     }
@@ -82,10 +70,5 @@ public class GymFacadeImpl implements GymFacade {
     @Override
     public Training getTrainingById(Long id) {
         return trainingService.getById(id);
-    }
-
-    @Override
-    public List<Training> getAllTrainings() {
-        return trainingService.getAll();
     }
 }

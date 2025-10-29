@@ -6,6 +6,6 @@ import java.util.Optional;
 /**
  * @author Alish
  */
-public interface TrainingTypeRepository extends GenericRepository<TrainingType> {
+public interface TrainingTypeRepository {
     Optional<TrainingType> findByName(String name);
 }

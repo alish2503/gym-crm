@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author Alish
  */
 @Repository
-public class TrainingTypeRepositoryImpl extends GenericRepositoryImpl<TrainingType, TrainingTypeDao, Long> implements TrainingTypeRepository {
+class TrainingTypeRepositoryImpl extends GenericRepository<TrainingType, TrainingTypeDao, Long> implements TrainingTypeRepository {
 
     @Autowired
     public TrainingTypeRepositoryImpl(InMemoryStorage storage) {

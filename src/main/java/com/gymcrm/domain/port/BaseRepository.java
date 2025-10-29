@@ -3,6 +3,6 @@ package com.gymcrm.domain.port;
 /**
  * @author Alish
  */
-public interface BaseRepository<E> extends GenericRepository<E> {
+public interface BaseRepository<E> {
     E save(E entity);
 }
