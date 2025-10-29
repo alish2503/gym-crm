@@ -1,22 +1,31 @@
 package com.gymcrm.infrastructure.persistence.dao;
 
+import com.gymcrm.domain.model.TrainingTypeEnum;
+import jakarta.persistence.*;
+
 /**
  * @author Alish
  */
+@Entity
 public class TrainingTypeDao {
-    Long id;
-    private final String name;
 
-    public TrainingTypeDao(String name) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false, unique=true)
+    private TrainingTypeEnum name;
+
+    public TrainingTypeDao() {
+    }
+
+    public TrainingTypeDao(TrainingTypeEnum name) {
         this.name = name;
     }
 
-    public String getName() {
+    public TrainingTypeEnum getName() {
         return name;
     }
 
-    public TrainingTypeDao(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

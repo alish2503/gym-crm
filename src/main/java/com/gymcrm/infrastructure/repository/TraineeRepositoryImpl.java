@@ -31,6 +31,6 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
 
     @Override
     protected Trainee mapToDomain(TraineeDao dao) {
-        return TraineeMapper.ToDomain(dao);
+        return TraineeMapper.ToDomain(, dao);
     }
 }

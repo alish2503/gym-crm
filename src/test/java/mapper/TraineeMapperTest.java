@@ -57,7 +57,7 @@ class TraineeMapperTest {
 
     @Test
     void toDomain_ShouldMapDaoToDomainCorrectly() {
-        Trainee result = TraineeMapper.ToDomain(dao);
+        Trainee result = TraineeMapper.ToDomain(, dao);
         assertNotNull(result);
         assertEquals("John.Doe", result.getUsername());
         assertEquals("securePass123", result.getPassword());
@@ -71,7 +71,7 @@ class TraineeMapperTest {
     @Test
     void toDaoAndBack_ShouldReturnEquivalentObject() {
         TraineeDao mappedDao = TraineeMapper.toDao(trainee);
-        Trainee remappedTrainee = TraineeMapper.ToDomain(mappedDao);
+        Trainee remappedTrainee = TraineeMapper.ToDomain(, mappedDao);
         assertEquals(trainee.getUsername(), remappedTrainee.getUsername());
         assertEquals(trainee.getPassword(), remappedTrainee.getPassword());
         assertEquals(trainee.getFirstName(), remappedTrainee.getFirstName());

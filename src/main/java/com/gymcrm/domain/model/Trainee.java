@@ -23,6 +23,11 @@ public class Trainee extends User {
         this.address = address;
     }
 
+    public Trainee(LocalDate dateOfBirth, String address) {
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }

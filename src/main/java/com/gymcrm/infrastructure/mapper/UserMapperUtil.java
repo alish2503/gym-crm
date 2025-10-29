@@ -7,12 +7,11 @@ import com.gymcrm.infrastructure.persistence.dao.UserDao;
  * @author Alish
  */
 public abstract class UserMapperUtil {
-
-    protected static void mapToDaoBase(User user, UserDao dao) {
-        dao.setUsername(user.getUsername());
-        dao.setPassword(user.getPassword());
-        dao.setFirstName(user.getFirstName());
-        dao.setLastName(user.getLastName());
-        dao.setActive(user.isActive());
+    protected static void mapToDomainBase(User user, UserDao dao) {
+        user.setUsername(dao.getUsername());
+        user.setPassword(dao.getPassword());
+        user.setFirstName(dao.getFirstName());
+        user.setLastName(dao.getLastName());
+        user.setActive(dao.isActive());
     }
 }

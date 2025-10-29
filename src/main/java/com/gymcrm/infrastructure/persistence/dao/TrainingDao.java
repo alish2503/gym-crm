@@ -1,43 +1,54 @@
 package com.gymcrm.infrastructure.persistence.dao;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Entity
 public class TrainingDao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String traineeUsername;
-    private final String trainerUsername;
-    private final String trainingTypeName;
-    private final String trainingName;
-    private final LocalDate trainingDate;
-    private final int duration; // minutes
 
-    public TrainingDao(String traineeUsername, String trainerUsername, String trainingTypeName, String trainingName, LocalDate trainingDate, int duration) {
-        this.traineeUsername = traineeUsername;
-        this.trainerUsername = trainerUsername;
-        this.trainingTypeName = trainingTypeName;
+    @Column(nullable=false)
+    private String trainingName;
+
+    @Column(nullable=false)
+    private LocalDate trainingDate;
+
+    @Column(nullable=false)
+    private Integer duration; // minutes
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="trainee_id")
+    private TraineeDao trainee;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="trainer_id")
+    private TrainerDao trainer;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="training_type_id")
+    TrainingTypeDao trainingType;
+
+    public TrainingDao() {}
+
+    public TrainingDao(String trainingName, LocalDate trainingDate, Integer duration, TraineeDao trainee, TrainerDao trainer, TrainingTypeDao trainingType) {
         this.trainingName = trainingName;
         this.trainingDate = trainingDate;
         this.duration = duration;
+        this.trainee = trainee;
+        this.trainer = trainer;
+        this.trainingType = trainingType;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTraineeUsername() {
-        return traineeUsername;
-    }
-
-    public String getTrainerUsername() {
-        return trainerUsername;
-    }
-
-    public String getTrainingTypeName() {
-        return trainingTypeName;
-    }
 
     public String getTrainingName() {
         return trainingName;
@@ -47,11 +58,15 @@ public class TrainingDao {
         return trainingDate;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public TraineeDao getTrainee() {
+        return trainee;
+    }
+
+    public TrainerDao getTrainer() {
+        return trainer;
     }
 }

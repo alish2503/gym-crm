@@ -26,6 +26,6 @@ public class TrainerAssembler {
         TrainingType type = trainingTypeRepository.findByName(dao.getSpecialization())
                 .orElseThrow(() -> new EntityNotFoundException("Training type not found: " + dao.getSpecialization()));
 
-        return TrainerMapper.toDomain(dao, type);
+        return TrainerMapper.toDomain(, dao);
     }
 }

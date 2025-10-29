@@ -1,14 +1,27 @@
 package com.gymcrm.infrastructure.persistence.dao;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 /**
  * @author Alish
  */
-public abstract class UserDao {
+@Entity
+public class UserDao {
+
+    @Column(nullable=false, unique = true)
     private String username;
+
+    @Column(nullable=false)
     private String password;
+
+    @Column(nullable=false)
     private String firstName;
+
+    @Column(nullable=false)
     private String lastName;
-    private boolean isActive = true;
+
+    @Column(nullable=false)
+    private boolean isActive;
 
     public String getFirstName() {
         return firstName;

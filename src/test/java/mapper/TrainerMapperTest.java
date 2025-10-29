@@ -53,7 +53,7 @@ class TrainerMapperTest {
 
     @Test
     void toDomain_ShouldMapDaoToDomainCorrectly() {
-        Trainer result = TrainerMapper.toDomain(dao, specialization);
+        Trainer result = TrainerMapper.toDomain(, dao);
         assertNotNull(result);
         assertEquals("Jane.Smith", result.getUsername());
         assertEquals("securePass", result.getPassword());
@@ -66,7 +66,7 @@ class TrainerMapperTest {
     @Test
     void toDaoAndBack_ShouldReturnEquivalentObject() {
         TrainerDao mappedDao = TrainerMapper.toDao(trainer);
-        Trainer remappedTrainer = TrainerMapper.toDomain(mappedDao, specialization);
+        Trainer remappedTrainer = TrainerMapper.toDomain(, mappedDao);
         assertEquals(trainer.getUsername(), remappedTrainer.getUsername());
         assertEquals(trainer.getPassword(), remappedTrainer.getPassword());
         assertEquals(trainer.getFirstName(), remappedTrainer.getFirstName());
