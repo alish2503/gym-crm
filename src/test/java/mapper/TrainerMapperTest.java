@@ -60,7 +60,7 @@ class TrainerMapperTest {
         assertEquals("Jane", result.getFirstName());
         assertEquals("Smith", result.getLastName());
         assertTrue(result.isActive());
-        assertEquals(TrainingTypeEnum.FITNESS, result.getSpecialization().getName());
+        assertEquals(TrainingTypeEnum.FITNESS, result.getSpecialization().name());
     }
 
     @Test
@@ -72,6 +72,6 @@ class TrainerMapperTest {
         assertEquals(trainer.getFirstName(), remappedTrainer.getFirstName());
         assertEquals(trainer.getLastName(), remappedTrainer.getLastName());
         assertEquals(trainer.isActive(), remappedTrainer.isActive());
-        assertEquals(trainer.getSpecialization().getName(), remappedTrainer.getSpecialization().getName());
+        assertEquals(trainer.getSpecialization().name(), remappedTrainer.getSpecialization().name());
     }
 }

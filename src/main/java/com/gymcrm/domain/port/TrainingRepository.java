@@ -1,12 +1,14 @@
 package com.gymcrm.domain.port;
 
 import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingTypeEnum;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Alish
  */
 public interface TrainingRepository extends BaseRepository<Training> {
-    Optional<Training> findById(Long id);
+    List<Training> getTrainings(String userName, LocalDate from, LocalDate to, String otherName, TrainingTypeEnum typeEnum);
 }

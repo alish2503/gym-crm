@@ -9,6 +9,7 @@ import java.util.List;
  * @author Alish
  */
 @Entity
+@Table(name = "trainees")
 public class TraineeDao {
 
     @Id
@@ -17,7 +18,7 @@ public class TraineeDao {
     private LocalDate dateOfBirth;
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", unique=true, nullable=false)
     private UserDao user;
 
@@ -29,7 +30,7 @@ public class TraineeDao {
     )
     private List<TrainerDao> trainers = new ArrayList<>();
 
-    @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<TrainingDao> trainings = new ArrayList<>();
 
     public TraineeDao(LocalDate dateOfBirth, String address) {
@@ -58,5 +59,13 @@ public class TraineeDao {
 
     public UserDao getUser() {
         return user;
+    }
+
+    public void setUser(UserDao user) {
+        this.user = user;
+    }
+
+    public List<TrainerDao> getTrainers() {
+        return trainers;
     }
 }

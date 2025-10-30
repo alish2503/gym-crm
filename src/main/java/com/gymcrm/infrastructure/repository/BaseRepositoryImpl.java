@@ -1,15 +1,23 @@
 package com.gymcrm.infrastructure.repository;
 
 import com.gymcrm.domain.port.BaseRepository;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
+import jakarta.persistence.EntityManager;
 
 /**
  * @author Alish
  */
-abstract class BaseRepositoryImpl<E, D, ID> extends GenericRepository<E, D, ID> implements BaseRepository<E> {
+abstract class BaseRepositoryImpl<E, D> extends GenericRepository<E, D>  implements BaseRepository<E> {
 
-    public BaseRepositoryImpl(InMemoryStorage storage, String namespace) {
-        super(storage, namespace);
+    protected BaseRepositoryImpl(EntityManager entityManager) {
+        super(entityManager);
     }
+
+    @Override
+    public E save(E entity) {
+        D dao = mapToDao(entity);
+        entityManager.persist(dao);
+        return mapToDomain(dao);
+    }
+
     protected abstract D mapToDao(E entity);
 }

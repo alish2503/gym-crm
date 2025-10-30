@@ -4,7 +4,6 @@ import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.application.service.impl.TrainingServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

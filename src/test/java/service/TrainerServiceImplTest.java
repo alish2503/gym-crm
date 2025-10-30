@@ -60,6 +60,6 @@ class TrainerServiceImplTest {
         Trainer found = trainerService.getByUsername("John.Doe");
         assertNotNull(found);
         assertEquals("John", found.getFirstName());
-        assertEquals(TrainingTypeEnum.ZUMBA, found.getSpecialization().getName());
+        assertEquals(TrainingTypeEnum.ZUMBA, found.getSpecialization().name());
     }
 }

@@ -3,7 +3,6 @@ package com.gymcrm.application.service.impl;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.application.service.TrainingService;
 import org.slf4j.Logger;
@@ -43,7 +42,7 @@ public class TrainingServiceImpl implements TrainingService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Trainer not found: " + training.trainer().getUsername()));
 
-        if (!training.trainer().getSpecialization().getName().name().equals(training.type().getName().name())) {
+        if (!training.trainer().getSpecialization().name().name().equals(training.type().getName().name())) {
             throw new IllegalStateException("Training type doesn't match with trainer specialization!");
         }
         traineeRepository.findByUsername(training.trainee().getUsername())

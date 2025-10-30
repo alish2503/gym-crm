@@ -17,14 +17,14 @@ public class TrainingMapper {
     public static TrainingDao toDao(Training training) {
         TraineeDao traineeDao = TraineeMapper.toDao(training.trainee());
         TrainerDao trainerDao = TrainerMapper.toDao(training.trainer());
-        TrainingTypeDao trainingTypeDao = new TrainingTypeDao(training.trainer().getSpecialization().getName());
+        TrainingTypeDao trainingTypeDao = new TrainingTypeDao(training.trainer().getSpecialization().name());
         return new TrainingDao(training.trainingName(), training.trainingDate(), training.duration(),
                 traineeDao, trainerDao, trainingTypeDao);
     }
 
     public static Training toDomain(TrainingDao trainingDao) {
         TraineeDao traineeDao = trainingDao.getTrainee();
-        Trainee trainee = TraineeMapper.ToDomain(traineeDao.getUser(), traineeDao.getDateOfBirth(), traineeDao.getAddress());
+        Trainee trainee = TraineeMapper.toDomain(traineeDao.getUser(), traineeDao.getDateOfBirth(), traineeDao.getAddress());
         TrainerDao trainerDao = trainingDao.getTrainer();
         TrainingType type = new TrainingType(trainerDao.getSpecialization().getName());
         Trainer trainer = TrainerMapper.toDomain(trainerDao.getUser(), type);

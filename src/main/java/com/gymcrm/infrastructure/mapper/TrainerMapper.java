@@ -12,7 +12,10 @@ import com.gymcrm.infrastructure.persistence.dao.UserDao;
 public class TrainerMapper extends UserMapperUtil {
 
     public static TrainerDao toDao(Trainer trainer) {
-        return new TrainerDao(new TrainingTypeDao(trainer.getSpecialization().getName()));
+        TrainingTypeDao typeDao = new TrainingTypeDao(trainer.getSpecialization().name());
+        TrainerDao dao = new TrainerDao(typeDao);
+        dao.setUser(getUserDao(trainer));
+        return dao;
     }
 
     public static Trainer toDomain(UserDao userDao, TrainingType type) {

@@ -4,7 +4,8 @@ import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,22 +15,23 @@ import java.util.Optional;
  * @author Alish
  */
 @Repository
-class TrainingTypeRepositoryImpl extends GenericRepository<TrainingType, TrainingTypeDao, Long> implements TrainingTypeRepository {
+class TrainingTypeRepositoryImpl extends GenericRepository<TrainingType, TrainingTypeDao> implements TrainingTypeRepository {
 
     @Autowired
-    public TrainingTypeRepositoryImpl(InMemoryStorage storage) {
-        super(storage, "trainingTypes");
+    public TrainingTypeRepositoryImpl(EntityManager entityManager) {
+        super(entityManager);
     }
 
     @Override
-    public Optional<TrainingType> findByName(String name) {
-        return storageMap.values().stream()
-                .filter(t -> t.getName().equalsIgnoreCase(name))
-                .findFirst().map(this::mapToDomain);
+    public Optional<TrainingType> findByName(TrainingTypeEnum typeEnum) {
+        TypedQuery<TrainingTypeDao> query = entityManager.
+                createQuery("from training_types type where type.name = :typeName ", TrainingTypeDao.class).
+                setParameter("typeName", typeEnum);
+        return getSingleResultOrEmpty(query);
     }
 
     @Override
     protected TrainingType mapToDomain(TrainingTypeDao dao) {
-        return new TrainingType(TrainingTypeEnum.valueOf(dao.getName()));
+        return new TrainingType(dao.getName());
     }
 }

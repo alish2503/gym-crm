@@ -8,5 +8,5 @@ import java.util.Optional;
  */
 public interface UserRepository<E extends User> extends BaseRepository<E> {
     Optional<E> findByUsername(String username);
-    void update(E userDao);
+    E update(E user);
 }

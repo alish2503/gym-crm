@@ -2,14 +2,17 @@ package com.gymcrm.infrastructure.persistence.dao;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 /**
  * @author Alish
  */
 @Entity
+@Table(name = "users")
 public class UserDao {
 
     @Column(nullable=false, unique = true)
-    private String username;
+    private String userName;
 
     @Column(nullable=false)
     private String password;
@@ -23,16 +26,24 @@ public class UserDao {
     @Column(nullable=false)
     private boolean isActive;
 
+    public UserDao(String userName, String password, String firstName, String lastName, boolean isActive) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isActive = isActive;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public String getPassword() {
@@ -43,8 +54,8 @@ public class UserDao {
         return isActive;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setPassword(String password) {

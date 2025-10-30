@@ -2,40 +2,31 @@ package com.gymcrm.infrastructure.repository;
 
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserRepository;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.util.Optional;
 
 /**
  * @author Alish
  */
-abstract class UserRepositoryImpl<E extends User, D extends UserDao>
-        extends BaseRepositoryImpl<E, D, String> implements UserRepository<E> {
+abstract class UserRepositoryImpl<E extends User, D>
+        extends BaseRepositoryImpl<E, D> implements UserRepository<E> {
 
-    protected UserRepositoryImpl(InMemoryStorage storage, String namespace) {
-        super(storage, namespace);
+    protected UserRepositoryImpl(EntityManager entityManager) {
+        super(entityManager);
     }
 
     @Override
-    public Optional<E> findByUsername(String username) {
-        D dao = storageMap.get(username);
-        if (dao == null) {
-            return Optional.empty();
-        }
-        return Optional.of(mapToDomain(dao));
-    }
-
-    @Override
-    public E save(E user) {
+    public E update(E user) {
         D dao = mapToDao(user);
-        storageMap.put(user.getUsername(), dao);
-        return mapToDomain(dao);
+        return mapToDomain(entityManager.merge(dao));
     }
 
-    @Override
-    public void update(E user) {
-        D dao = mapToDao(user);
-        storageMap.put(dao.getUsername(), dao);
+    protected Optional<E> findByUserName(String username, String daoName) {
+        String jpql = "from " + daoName + "t where t.user.userName = :u";
+        Query query = entityManager.createQuery(jpql).
+                setParameter("u", username);
+        return getSingleResultOrEmpty(query);
     }
 }

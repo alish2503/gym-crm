@@ -51,7 +51,7 @@ class TrainerAssemblerTest {
         assertNotNull(result);
         assertEquals("John", result.getFirstName());
         assertEquals("Doe", result.getLastName());
-        assertEquals(trainingType.getName(), result.getSpecialization().getName());
+        assertEquals(trainingType.name(), result.getSpecialization().name());
         verify(trainingTypeRepository).findByName("FITNESS");
     }
 

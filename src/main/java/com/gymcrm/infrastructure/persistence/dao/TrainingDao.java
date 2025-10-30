@@ -8,6 +8,7 @@ import java.time.LocalDate;
  * @author Alish
  */
 @Entity
+@Table(name = "trainings")
 public class TrainingDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +23,15 @@ public class TrainingDao {
     @Column(nullable=false)
     private Integer duration; // minutes
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
     @JoinColumn(name="trainee_id")
     private TraineeDao trainee;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
     @JoinColumn(name="trainer_id")
     private TrainerDao trainer;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
     @JoinColumn(name="training_type_id")
     TrainingTypeDao trainingType;
 

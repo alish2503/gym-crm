@@ -4,9 +4,11 @@ import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
 import com.gymcrm.infrastructure.mapper.TraineeMapper;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * @author Alish
@@ -15,13 +17,20 @@ import org.springframework.stereotype.Repository;
 public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDao> implements TraineeRepository {
 
     @Autowired
-    public TraineeRepositoryImpl(InMemoryStorage storage) {
-        super(storage, "trainees");
+    TraineeRepositoryImpl(EntityManager entityManager) {
+        super(entityManager);
+    }
+
+    @Override
+    public Optional<Trainee> findByUsername(String username) {
+        return findByUserName(username, "TraineeDao");
     }
 
     @Override
     public void delete(String username) {
-        storageMap.remove(username);
+        entityManager.createQuery("delete from trainees t where t.user.userName = :u")
+                .setParameter("u", username)
+                .executeUpdate();
     }
 
     @Override
@@ -31,6 +40,6 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
 
     @Override
     protected Trainee mapToDomain(TraineeDao dao) {
-        return TraineeMapper.ToDomain(, dao);
+        return TraineeMapper.toDomain(dao.getUser(), dao.getDateOfBirth(), dao.getAddress());
     }
 }
