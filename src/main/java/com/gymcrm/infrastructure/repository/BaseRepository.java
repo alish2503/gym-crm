@@ -5,10 +5,10 @@ import jakarta.persistence.EntityManager;
 /**
  * @author Alish
  */
-abstract class BaseRepositoryImpl<E, D> {
+abstract class BaseRepository<E, D> {
     protected EntityManager entityManager;
 
-    public BaseRepositoryImpl(EntityManager entityManager) {
+    public BaseRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

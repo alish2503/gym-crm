@@ -39,7 +39,7 @@ public class GymFacadeImpl implements GymFacade {
 
     @Override
     public void deleteTrainee(String username) {
-        traineeService.delete(username);
+        traineeService.deleteTrainee(username);
     }
 
     @Override

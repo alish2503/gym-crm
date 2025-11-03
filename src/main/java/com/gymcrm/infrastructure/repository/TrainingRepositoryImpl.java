@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Alish
  */
 @Repository
-class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
+class TrainingRepositoryImpl extends BaseRepository<Training, TrainingDao> implements TrainingRepository {
 
     @Autowired
     public TrainingRepositoryImpl(EntityManager entityManager) {
@@ -28,8 +28,8 @@ class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> i
     }
 
     @Override
-    public List<Training> getTrainingsForTrainee(String userName, LocalDate from, LocalDate to,
-                                                 FullName trainerName, TrainingTypeEnum typeEnum) {
+    public List<Training> findTrainingsForTrainee(String userName, LocalDate from, LocalDate to,
+                                                  FullName trainerName, TrainingTypeEnum typeEnum) {
 
         String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer" +
                     "where tr.trainee.user.userName = :uname ";
@@ -46,8 +46,8 @@ class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> i
         return query.getResultList().stream().map(TrainingMapper::toDomainForTrainee).toList();
     }
 
-    public List<Training> getTrainingsForTrainer(String userName, LocalDate from, LocalDate to,
-                                                 FullName traineeName) {
+    public List<Training> findTrainingsForTrainer(String userName, LocalDate from, LocalDate to,
+                                                  FullName traineeName) {
 
         String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee" +
                     "where tr.trainer.user.userName = :uname ";

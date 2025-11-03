@@ -12,8 +12,7 @@ public class FullName {
         this.lastName = lastName;
     }
 
-    public FullName() {
-    }
+    public FullName() {}
 
     public String getFirstName() {
         return firstName;

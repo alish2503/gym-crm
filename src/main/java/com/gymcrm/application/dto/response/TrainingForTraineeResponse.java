@@ -1,0 +1,20 @@
+package com.gymcrm.application.dto.response;
+
+import com.gymcrm.application.dto.TrainingDto;
+import com.gymcrm.domain.model.TrainingTypeEnum;
+
+import java.time.LocalDate;
+
+/**
+ * @author Alish
+ */
+public class TrainingForTraineeResponse extends TrainingDto {
+    String trainerName;
+
+    public TrainingForTraineeResponse(String trainingName, LocalDate date, TrainingTypeEnum type,
+                                      int duration, String trainerName)
+    {
+        super(trainingName, date, type, duration);
+        this.trainerName = trainerName;
+    }
+}

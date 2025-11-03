@@ -11,10 +11,10 @@ import java.util.List;
  * @author Alish
  */
 public interface TrainingRepository {
-    List<Training> getTrainingsForTrainee(String userName, LocalDate from, LocalDate to, FullName trainerName,
-                                          TrainingTypeEnum typeEnum);
+    List<Training> findTrainingsForTrainee(String userName, LocalDate from, LocalDate to, FullName trainerName,
+                                           TrainingTypeEnum typeEnum);
 
-    List<Training> getTrainingsForTrainer(String userName, LocalDate from, LocalDate to, FullName traineeName);
+    List<Training> findTrainingsForTrainer(String userName, LocalDate from, LocalDate to, FullName traineeName);
     boolean existsTraining(String trainerUsername, String traineeUsername, LocalDate trainingDate,
                                   String trainingName);
 }

@@ -4,7 +4,6 @@ import com.gymcrm.domain.port.UserRepository;
 import com.gymcrm.domain.exception.EntityNotFoundException;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.application.service.PasswordService;
-import com.gymcrm.application.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

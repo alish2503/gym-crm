@@ -1,11 +1,11 @@
 package com.gymcrm.application.service;
 
-import com.gymcrm.domain.model.User;
+import com.gymcrm.application.dto.request.UserRequest;
 
 /**
  * @author Alish
  */
-public interface UserService<T extends User> extends BaseService<T> {
-    T getByUsername(String username);
-    void update(T user);
+public interface UserService {
+    void changePassword(UserRequest request);
+    void activate(String userName);
 }

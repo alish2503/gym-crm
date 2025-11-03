@@ -8,8 +8,7 @@ import java.util.Optional;
 /**
  * @author Alish
  */
-abstract class UserRepositoryImpl<E, D>
-        extends BaseRepositoryImpl<E, D> implements UserRepository<E> {
+abstract class UserRepositoryImpl<E, D> extends BaseRepository<E, D> implements UserRepository<E> {
 
     private final Class<D> daoClass;
 
