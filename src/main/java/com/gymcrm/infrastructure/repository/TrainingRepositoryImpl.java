@@ -1,5 +1,6 @@
 package com.gymcrm.infrastructure.repository;
 
+import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingRepository;
@@ -19,7 +20,7 @@ import java.util.Map;
  * @author Alish
  */
 @Repository
-public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
+class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
 
     @Autowired
     public TrainingRepositoryImpl(EntityManager entityManager) {
@@ -27,58 +28,80 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
     }
 
     @Override
-    public List<Training> getTrainings(String username, LocalDate from, LocalDate to,
-                                       String otherName, TrainingTypeEnum typeEnum) {
+    public List<Training> getTrainingsForTrainee(String userName, LocalDate from, LocalDate to,
+                                                 FullName trainerName, TrainingTypeEnum typeEnum) {
 
-        String hql = "select tr from TrainingDao tr " +
-                "join fetch tr.trainee trainee " +
-                "join fetch tr.trainer trainer ";
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer" +
+                    "where tr.trainee.user.userName = :uname ";
 
-        if (typeEnum != null) {
-            hql += "join fetch tr.trainingType tT ";
-        }
-        hql += "where ";
-        if (typeEnum != null) {
-            hql += "trainee.user.userName = :uname ";
-        } else {
-            hql += "trainer.user.userName = :uname ";
-        }
         Map<String, Object> params = new HashMap<>();
-        params.put("uname", username);
+        params.put("uname", userName);
+        jpql = appendDateAndNameFilters(jpql, params, from, to, trainerName, "trainer");
+        if (typeEnum != null) {
+            jpql += "and tr.trainingType.name = :tType ";
+            params.put("tType", typeEnum);
+        }
+        TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
+        params.forEach(query::setParameter);
+        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainee).toList();
+    }
+
+    public List<Training> getTrainingsForTrainer(String userName, LocalDate from, LocalDate to,
+                                                 FullName traineeName) {
+
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee" +
+                    "where tr.trainer.user.userName = :uname ";
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("uname", userName);
+        jpql = appendDateAndNameFilters(jpql, params, from, to, traineeName, "trainee");
+        TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
+        params.forEach(query::setParameter);
+        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainer).toList();
+    }
+
+    public boolean existsTraining(String trainerUsername, String traineeUsername,
+                                  LocalDate trainingDate, String trainingName) {
+
+        String jpql = "select t from TrainingDao t where t.trainer.user.userName = :trainerUsername "+
+                    "and t.trainee.user.userName = :traineeUsername and t.trainingDate = :trainingDate "+
+                    "and t.trainingName = :trainingName";
+
+        return entityManager.createQuery(jpql, TrainingDao.class)
+                .setParameter("trainerUsername", trainerUsername)
+                .setParameter("traineeUsername", traineeUsername)
+                .setParameter("trainingDate", trainingDate)
+                .setParameter("trainingName", trainingName)
+                .getResultStream()
+                .findFirst()
+                .isPresent();
+    }
+
+
+    private String appendDateAndNameFilters(String jpql, Map<String, Object> params, LocalDate from,
+                                            LocalDate to, FullName name, String aliasPrefix) {
 
         if (from != null) {
-            hql += "and tr.trainingDate >= :from ";
+            jpql += "and tr.trainingDate >= :from ";
             params.put("from", from);
         }
         if (to != null) {
-            hql += "and tr.trainingDate <= :to ";
+            jpql += "and tr.trainingDate <= :to ";
             params.put("to", to);
         }
-        if (otherName != null) {
-            if (typeEnum != null) {
-                hql += "and concat(trainer.user.firstName, ' ', trainer.user.lastName) like :tName ";
-            } else {
-                hql += "and concat(trainee.user.firstName, ' ', trainee.user.lastName) like :tName ";
-            }
-            params.put("tName", "%" + otherName + "%");
+        if (name != null) {
+            jpql += "and " + aliasPrefix + ".user.firstName = :fName " +
+                    "and " + aliasPrefix + ".user.lastName = :lName ";
+            params.put("fName", name.getFirstName());
+            params.put("lName", name.getLastName());
         }
-        if (typeEnum != null) {
-            hql += "and tT.name = :tType ";
-            params.put("tType", typeEnum);
-        }
-        TypedQuery<TrainingDao> query = entityManager.createQuery(hql, TrainingDao.class);
-        params.forEach(query::setParameter);
-        return query.getResultList().stream().map(this::mapToDomain).toList();
+        return jpql;
     }
+
 
     @Override
     protected TrainingDao mapToDao(Training entity) {
         return TrainingMapper.toDao(entity);
-    }
-
-    @Override
-    protected Training mapToDomain(TrainingDao dao) {
-        return TrainingMapper.toDomain(dao);
     }
 }
 

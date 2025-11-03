@@ -1,14 +1,13 @@
 package com.gymcrm.domain.port;
 
 import com.gymcrm.domain.model.Trainee;
-import com.gymcrm.domain.model.Training;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alish
  */
 public interface TraineeRepository extends UserRepository<Trainee> {
     void delete(String username);
+    Optional<Trainee> findTraineeWithTrainers(String userName);
 }

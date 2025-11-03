@@ -33,12 +33,18 @@ public class TraineeDao {
     @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<TrainingDao> trainings = new ArrayList<>();
 
-    public TraineeDao(LocalDate dateOfBirth, String address) {
+    public TraineeDao() {
+    }
+
+    public TraineeDao(Long id, UserDao user, LocalDate dateOfBirth, String address) {
+        this.id = id;
+        this.user = user;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
 
-    public TraineeDao() {
+    public Long getId() {
+        return id;
     }
 
     public LocalDate getDateOfBirth() {
@@ -67,5 +73,9 @@ public class TraineeDao {
 
     public List<TrainerDao> getTrainers() {
         return trainers;
+    }
+
+    public void setTrainers(List<TrainerDao> trainers) {
+        this.trainers = trainers;
     }
 }

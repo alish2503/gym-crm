@@ -4,7 +4,6 @@ import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
 import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
 
 /**
  * @author Alish
@@ -12,15 +11,18 @@ import com.gymcrm.infrastructure.persistence.dao.UserDao;
 public class TrainerMapper extends UserMapperUtil {
 
     public static TrainerDao toDao(Trainer trainer) {
-        TrainingTypeDao typeDao = new TrainingTypeDao(trainer.getSpecialization().name());
-        TrainerDao dao = new TrainerDao(typeDao);
-        dao.setUser(getUserDao(trainer));
-        return dao;
+        TrainingTypeDao typeDao = TrainingTypeMapper.toDao(trainer.getSpecialization());
+        return new TrainerDao(trainer.getId(), getUserDao(trainer.getUser()), typeDao);
     }
 
-    public static Trainer toDomain(UserDao userDao, TrainingType type) {
-        Trainer trainer = new Trainer(type);
-        mapToDomainBase(trainer, userDao);
-        return trainer;
+    public static Trainer toDomain(TrainerDao trainerDao) {
+        TrainingType type = TrainingTypeMapper.toDomain(trainerDao.getSpecialization());
+        return new Trainer(trainerDao.getId(), getUser(trainerDao.getUser()), type);
+    }
+
+    public static Trainer toDomain(TrainerDao trainerDao, TrainingTypeDao typeDao) {
+        TrainingType type = TrainingTypeMapper.toDomain(typeDao);
+        return new Trainer(trainerDao.getId(), getUser(trainerDao.getUser()), type);
+
     }
 }

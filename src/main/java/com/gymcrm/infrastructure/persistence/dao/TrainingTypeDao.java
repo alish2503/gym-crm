@@ -18,15 +18,18 @@ public class TrainingTypeDao {
     @Column(nullable=false, unique=true)
     private TrainingTypeEnum name;
 
-    public TrainingTypeDao() {
+    public TrainingTypeDao() {}
+
+    public TrainingTypeDao(Long id, TrainingTypeEnum name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public TrainingTypeDao(TrainingTypeEnum name) {
-        this.name = name;
+    public Long getId() {
+        return id;
     }
 
     public TrainingTypeEnum getName() {
         return name;
     }
-
 }

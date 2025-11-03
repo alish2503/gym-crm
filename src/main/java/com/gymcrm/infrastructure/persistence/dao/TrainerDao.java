@@ -26,13 +26,18 @@ public class TrainerDao {
     @ManyToMany(mappedBy = "trainers", fetch = FetchType.LAZY)
     List<TraineeDao> trainees = new ArrayList<>();
 
-    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
     List<TrainingDao> trainings = new ArrayList<>();
 
-    public TrainerDao() {
-    }
+    public TrainerDao() {}
 
     public TrainerDao(TrainingTypeDao specialization) {
+        this.specialization = specialization;
+    }
+
+    public TrainerDao(Long id, UserDao user, TrainingTypeDao specialization) {
+        this.id = id;
+        this.user = user;
         this.specialization = specialization;
     }
 
@@ -46,6 +51,10 @@ public class TrainerDao {
 
     public TrainingTypeDao getSpecialization() {
         return specialization;
+    }
+
+    public List<TraineeDao> getTrainees() {
+        return trainees;
     }
 
     public void setUser(UserDao user) {

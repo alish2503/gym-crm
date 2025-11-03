@@ -29,7 +29,7 @@ abstract class UserServiceImpl<E extends User> implements UserService<E> {
         String base = user.getFirstName() + "." + user.getLastName();
         String username = base;
         int counter = 1;
-        while (userRepository.findByUsername(username).isPresent()) {
+        while (userRepository.findByUserName(username).isPresent()) {
             username = base + counter++;
         }
         user.setUsername(username);
@@ -46,13 +46,13 @@ abstract class UserServiceImpl<E extends User> implements UserService<E> {
     @Override
     public E getByUsername(String username) {
         log.debug("Fetching user by username: {}", username);
-        return userRepository.findByUsername(username)
+        return userRepository.findByUserName(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + username));
     }
 
     @Override
     public void update(E user) {
-        E found = userRepository.findByUsername(user.getUsername())
+        E found = userRepository.findByUserName(user.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("Can't update user that doesn't exist"));
 
         if (!found.getPassword().equals(user.getPassword())) {

@@ -1,25 +1,29 @@
 package com.gymcrm.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Alish
  */
-public class Trainer extends User {
+public class Trainer {
+    private Long id;
+    private User user;
     private TrainingType specialization;
+    private List<Trainee> trainees = new ArrayList<>();
 
-    public Trainer(String userName, String password, String firstName, String lastName,
-                   boolean isActive, TrainingType specialization) {
-
-        super(userName, password, firstName, lastName, isActive);
+    public Trainer(Long id, User user, TrainingType specialization) {
+        this.id = id;
+        this.user = user;
         this.specialization = specialization;
     }
 
-    public Trainer(String firstName, String lastName, boolean isActive, TrainingType specialization) {
-        super(firstName, lastName, isActive);
-        this.specialization = specialization;
+    public Long getId() {
+        return id;
     }
 
-    public Trainer(TrainingType specialization) {
-        this.specialization = specialization;
+    public User getUser() {
+        return user;
     }
 
     public TrainingType getSpecialization() {
@@ -28,5 +32,9 @@ public class Trainer extends User {
 
     public void setSpecialization(TrainingType specialization) {
         this.specialization = specialization;
+    }
+
+    public void setTrainees(List<Trainee> trainees) {
+        this.trainees = trainees;
     }
 }

@@ -8,42 +8,48 @@ import java.time.LocalDate;
  * @author Alish
  */
 @Entity
-@Table(name = "trainings")
+@Table(name = "trainings",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"trainer_id", "trainee_id", "training_date", "training_name"}
+        ))
+
 public class TrainingDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false)
-    private String trainingName;
+    private String name;
 
     @Column(nullable=false)
-    private LocalDate trainingDate;
+    private LocalDate date;
 
     @Column(nullable=false)
-    private Integer duration; // minutes
+    private int duration;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY)
-    @JoinColumn(name="trainee_id")
+    @JoinColumn(name="trainee_id", nullable = false)
     private TraineeDao trainee;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY)
-    @JoinColumn(name="trainer_id")
+    @JoinColumn(name="trainer_id", nullable = false)
     private TrainerDao trainer;
 
-    @ManyToOne(optional=false, fetch = FetchType.LAZY)
-    @JoinColumn(name="training_type_id")
-    TrainingTypeDao trainingType;
+    @ManyToOne(optional=false, fetch = FetchType.EAGER)
+    @JoinColumn(name="training_type_id", nullable = false)
+    TrainingTypeDao type;
 
     public TrainingDao() {}
 
-    public TrainingDao(String trainingName, LocalDate trainingDate, Integer duration, TraineeDao trainee, TrainerDao trainer, TrainingTypeDao trainingType) {
-        this.trainingName = trainingName;
-        this.trainingDate = trainingDate;
+    public TrainingDao(String name, LocalDate date, Integer duration, TraineeDao trainee,
+                       TrainerDao trainer, TrainingTypeDao type) {
+
+        this.name = name;
+        this.date = date;
         this.duration = duration;
         this.trainee = trainee;
         this.trainer = trainer;
-        this.trainingType = trainingType;
+        this.type = type;
     }
 
     public Long getId() {
@@ -51,15 +57,15 @@ public class TrainingDao {
     }
 
 
-    public String getTrainingName() {
-        return trainingName;
+    public String getName() {
+        return name;
     }
 
-    public LocalDate getTrainingDate() {
-        return trainingDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public Integer getDuration() {
+    public int getDuration() {
         return duration;
     }
 
@@ -69,5 +75,9 @@ public class TrainingDao {
 
     public TrainerDao getTrainer() {
         return trainer;
+    }
+
+    public TrainingTypeDao getType() {
+        return type;
     }
 }

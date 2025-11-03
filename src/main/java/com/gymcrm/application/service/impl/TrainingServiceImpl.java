@@ -38,14 +38,14 @@ public class TrainingServiceImpl implements TrainingService {
                 training.trainee().getUsername(),
                 training.trainer().getUsername());
 
-        trainerRepository.findByUsername(training.trainer().getUsername())
+        trainerRepository.findByUserName(training.trainer().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Trainer not found: " + training.trainer().getUsername()));
 
         if (!training.trainer().getSpecialization().name().name().equals(training.type().getName().name())) {
             throw new IllegalStateException("Training type doesn't match with trainer specialization!");
         }
-        traineeRepository.findByUsername(training.trainee().getUsername())
+        traineeRepository.findByUserName(training.trainee().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Trainee not found: " + training.trainee().getUsername()));
 

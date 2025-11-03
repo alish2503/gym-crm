@@ -1,12 +1,12 @@
 package com.gymcrm.domain.port;
 
-import com.gymcrm.domain.model.User;
 import java.util.Optional;
 
 /**
  * @author Alish
  */
-public interface UserRepository<E extends User> extends BaseRepository<E> {
-    Optional<E> findByUsername(String username);
-    E update(E user);
+public interface UserRepository<E> {
+    Optional<E> findByUserName(String userName);
+    void update(E user);
+    boolean existsByUserName(String userName);
 }
