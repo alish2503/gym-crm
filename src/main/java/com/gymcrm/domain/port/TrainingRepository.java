@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Alish
  */
-public interface TrainingRepository {
+public interface TrainingRepository extends BaseRepository<Training> {
     List<Training> findTrainingsForTrainee(String userName, LocalDate from, LocalDate to, FullName trainerName,
                                            TrainingTypeEnum typeEnum);
 

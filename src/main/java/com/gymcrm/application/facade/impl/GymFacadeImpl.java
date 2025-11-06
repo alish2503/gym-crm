@@ -1,14 +1,15 @@
 package com.gymcrm.application.facade.impl;
 
 import com.gymcrm.application.facade.GymFacade;
-import com.gymcrm.domain.model.Trainee;
-import com.gymcrm.domain.model.Trainer;
-import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.*;
 import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.application.service.TrainerService;
 import com.gymcrm.application.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Alish
@@ -27,48 +28,98 @@ public class GymFacadeImpl implements GymFacade {
         this.trainingService = trainingService;
     }
 
+
+    @Override
+    public void changePasswordForTrainee(String username, String oldPassword, String newPassword) {
+        traineeService.changePassword(username, oldPassword, newPassword);
+    }
+
+    @Override
+    public void activateTrainee(String username, String password) {
+        traineeService.activate(username, password);
+    }
+
+    @Override
+    public void deactivateTrainee(String username, String password) {
+        traineeService.deactivate(username, password);
+    }
+
+    @Override
+    public void changePasswordForTrainer(String username, String oldPassword, String newPassword) {
+        trainerService.changePassword(username, oldPassword, newPassword);
+    }
+
+    @Override
+    public void activateTrainer(String username, String password) {
+        trainerService.activate(username, password);
+    }
+
+    @Override
+    public void deactivateTrainer(String username, String password) {
+        trainerService.deactivate(username, password);
+    }
+
+    @Override
+    public Trainee getTraineeByUsername(String username, String password) {
+        return traineeService.getTraineeByUserName(username, password);
+    }
+
     @Override
     public Trainee createTrainee(Trainee trainee) {
-        return traineeService.create(trainee);
+        return traineeService.createTrainee(trainee);
     }
 
     @Override
-    public void updateTrainee(Trainee trainee) {
-        traineeService.update(trainee);
+    public Trainee updateTrainee(Trainee trainee) {
+        return traineeService.updateTrainee(trainee);
     }
 
     @Override
-    public void deleteTrainee(String username) {
-        traineeService.deleteTrainee(username);
+    public void deleteTrainee(String username, String password) {
+        traineeService.deleteTrainee(username, password);
     }
 
     @Override
-    public Trainee getTraineeByUserName(String userName) {
-        return traineeService.getByUsername(userName);
+    public List<Trainer> updateTrainersForTrainee(String username, String password, List<String> usernames) {
+        return traineeService.updateTrainersForTrainee(username, password, usernames);
+    }
+
+    @Override
+    public List<Trainer> getAvailableTrainersForTrainee(String username, String password) {
+        return traineeService.getAvailableTrainersForTrainee(username, password);
+    }
+
+    @Override
+    public Trainer getTrainerByUsername(String username, String password) {
+        return trainerService.getTrainerByUserName(username, password);
     }
 
     @Override
     public Trainer createTrainer(Trainer trainer) {
-        return trainerService.create(trainer);
+        return trainerService.createTrainer(trainer);
     }
 
     @Override
-    public void updateTrainer(Trainer trainer) {
-        trainerService.update(trainer);
+    public Trainer updateTrainer(Trainer trainer) {
+        return trainerService.updateTrainer(trainer);
     }
 
     @Override
-    public Trainer getTrainerByUserName(String userName) {
-        return trainerService.getByUsername(userName);
+    public void createTraining(Training training) {
+        trainingService.createTraining(training);
     }
 
     @Override
-    public Training createTraining(Training training) {
-        return trainingService.create(training);
+    public List<Training> getTrainingsForTrainee(String traineeUserName, String password, LocalDate from,
+                                                 LocalDate to, FullName trainerName, TrainingTypeEnum typeEnum)
+    {
+        return trainingService.getTrainingsForTrainee(traineeUserName, password, from, to, trainerName, typeEnum);
     }
 
     @Override
-    public Training getTrainingById(Long id) {
-        return trainingService.getById(id);
+    public List<Training> getTrainingsForTrainer(String trainerUserName, String password, LocalDate from,
+                                                 LocalDate to, FullName traineeName)
+    {
+        return trainingService.getTrainingsForTrainer(trainerUserName, password, from, to, traineeName);
     }
 }

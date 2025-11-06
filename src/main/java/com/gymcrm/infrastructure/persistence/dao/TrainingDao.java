@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "trainings",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = {"trainer_id", "trainee_id", "training_date", "training_name"}
+                columnNames = {"trainer_id", "trainee_id", "date", "name"}
         ))
 
 public class TrainingDao {

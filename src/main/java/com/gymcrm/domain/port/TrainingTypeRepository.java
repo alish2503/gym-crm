@@ -10,4 +10,5 @@ import java.util.Optional;
  */
 public interface TrainingTypeRepository {
     Optional<TrainingType> findByName(TrainingTypeEnum typeEnum);
+    boolean existsByName(TrainingTypeEnum typeEnum);
 }

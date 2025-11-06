@@ -1,65 +1,79 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.domain.port.UserRepository;
-import com.gymcrm.domain.exception.EntityNotFoundException;
+import com.gymcrm.application.service.AuthService;
+import com.gymcrm.application.service.CredentialService;
+import com.gymcrm.application.service.UserService;
+import com.gymcrm.domain.model.HasUserProfile;
 import com.gymcrm.domain.model.User;
-import com.gymcrm.application.service.PasswordService;
+import com.gymcrm.domain.port.UserProfileRepository;
+import com.gymcrm.domain.port.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.function.Consumer;
 
 /**
  * @author Alish
  */
-abstract class UserServiceImpl<E extends User> implements UserService<E> {
+abstract class UserServiceImpl<E extends HasUserProfile> implements UserService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    private final CredentialService credentialService;
+    protected final AuthService authService;
+    private final UserProfileRepository userProfileRepository;
     private final UserRepository<E> userRepository;
-    private final PasswordService passwordService;
 
-    protected UserServiceImpl(UserRepository<E> userRepository, PasswordService passwordService) {
+    public UserServiceImpl(UserRepository<E> userRepository, UserProfileRepository userProfileRepository,
+                           CredentialService credentialService,
+                           AuthService authService)
+    {
         this.userRepository = userRepository;
-        this.passwordService = passwordService;
+        this.userProfileRepository = userProfileRepository;
+        this.credentialService = credentialService;
+        this.authService = authService;
     }
 
     @Override
-    public E create(E user) {
-        log.info("Creating new {}: {} {}", user.getClass().getSimpleName(),
-                user.getFirstName(), user.getLastName());
-
-        String base = user.getFirstName() + "." + user.getLastName();
-        String username = base;
-        int counter = 1;
-        while (userRepository.findByUserName(username).isPresent()) {
-            username = base + counter++;
-        }
-        user.setUsername(username);
-        user.setPassword(passwordService.generateRandomPassword(10));
-        userRepository.save(user);
-        log.info("{} {} created successfully with username: {}",
-                user.getClass().getSimpleName(),
-                user.getFirstName(),
-                username);
-
-        return user;
+    public void changePassword(String username, String oldPassword, String newPassword) {
+        log.info("Changing password for user {}", username);
+        String hashed = credentialService.encodePassword(newPassword);
+        updateUserProfile(username, oldPassword, profile -> profile.setPassword(hashed));
     }
 
     @Override
-    public E getByUsername(String username) {
-        log.debug("Fetching user by username: {}", username);
-        return userRepository.findByUserName(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found: " + username));
+    public void activate(String username, String password) {
+        log.info("Activating user {}", username);
+        updateUserProfile(username, password, profile -> profile.setActive(true));
     }
 
     @Override
-    public void update(E user) {
-        E found = userRepository.findByUserName(user.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("Can't update user that doesn't exist"));
+    public void deactivate(String username, String password) {
+        log.info("Deactivating user {}", username);
+        updateUserProfile(username, password, profile -> profile.setActive(false));
+    }
 
-        if (!found.getPassword().equals(user.getPassword())) {
-            throw new IllegalStateException("Can't update password manually");
-        }
-        log.info("Updating {} with username: {}", user.getClass().getSimpleName(), user.getUsername());
+    @Transactional
+    protected void updateUserProfile(String username, String password, Consumer<User> updater) {
+        User userProfile = authService.authenticate(username, password);
+        updater.accept(userProfile);
+        userProfileRepository.updateProfile(userProfile);
+    }
+
+    protected void setCredentials(User userProfile) {
+        String firstName = userProfile.getFirstName();
+        String lastName = userProfile.getLastName();
+        String userName = credentialService.generateUserName(firstName, lastName);
+        String password = credentialService.generatePassword();
+        String hashed = credentialService.encodePassword(password);
+        userProfile.setUsername(userName);
+        userProfile.setPassword(hashed);
+    }
+
+    protected void updateFullNameAndSave(E user, String firstName, String lastName) {
+        User userProfile = user.getUserProfile();
+        userProfile.setFirstName(firstName);
+        userProfile.setLastName(lastName);
         userRepository.update(user);
-        log.debug("User {} updated", user.getUsername());
     }
 }
 

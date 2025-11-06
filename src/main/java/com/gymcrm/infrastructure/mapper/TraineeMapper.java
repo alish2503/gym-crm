@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * @author Alish
  */
-public class TraineeMapper extends UserMapperUtil {
+public class TraineeMapper {
     public static TraineeDao toDao(Trainee trainee) {
-        TraineeDao dao = new TraineeDao(trainee.getId(), getUserDao(trainee.getUser()),
+        TraineeDao dao = new TraineeDao(trainee.getId(), UserMapper.toDao(trainee.getUserProfile()),
                 trainee.getDateOfBirth(), trainee.getAddress());
 
         List<Trainer> trainers = trainee.getTrainers();
@@ -23,7 +23,16 @@ public class TraineeMapper extends UserMapperUtil {
         return dao;
     }
 
-    public static Trainee toDomain(TraineeDao dao) {
-        return new Trainee(dao.getId(), getUser(dao.getUser()), dao.getDateOfBirth(), dao.getAddress());
+    public static TraineeDao toDao(Long id) {
+        return new TraineeDao(id);
     }
+
+    public static Trainee toDomain(TraineeDao dao) {
+        return new Trainee(dao.getId(), dao.getDateOfBirth(), dao.getAddress());
+    }
+
+    public static Trainee toDomainWithProfile(TraineeDao dao) {
+        return new Trainee(dao.getId(), UserMapper.toDomain(dao.getUser()), dao.getDateOfBirth(), dao.getAddress());
+    }
+
 }

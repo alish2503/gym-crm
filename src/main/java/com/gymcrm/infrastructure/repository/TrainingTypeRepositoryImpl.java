@@ -6,6 +6,7 @@ import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.infrastructure.mapper.TrainingTypeMapper;
 import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,11 +16,9 @@ import java.util.Optional;
  */
 @Repository
 class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
-    protected EntityManager entityManager;
 
-    public TrainingTypeRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Optional<TrainingType> findByName(TrainingTypeEnum typeEnum) {
@@ -28,4 +27,12 @@ class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
                 setParameter("typeName", typeEnum).
                 getResultStream().findFirst().map(TrainingTypeMapper::toDomain);
     }
+
+    @Override
+    public boolean existsByName(TrainingTypeEnum typeEnum) {
+        String jpql = "select count(t) from TrainingTypeDao t where t.name = :typeName";
+        Long count = entityManager.createQuery(jpql, Long.class).setParameter("typeName", typeEnum).getSingleResult();
+        return count > 0;
+    }
+
 }

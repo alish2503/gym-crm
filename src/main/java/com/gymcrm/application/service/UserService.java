@@ -1,11 +1,10 @@
 package com.gymcrm.application.service;
 
-import com.gymcrm.application.dto.request.UserRequest;
-
 /**
  * @author Alish
  */
 public interface UserService {
-    void changePassword(UserRequest request);
-    void activate(String userName);
+    void changePassword(String username, String oldPassword, String newPassword);
+    void activate(String username, String password);
+    void deactivate(String username, String password);
 }

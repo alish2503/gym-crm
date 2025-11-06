@@ -7,31 +7,33 @@ import java.util.List;
 /**
  * @author Alish
  */
-public class Trainee {
-    private Long id;
-    private User user;
+public class Trainee extends HasUserProfile {
     private LocalDate dateOfBirth;
     private String address;
     private List<Trainer> trainers = new ArrayList<>();
 
     public Trainee(LocalDate dateOfBirth, String address) {
+        super();
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
 
     public Trainee(Long id, User user, LocalDate dateOfBirth, String address) {
-        this.id = id;
-        this.user = user;
+        super(id, user);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
 
-    public Long getId() {
-        return id;
+    public Trainee(User user, LocalDate dateOfBirth, String address) {
+        super(user);
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
     }
 
-    public User getUser() {
-        return user;
+    public Trainee(Long id, LocalDate dateOfBirth, String address) {
+        super(id);
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
     }
 
     public LocalDate getDateOfBirth() {

@@ -1,6 +1,6 @@
 package com.gymcrm;
 
-import com.gymcrm.infrastructure.config.AppConfig;
+import com.gymcrm.infrastructure.config.GymAppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -8,8 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class GymApp {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GymAppConfig.class);
         context.close();
     }
 }

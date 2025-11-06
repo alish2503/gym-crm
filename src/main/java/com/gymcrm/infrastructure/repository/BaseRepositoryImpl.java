@@ -1,16 +1,16 @@
 package com.gymcrm.infrastructure.repository;
 
+import com.gymcrm.domain.port.BaseRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 /**
  * @author Alish
  */
-abstract class BaseRepository<E, D> {
-    protected EntityManager entityManager;
+abstract class BaseRepositoryImpl<E, D> implements BaseRepository<E> {
 
-    public BaseRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     public void save(E entity) {
         entityManager.persist(mapToDao(entity));

@@ -18,7 +18,7 @@ public class TraineeDao {
     private LocalDate dateOfBirth;
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", unique=true, nullable=false)
     private UserDao user;
 
@@ -43,6 +43,10 @@ public class TraineeDao {
         this.address = address;
     }
 
+    public TraineeDao(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,14 +57,6 @@ public class TraineeDao {
 
     public String getAddress() {
         return address;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public UserDao getUser() {

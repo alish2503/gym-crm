@@ -16,7 +16,7 @@ public class TrainerDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", unique=true, nullable=false)
     private UserDao user;
 
@@ -31,14 +31,14 @@ public class TrainerDao {
 
     public TrainerDao() {}
 
-    public TrainerDao(TrainingTypeDao specialization) {
-        this.specialization = specialization;
-    }
-
     public TrainerDao(Long id, UserDao user, TrainingTypeDao specialization) {
         this.id = id;
         this.user = user;
         this.specialization = specialization;
+    }
+
+    public TrainerDao(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

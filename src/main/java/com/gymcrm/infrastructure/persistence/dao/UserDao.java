@@ -1,8 +1,6 @@
 package com.gymcrm.infrastructure.persistence.dao;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * @author Alish
@@ -10,6 +8,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class UserDao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable=false, unique = true)
     private String userName;
@@ -26,12 +28,19 @@ public class UserDao {
     @Column(nullable=false)
     private boolean isActive;
 
-    public UserDao(String userName, String password, String firstName, String lastName, boolean isActive) {
+    public UserDao(Long id, String userName, String password, String firstName, String lastName, boolean isActive) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
+    }
+
+    public UserDao() {}
+
+    public Long getId() {
+        return id;
     }
 
     public String getUserName() {
@@ -52,25 +61,5 @@ public class UserDao {
 
     public boolean isActive() {
         return isActive;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 }
