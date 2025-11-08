@@ -1,5 +1,8 @@
 package com.gymcrm.application.service.impl;
 
+import com.gymcrm.application.request.CreateTraineeRequest;
+import com.gymcrm.application.request.UpdateTraineeRequest;
+import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.Trainer;
@@ -33,13 +36,16 @@ class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeServ
                               CredentialService credentialService,
                               AuthService authService)
     {
-        super(traineeRepository, userProfileRepository, credentialService, authService);
+        super(traineeRepository, userProfileRepository, credentialService, authService, Trainee.class);
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
     }
 
     @Override
-    public Trainee getTraineeByUserName(String username, String password) {
+    @Transactional(readOnly = true)
+    public Trainee getTraineeByUserName(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.debug("Fetching trainee by username: {}", username);
         User authenticated = authService.authenticate(username, password);
         Trainee trainee = findTraineeOrThrow(username);
@@ -49,44 +55,45 @@ class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeServ
 
     @Override
     @Transactional
-    public Trainee createTrainee(Trainee trainee) {
-        User userProfile = trainee.getUserProfile();
-        log.info("Creating new trainee: {} {}", userProfile.getFirstName(), userProfile.getLastName());
-        setCredentials(userProfile);
-        Trainee created = new Trainee(trainee.getUserProfile(), trainee.getDateOfBirth(), trainee.getAddress());
-        traineeRepository.save(created);
-        log.info("Trainee created successfully with username: {}", userProfile.getUsername());
-        return created;
+    public UserCredentials createTrainee(CreateTraineeRequest request) {
+        Trainee created = new Trainee(request.getDateOfBirth(), request.getAddress());
+        return createUser(request, created);
     }
 
     @Override
     @Transactional
-    public Trainee updateTrainee(Trainee trainee) {
-        User userProfile = trainee.getUserProfile();
-        String username = userProfile.getUsername();
+    public Trainee updateTrainee(UpdateTraineeRequest request, UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Updating trainee with username: {}", username);
-        User authenticated = authService.authenticate(username, userProfile.getPassword());
+        User authenticated = authService.authenticate(username, password);
         Trainee updated = findTraineeOrThrow(username);
-        updated.setDateOfBirth(trainee.getDateOfBirth());
-        updated.setAddress(trainee.getAddress());
-        updated.setUserProfile(authenticated);
-        updateFullNameAndSave(updated, userProfile.getFirstName(), userProfile.getLastName());
+        updated.setDateOfBirth(request.getDateOfBirth());
+        updated.setAddress(request.getAddress());
+        updateUser(updated, authenticated, request);
         log.debug("Trainee {} updated", username);
         return updated;
     }
 
     @Override
     @Transactional
-    public void deleteTrainee(String username, String password) {
+    public void deleteTrainee(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Deleting trainee with username: {}", username);
         authService.authenticate(username, password);
-        traineeRepository.delete(username);
+        Long id = traineeRepository.findIdByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("No trainee found with user name: " + username)
+        );
+        traineeRepository.deleteById(id);
         log.debug("Trainee {} deleted", username);
     }
 
     @Override
     @Transactional
-    public List<Trainer> updateTrainersForTrainee(String username, String password, List<String> usernames) {
+    public List<Trainer> updateTrainersForTrainee(UserCredentials credentials, List<String> usernames) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Updating trainers for trainee with username: {}", username);
         User authenticated = authService.authenticate(username, password);
         Trainee trainee = findTraineeOrThrow(username);
@@ -97,7 +104,7 @@ class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeServ
 
             List<String> notFound = usernames.stream().filter(name -> !found.contains(name)).toList();
             String errorMessage = String.join(", ", notFound);
-            throw new IllegalArgumentException("Trainers with user names: " + errorMessage + "not found");
+            throw new IllegalArgumentException("Trainers with user names: " + errorMessage + " not found");
         }
         trainee.setTrainers(trainers);
         trainee.setUserProfile(authenticated);
@@ -107,7 +114,10 @@ class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeServ
     }
 
     @Override
-    public List<Trainer> getAvailableTrainersForTrainee(String username, String password) {
+    @Transactional(readOnly = true)
+    public List<Trainer> getAvailableTrainersForTrainee(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.debug("Fetching trainers for trainee with username: {}", username);
         authService.authenticate(username, password);
         List<Long> assignedIds = trainerRepository.findAssignedTrainersIds(username);

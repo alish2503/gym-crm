@@ -2,6 +2,7 @@ package com.gymcrm.infrastructure.repository;
 
 import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
@@ -21,17 +22,19 @@ import java.util.Map;
 class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
 
     @Override
-    public List<Training> findTrainingsForTrainee(String userName, LocalDate from, LocalDate to,
-                                                  FullName trainerName, TrainingTypeEnum typeEnum) {
-
-        String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer join fetch trainer.user" +
-                    "where tr.trainee.user.userName = :uname ";
+    public List<Training> findTrainingsForTrainee(String username, TrainingFilter trainingFilter) {
+        LocalDate from = trainingFilter.from();
+        LocalDate to = trainingFilter.to();
+        FullName trainerName = trainingFilter.personName();
+        TrainingTypeEnum typeEnum = trainingFilter.type();
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer join fetch trainer.user " +
+                    "where tr.trainee.user.username = :uname ";
 
         Map<String, Object> params = new HashMap<>();
-        params.put("uname", userName);
+        params.put("uname", username);
         jpql = appendDateAndNameFilters(jpql, params, from, to, trainerName, "trainer");
         if (typeEnum != null) {
-            jpql += "and tr.type.name = :tType ";
+            jpql += " and tr.type.name = :tType ";
             params.put("tType", typeEnum);
         }
         TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
@@ -39,11 +42,12 @@ class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> i
         return query.getResultList().stream().map(TrainingMapper::toDomainForTrainee).toList();
     }
 
-    public List<Training> findTrainingsForTrainer(String userName, LocalDate from, LocalDate to,
-                                                  FullName traineeName) {
-
-        String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee join fetch trainee.user" +
-                    "where tr.trainer.user.userName = :uname ";
+    public List<Training> findTrainingsForTrainer(String userName, TrainingFilter trainingFilter) {
+        LocalDate from = trainingFilter.from();
+        LocalDate to = trainingFilter.to();
+        FullName traineeName = trainingFilter.personName();
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee join fetch trainee.user " +
+                    "where tr.trainer.user.username = :uname ";
 
         Map<String, Object> params = new HashMap<>();
         params.put("uname", userName);
@@ -56,8 +60,8 @@ class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> i
     public boolean existsTraining(String trainerUsername, String traineeUsername,
                                   LocalDate trainingDate, String trainingName) {
 
-        String jpql = "select count(t) from TrainingDao t where t.trainer.user.userName = :trainerUsername " +
-                "and t.trainee.user.userName = :traineeUsername and t.date = :tDate " +
+        String jpql = "select count(t) from TrainingDao t where t.trainer.user.username = :trainerUsername " +
+                "and t.trainee.user.username = :traineeUsername and t.date = :tDate " +
                 "and t.name = :tName";
 
         Long count = entityManager.createQuery(jpql, Long.class)
@@ -73,24 +77,26 @@ class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> i
 
 
     private String appendDateAndNameFilters(String jpql, Map<String, Object> params, LocalDate from,
-                                            LocalDate to, FullName name, String aliasPrefix) {
+                                            LocalDate to, FullName name, String aliasPrefix)
+    {
 
         if (from != null) {
-            jpql += "and tr.date >= :from ";
+            jpql += " and tr.date >= :from ";
             params.put("from", from);
         }
         if (to != null) {
-            jpql += "and tr.date <= :to ";
+            jpql += " and tr.date <= :to ";
             params.put("to", to);
         }
         if (name != null) {
-            jpql += "and " + aliasPrefix + ".user.firstName = :fName " +
-                    "and " + aliasPrefix + ".user.lastName = :lName ";
+            jpql += " and " + aliasPrefix + ".user.firstName = :fName " +
+                    " and " + aliasPrefix + ".user.lastName = :lName ";
             params.put("fName", name.getFirstName());
             params.put("lName", name.getLastName());
         }
         return jpql;
     }
+
 
 
     @Override

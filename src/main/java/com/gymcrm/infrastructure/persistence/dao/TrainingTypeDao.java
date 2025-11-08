@@ -7,7 +7,7 @@ import jakarta.persistence.*;
  * @author Alish
  */
 @Entity
-@Table(name = "training_types")
+@Table(name = "training_type")
 public class TrainingTypeDao {
 
     @Id

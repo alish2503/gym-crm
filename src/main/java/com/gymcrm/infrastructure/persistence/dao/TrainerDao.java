@@ -9,7 +9,7 @@ import java.util.List;
  * @author Alish
  */
 @Entity
-@Table(name = "trainers")
+@Table(name = "trainer")
 public class TrainerDao {
 
     @Id
@@ -20,7 +20,7 @@ public class TrainerDao {
     @JoinColumn(name="user_id", unique=true, nullable=false)
     private UserDao user;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TrainingTypeDao specialization;
 
     @ManyToMany(mappedBy = "trainers", fetch = FetchType.LAZY)

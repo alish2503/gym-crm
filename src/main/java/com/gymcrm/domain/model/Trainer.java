@@ -25,8 +25,20 @@ public class Trainer extends HasUserProfile {
         this.specialization = specialization;
     }
 
+    public Trainer(TrainingType specialization) {
+        this.specialization = specialization;
+    }
+
     public TrainingType getSpecialization() {
         return specialization;
+    }
+
+    public List<Trainee> getTrainees() {
+        return trainees;
+    }
+
+    public void setSpecialization(TrainingType specialization) {
+        this.specialization = specialization;
     }
 
     public void setTrainees(List<Trainee> trainees) {

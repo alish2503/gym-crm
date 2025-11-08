@@ -22,7 +22,9 @@ class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDao> impl
     }
 
     public Optional<Trainer> findTrainerWithTrainees(String userName) {
-        String jpql = "select distinct t from TrainerDao t join fetch t.trainees tr join fetch tr.user where t.user.userName = :uName";
+        String jpql = "select distinct t from TrainerDao t left join fetch t.trainees tr " +
+                    "left join fetch tr.user where t.user.username = :uName";
+
         return entityManager.createQuery(jpql, TrainerDao.class).
                 setParameter("uName", userName)
                 .getResultStream()
@@ -39,21 +41,21 @@ class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDao> impl
 
     @Override
     public List<Trainer> getAvailableTrainersNotAssigned(List<Long> assignedIds) {
-        String jpql = "select t from TrainerDao t join fetch t.user" +
-                    "join fetch t.specialization where t.id not in :assigned";
+        String jpql = "select t from TrainerDao t join fetch t.user " +
+                    "join where t.id not in :assigned";
 
         return entityManager.createQuery(jpql, TrainerDao.class)
                 .setParameter("assigned", assignedIds)
                 .getResultList()
                 .stream()
-                .map(TrainerMapper::toDomain)
+                .map(TrainerMapper::toDomainWithProfile)
                 .toList();
     }
 
     @Override
     public List<Trainer> findTrainersByUserNamesIn(List<String> userNames) {
-        String jpql = "select t from TrainerDao t join fetch t.user u join fetch t.specialization " +
-                    "where u.userName in :uNames";
+        String jpql = "select t from TrainerDao t join fetch t.user u " +
+                    "where u.username in :uNames";
 
         return entityManager.createQuery(jpql, TrainerDao.class).setParameter("uNames", userNames).
                 getResultList().stream().map(TrainerMapper::toDomainWithProfile).toList();
@@ -67,7 +69,7 @@ class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDao> impl
 
     @Override
     public List<Trainer> findAll() {
-        String jpql = "select t from TrainerDao t join fetch t.user join fetch t.specialization";
+        String jpql = "select t from TrainerDao t join fetch t.user";
         return entityManager.createQuery(jpql, TrainerDao.class).getResultList().stream().
                 map(TrainerMapper::toDomainWithProfile).toList();
     }

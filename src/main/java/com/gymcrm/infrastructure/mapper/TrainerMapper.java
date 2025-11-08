@@ -28,9 +28,4 @@ public class TrainerMapper {
         TrainingType type = TrainingTypeMapper.toDomain(trainerDao.getSpecialization());
         return new Trainer(trainerDao.getId(), UserMapper.toDomain(trainerDao.getUser()), type);
     }
-
-    public static Trainer toDomainWithProfile(TrainerDao trainerDao, TrainingTypeDao typeDao) {
-        TrainingType type = TrainingTypeMapper.toDomain(typeDao);
-        return new Trainer(trainerDao.getId(), UserMapper.toDomain(trainerDao.getUser()), type);
-    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author Alish
  */
 @Entity
-@Table(name = "trainees")
+@Table(name = "trainee")
 public class TraineeDao {
 
     @Id
@@ -33,8 +33,7 @@ public class TraineeDao {
     @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<TrainingDao> trainings = new ArrayList<>();
 
-    public TraineeDao() {
-    }
+    public TraineeDao() {}
 
     public TraineeDao(Long id, UserDao user, LocalDate dateOfBirth, String address) {
         this.id = id;

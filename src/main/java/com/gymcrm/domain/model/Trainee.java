@@ -13,7 +13,6 @@ public class Trainee extends HasUserProfile {
     private List<Trainer> trainers = new ArrayList<>();
 
     public Trainee(LocalDate dateOfBirth, String address) {
-        super();
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }

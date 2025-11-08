@@ -1,20 +1,17 @@
 package com.gymcrm.application.service;
 
-import com.gymcrm.domain.model.FullName;
+import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.domain.model.Training;
-import com.gymcrm.domain.model.TrainingTypeEnum;
+import com.gymcrm.domain.model.TrainingFilter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
  * @author Alish
  */
 public interface TrainingService {
-    void createTraining(Training training);
-    List<Training> getTrainingsForTrainee(String traineeUserName, String password, LocalDate from,
-                                          LocalDate to, FullName trainerName, TrainingTypeEnum typeEnum);
-
-    List<Training> getTrainingsForTrainer(String trainerUserName, String password, LocalDate from,
-                                          LocalDate to, FullName traineeName);
+    void createTraining(CreateTrainingRequest request);
+    List<Training> getTrainingsForTrainee(UserCredentials credentials, TrainingFilter trainingFilter);
+    List<Training> getTrainingsForTrainer(UserCredentials credentials, TrainingFilter trainingFilter);
 }

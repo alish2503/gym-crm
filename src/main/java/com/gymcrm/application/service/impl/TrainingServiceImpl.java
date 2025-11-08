@@ -1,5 +1,7 @@
 package com.gymcrm.application.service.impl;
 
+import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,52 +45,55 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void createTraining(Training training) {
-        String traineeUsername = training.getTrainee().getUserProfile().getUsername();
-        String trainerUsername = training.getTrainer().getUserProfile().getUsername();
-        String trainingName = training.getName();
+    @Transactional
+    public void createTraining(CreateTrainingRequest request) {
+        String traineeUsername = request.traineeUsername();
+        String trainerUsername = request.trainerUsername();
+        String trainingName = request.trainingName();
+        int duration = request.duration();
+        TrainingTypeEnum typeEnum = request.type();
+        LocalDate trainingDate = request.date();
         log.info("Creating training: {} for trainee {} and trainer {}", trainingName, traineeUsername, trainerUsername);
-        LocalDate trainingDate = training.getDate();
         if (trainingRepository.existsTraining(trainerUsername, traineeUsername, trainingDate, trainingName)) {
             throw new IllegalArgumentException("Training already exits");
         }
         Long traineeId = traineeRepository.findIdByUsername(traineeUsername).orElseThrow(
-                () -> new EntityNotFoundException("No trainee found with user name: " + traineeUsername)
+                () -> new EntityNotFoundException("No trainee found with username: " + traineeUsername)
         );
         Long trainerId = trainerRepository.findIdByUsername(trainerUsername).orElseThrow(
-                () -> new EntityNotFoundException("No trainer found with user name: " + trainerUsername)
+                () -> new EntityNotFoundException("No trainer found with username: " + trainerUsername)
         );
-        TrainingTypeEnum typeEnum = training.getType().name();
         TrainingType type = trainingTypeRepository.findByName(typeEnum).orElseThrow(
                 () -> new EntityNotFoundException("No training type: " + typeEnum + " found")
         );
-        Training created = new Training(type, trainingName, trainingDate, training.getDuration(),
-                trainerId, traineeId);
-
+        Training created = new Training(type, trainingName, trainingDate, duration, trainerId, traineeId);
         log.info("Training created successfully: {}", trainingName);
         trainingRepository.save(created);
     }
 
     @Override
-    public List<Training> getTrainingsForTrainee(String traineeUsername, String password, LocalDate from, LocalDate to,
-                                                 FullName trainerName, TrainingTypeEnum typeEnum)
+    @Transactional(readOnly = true)
+    public List<Training> getTrainingsForTrainee(UserCredentials credentials, TrainingFilter trainingFilter)
     {
+        String traineeUsername = credentials.username();
+        String password = credentials.password();
+        TrainingTypeEnum typeEnum = trainingFilter.type();
         log.debug("Fetching trainings by trainee username: {}", traineeUsername);
         authService.authenticate(traineeUsername, password);
-        if (!trainingTypeRepository.existsByName(typeEnum)) {
-            throw new EntityNotFoundException("No training type: " + typeEnum + "found");
+        if (typeEnum != null && !trainingTypeRepository.existsByName(typeEnum)) {
+            throw new EntityNotFoundException("No training type: " + typeEnum + " found");
         }
-        return trainingRepository.findTrainingsForTrainee(traineeUsername,from, to, trainerName, typeEnum);
+        return trainingRepository.findTrainingsForTrainee(traineeUsername, trainingFilter);
     }
 
     @Override
-    public List<Training> getTrainingsForTrainer(String trainerUsername, String password, LocalDate from, LocalDate to,
-                                                 FullName traineeName)
+    @Transactional(readOnly = true)
+    public List<Training> getTrainingsForTrainer(UserCredentials credentials, TrainingFilter trainingFilter)
     {
+        String trainerUsername = credentials.username();
+        String password = credentials.password();
         log.debug("Fetching trainings by trainer username: {}", trainerUsername);
         authService.authenticate(trainerUsername, password);
-        return trainingRepository.findTrainingsForTrainer(trainerUsername, from, to, traineeName);
+        return trainingRepository.findTrainingsForTrainer(trainerUsername, trainingFilter);
     }
-
-
 }

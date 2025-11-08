@@ -1,5 +1,8 @@
 package com.gymcrm.application.service.impl;
 
+import com.gymcrm.application.request.CreateTrainerRequest;
+import com.gymcrm.application.request.UpdateTrainerRequest;
+import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.*;
@@ -25,13 +28,16 @@ class TrainerServiceImpl extends UserServiceImpl<Trainer> implements TrainerServ
                               CredentialService credentialService,
                               AuthService authService)
     {
-        super(trainerRepository, userProfileRepository, credentialService, authService);
+        super(trainerRepository, userProfileRepository, credentialService, authService, Trainer.class);
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
     }
 
     @Override
-    public Trainer getTrainerByUserName(String username, String password) {
+    @Transactional(readOnly = true)
+    public Trainer getTrainerByUserName(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.debug("Fetching trainer by username: {}", username);
         User authenticated = authService.authenticate(username, password);
         Trainer trainer = findTrainerOrThrow(username);
@@ -41,34 +47,30 @@ class TrainerServiceImpl extends UserServiceImpl<Trainer> implements TrainerServ
 
     @Override
     @Transactional
-    public Trainer createTrainer(Trainer trainer) {
-        User userProfile = trainer.getUserProfile();
-        log.info("Creating new trainer: {} {}", userProfile.getFirstName(), userProfile.getLastName());
-        TrainingType specialization = findType(trainer.getSpecialization().name());
-        setCredentials(userProfile);
-        Trainer created = new Trainer(trainer.getUserProfile(), specialization);
-        trainerRepository.save(created);
-        log.info("Trainer created successfully with username: {}", userProfile.getUsername());
-        return created;
+    public UserCredentials createTrainer(CreateTrainerRequest request) {
+        TrainingType specialization = findTypeOrThrow(request.getSpecialization());
+        Trainer created = new Trainer(specialization);
+        return createUser(request, created);
     }
 
     @Override
     @Transactional
-    public Trainer updateTrainer(Trainer trainer) {
-        User userProfile = trainer.getUserProfile();
-        String username = userProfile.getUsername();
+    public Trainer updateTrainer(UpdateTrainerRequest request, UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Updating trainer with username: {}", username);
-        User authenticated = authService.authenticate(username, userProfile.getPassword());
+        User authenticated = authService.authenticate(username, password);
         Trainer updated = findTrainerOrThrow(username);
-        updated.setUserProfile(authenticated);
-        updateFullNameAndSave(updated, userProfile.getFirstName(), userProfile.getLastName());
+        TrainingType specialization = findTypeOrThrow(request.getSpecialization());
+        updated.setSpecialization(specialization);
+        updateUser(updated, authenticated, request);
         log.debug("Trainer {} updated", username);
         return updated;
     }
 
-    private TrainingType findType(TrainingTypeEnum typeEnum) {
+    private TrainingType findTypeOrThrow(TrainingTypeEnum typeEnum) {
         return trainingTypeRepository.findByName(typeEnum).orElseThrow(
-                () -> new EntityNotFoundException("No specialization: " + typeEnum + "found")
+                () -> new EntityNotFoundException("No specialization: " + typeEnum + " found")
         );
     }
 

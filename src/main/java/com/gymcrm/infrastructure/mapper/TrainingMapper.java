@@ -20,9 +20,9 @@ public class TrainingMapper {
     }
 
     public static Training toDomainForTrainee(TrainingDao dao) {
-        Trainer trainer = TrainerMapper.toDomainWithProfile(dao.getTrainer(), dao.getType());
-        return new Training(trainer.getSpecialization(), dao.getName(), dao.getDate(),
-                dao.getDuration(), trainer);
+        Trainer trainer = TrainerMapper.toDomainWithProfile(dao.getTrainer());
+        TrainingType type = TrainingTypeMapper.toDomain(dao.getType());
+        return new Training(type, dao.getName(), dao.getDate(), dao.getDuration(), trainer);
     }
 
     public static Training toDomainForTrainer(TrainingDao dao) {

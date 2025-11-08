@@ -6,7 +6,7 @@ import jakarta.persistence.*;
  * @author Alish
  */
 @Entity
-@Table(name = "users")
+@Table(name = "user_profile")
 public class UserDao {
 
     @Id
@@ -14,23 +14,23 @@ public class UserDao {
     private Long id;
 
     @Column(nullable=false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(nullable=false)
     private String password;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "first_name")
     private String firstName;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "last_name")
     private String lastName;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "is_active")
     private boolean isActive;
 
-    public UserDao(Long id, String userName, String password, String firstName, String lastName, boolean isActive) {
+    public UserDao(Long id, String username, String password, String firstName, String lastName, boolean isActive) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,8 +43,8 @@ public class UserDao {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getFirstName() {

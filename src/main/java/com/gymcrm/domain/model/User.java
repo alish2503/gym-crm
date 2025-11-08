@@ -9,7 +9,7 @@ public class User extends FullName {
     private String password;
     private boolean isActive;
 
-    public User(Long id, String firstName, String lastName, String username, String password, boolean isActive) {
+    public User(Long id, String username, String password, String firstName, String lastName, boolean isActive) {
         super(firstName, lastName);
         this.id = id;
         this.username = username;
@@ -20,6 +20,13 @@ public class User extends FullName {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, String firstName, String lastName, boolean isActive) {
+        super(firstName, lastName);
+        this.username = username;
+        this.password = password;
+        this.isActive = isActive;
     }
 
     public Long getId() {

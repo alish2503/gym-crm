@@ -23,7 +23,7 @@ class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
     @Override
     public Optional<TrainingType> findByName(TrainingTypeEnum typeEnum) {
         return entityManager.
-                createQuery("from training_types type where type.name = :typeName ", TrainingTypeDao.class).
+                createQuery("from TrainingTypeDao where name = :typeName ", TrainingTypeDao.class).
                 setParameter("typeName", typeEnum).
                 getResultStream().findFirst().map(TrainingTypeMapper::toDomain);
     }

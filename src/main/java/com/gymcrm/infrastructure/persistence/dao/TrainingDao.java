@@ -8,9 +8,9 @@ import java.time.LocalDate;
  * @author Alish
  */
 @Entity
-@Table(name = "trainings",
+@Table(name = "training",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = {"trainer_id", "trainee_id", "date", "name"}
+                columnNames = {"trainer_id", "trainee_id", "training_date", "name"}
         ))
 
 public class TrainingDao {
@@ -21,7 +21,7 @@ public class TrainingDao {
     @Column(nullable=false)
     private String name;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "training_date")
     private LocalDate date;
 
     @Column(nullable=false)

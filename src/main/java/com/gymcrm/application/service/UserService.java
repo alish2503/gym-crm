@@ -1,10 +1,12 @@
 package com.gymcrm.application.service;
 
+import com.gymcrm.application.UserCredentials;
+
 /**
  * @author Alish
  */
 public interface UserService {
-    void changePassword(String username, String oldPassword, String newPassword);
-    void activate(String username, String password);
-    void deactivate(String username, String password);
+    void changePassword(UserCredentials credentials, String newPassword);
+    void activate(UserCredentials credentials);
+    void deactivate(UserCredentials credentials);
 }

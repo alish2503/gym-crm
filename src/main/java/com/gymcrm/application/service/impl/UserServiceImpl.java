@@ -1,5 +1,8 @@
 package com.gymcrm.application.service.impl;
 
+import com.gymcrm.application.request.CreateUserRequest;
+import com.gymcrm.application.request.UpdateUserRequest;
+import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.UserService;
@@ -18,61 +21,87 @@ import java.util.function.Consumer;
  */
 abstract class UserServiceImpl<E extends HasUserProfile> implements UserService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    private final Class<E> userClass;
     private final CredentialService credentialService;
     protected final AuthService authService;
     private final UserProfileRepository userProfileRepository;
     private final UserRepository<E> userRepository;
 
     public UserServiceImpl(UserRepository<E> userRepository, UserProfileRepository userProfileRepository,
-                           CredentialService credentialService,
-                           AuthService authService)
+                           CredentialService credentialService, AuthService authService,
+                           Class<E> userClas)
     {
         this.userRepository = userRepository;
         this.userProfileRepository = userProfileRepository;
         this.credentialService = credentialService;
         this.authService = authService;
+        this.userClass = userClas;
+    }
+
+    protected UserCredentials createUser(CreateUserRequest request, E created) {
+        String userEntityName = userClass.getSimpleName();
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        log.info("Creating new {}: {} {}", userEntityName.toLowerCase(), firstName, lastName);
+        boolean isActive = request.isActive();
+        String username = credentialService.generateUserName(firstName, lastName);
+        String password = credentialService.generatePassword();
+        String hashed = credentialService.encodePassword(password);
+        User userProfile = new User(username, hashed, firstName, lastName, isActive);
+        created.setUserProfile(userProfile);
+        userRepository.save(created);
+        log.info("{} created successfully with username: {}", userEntityName, username);
+        return new UserCredentials(username, password);
     }
 
     @Override
-    public void changePassword(String username, String oldPassword, String newPassword) {
+    @Transactional
+    public void changePassword(UserCredentials credentials, String newPassword) {
+        String username = credentials.username();
+        String oldPassword = credentials.password();
         log.info("Changing password for user {}", username);
         String hashed = credentialService.encodePassword(newPassword);
         updateUserProfile(username, oldPassword, profile -> profile.setPassword(hashed));
     }
 
     @Override
-    public void activate(String username, String password) {
+    @Transactional
+    public void activate(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Activating user {}", username);
         updateUserProfile(username, password, profile -> profile.setActive(true));
     }
 
     @Override
-    public void deactivate(String username, String password) {
+    @Transactional
+    public void deactivate(UserCredentials credentials) {
+        String username = credentials.username();
+        String password = credentials.password();
         log.info("Deactivating user {}", username);
         updateUserProfile(username, password, profile -> profile.setActive(false));
     }
 
-    @Transactional
     protected void updateUserProfile(String username, String password, Consumer<User> updater) {
         User userProfile = authService.authenticate(username, password);
         updater.accept(userProfile);
         userProfileRepository.updateProfile(userProfile);
     }
 
-    protected void setCredentials(User userProfile) {
-        String firstName = userProfile.getFirstName();
-        String lastName = userProfile.getLastName();
-        String userName = credentialService.generateUserName(firstName, lastName);
-        String password = credentialService.generatePassword();
-        String hashed = credentialService.encodePassword(password);
-        userProfile.setUsername(userName);
+    protected void updateUser(E user, User userProfile, UpdateUserRequest request) {
+        String newUsername = request.getUsername();
+        if (!userProfile.getUsername().equals(newUsername) &&
+            userProfileRepository.existsByUserName(newUsername))
+        {
+            throw new IllegalArgumentException("User with username " + newUsername + " already exists");
+        }
+        String hashed = credentialService.encodePassword(request.getPassword());
+        userProfile.setUsername(newUsername);
         userProfile.setPassword(hashed);
-    }
-
-    protected void updateFullNameAndSave(E user, String firstName, String lastName) {
-        User userProfile = user.getUserProfile();
-        userProfile.setFirstName(firstName);
-        userProfile.setLastName(lastName);
+        userProfile.setFirstName(request.getFirstName());
+        userProfile.setLastName(request.getLastName());
+        userProfile.setActive(request.isActive());
+        user.setUserProfile(userProfile);
         userRepository.update(user);
     }
 }

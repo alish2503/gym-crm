@@ -22,16 +22,15 @@ class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDao> impl
     }
 
     @Override
-    public void delete(String username) {
-        entityManager.createQuery("delete from trainees t where t.user.userName = :u")
-                .setParameter("u", username)
-                .executeUpdate();
+    public void deleteById(Long id) {
+        TraineeDao dao = entityManager.find(TraineeDao.class, id);
+        entityManager.remove(dao);
     }
 
     @Override
     public Optional<Trainee> findTraineeWithTrainers(String userName) {
-        String jpql = "select distinct t from TraineeDao t join fetch t.trainers tr join fetch tr.user " +
-                    "join fetch tr.specialization where t.user.userName = :uName";
+        String jpql = "select distinct t from TraineeDao t left join fetch t.trainers tr " +
+                "left join fetch tr.user where t.user.username = :uName";
 
         return entityManager.createQuery(jpql, TraineeDao.class).
                 setParameter("uName", userName)

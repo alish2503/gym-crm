@@ -13,7 +13,7 @@ public class UserMapper {
                 userProfile.getFirstName(), userProfile.getLastName(), userProfile.isActive());
     }
     public static User toDomain(UserDao dao) {
-        return new User(dao.getId(), dao.getUserName(), dao.getPassword(), dao.getFirstName(),
-                dao.getLastName(), dao.isActive());
+        return new User(dao.getId(), dao.getUsername(), dao.getPassword(), dao.getFirstName(),
+                dao.getLastName(),  dao.isActive());
     }
 }
