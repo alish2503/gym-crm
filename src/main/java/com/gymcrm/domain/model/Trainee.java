@@ -35,6 +35,8 @@ public class Trainee extends HasUserProfile {
         this.address = address;
     }
 
+    public Trainee() {}
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }

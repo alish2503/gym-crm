@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Alish
  */
 @Service
-class TrainerServiceImpl extends UserServiceImpl<Trainer> implements TrainerService {
+public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements TrainerService {
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
 

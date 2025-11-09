@@ -29,6 +29,8 @@ public class User extends FullName {
         this.isActive = isActive;
     }
 
+    public User() {}
+
     public Long getId() {
         return id;
     }

@@ -33,4 +33,8 @@ public abstract class HasUserProfile {
     public void setUserProfile(User userProfile) {
         this.userProfile = userProfile;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

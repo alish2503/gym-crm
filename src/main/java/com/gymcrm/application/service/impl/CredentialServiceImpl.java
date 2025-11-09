@@ -12,7 +12,7 @@ import java.security.SecureRandom;
  * @author Alish
  */
 @Service
-class CredentialServiceImpl implements CredentialService {
+public class CredentialServiceImpl implements CredentialService {
     private final UserProfileRepository userProfileRepository;
     private final PasswordEncoder passwordEncoder;
     private static final int length = 10;
@@ -26,7 +26,7 @@ class CredentialServiceImpl implements CredentialService {
     }
 
     @Override
-    public String generateUserName(String firstName, String lastName) {
+    public String generateUsername(String firstName, String lastName) {
         String base = firstName + "." + lastName;
         String userName = base;
         int counter = 1;

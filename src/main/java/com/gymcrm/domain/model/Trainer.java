@@ -29,6 +29,8 @@ public class Trainer extends HasUserProfile {
         this.specialization = specialization;
     }
 
+    public Trainer() {}
+
     public TrainingType getSpecialization() {
         return specialization;
     }

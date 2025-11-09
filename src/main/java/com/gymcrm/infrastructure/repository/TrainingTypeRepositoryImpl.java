@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Alish
  */
 @Repository
-class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
+public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Alish
  */
 @Service
-class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeService {
+public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeService {
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
 

@@ -9,5 +9,5 @@ import java.util.Optional;
  */
 public interface TraineeRepository extends UserRepository<Trainee> {
     void deleteById(Long id);
-    Optional<Trainee> findTraineeWithTrainers(String userName);
+    Optional<Trainee> findTraineeWithTrainers(String username);
 }

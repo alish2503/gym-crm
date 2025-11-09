@@ -33,10 +33,10 @@ public class GymAppConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.h2.Driver");
-        ds.setUrl("jdbc:h2:mem:gymdb;DB_CLOSE_DELAY=-1");
-        ds.setUsername("admin");
-        ds.setPassword("");
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setUrl("jdbc:postgresql://localhost:5432/gymdb");
+        ds.setUsername("gymuser");
+        ds.setPassword("pass");
         return ds;
     }
 
@@ -48,7 +48,8 @@ public class GymAppConfig {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         emf.setJpaVendorAdapter(vendorAdapter);
         Properties jpaProps = new Properties();
-        jpaProps.put("hibernate.hbm2ddl.auto", "create-drop");
+        jpaProps.put("hibernate.hbm2ddl.auto", "create");
+        jpaProps.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         jpaProps.put("hibernate.show_sql", "true");
         emf.setJpaProperties(jpaProps);
         return emf;

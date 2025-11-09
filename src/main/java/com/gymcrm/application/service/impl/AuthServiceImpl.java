@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @author Alish
  */
 @Service
-class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl implements AuthService {
     private final UserProfileRepository userProfileRepository;
     private final CredentialService credentialService;
 

@@ -44,7 +44,7 @@ abstract class UserServiceImpl<E extends HasUserProfile> implements UserService 
         String lastName = request.getLastName();
         log.info("Creating new {}: {} {}", userEntityName.toLowerCase(), firstName, lastName);
         boolean isActive = request.isActive();
-        String username = credentialService.generateUserName(firstName, lastName);
+        String username = credentialService.generateUsername(firstName, lastName);
         String password = credentialService.generatePassword();
         String hashed = credentialService.encodePassword(password);
         User userProfile = new User(username, hashed, firstName, lastName, isActive);

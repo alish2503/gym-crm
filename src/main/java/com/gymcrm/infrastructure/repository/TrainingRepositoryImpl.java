@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Alish
  */
 @Repository
-class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
+public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
 
     @Override
     public List<Training> findTrainingsForTrainee(String username, TrainingFilter trainingFilter) {

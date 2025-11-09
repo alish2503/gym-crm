@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Alish
  */
 @Repository
-class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDao> implements TraineeRepository {
+public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDao> implements TraineeRepository {
 
     TraineeRepositoryImpl() {
         super(TraineeDao.class);
@@ -28,12 +28,12 @@ class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDao> impl
     }
 
     @Override
-    public Optional<Trainee> findTraineeWithTrainers(String userName) {
+    public Optional<Trainee> findTraineeWithTrainers(String username) {
         String jpql = "select distinct t from TraineeDao t left join fetch t.trainers tr " +
                 "left join fetch tr.user where t.user.username = :uName";
 
         return entityManager.createQuery(jpql, TraineeDao.class).
-                setParameter("uName", userName)
+                setParameter("uName", username)
                 .getResultStream()
                 .findFirst()
                 .map(dao -> {
