@@ -6,7 +6,10 @@ import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TrainerServiceImpl;
-import com.gymcrm.domain.model.*;
+import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.TrainingType;
+import com.gymcrm.domain.model.TrainingTypeEnum;
+import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,7 +67,7 @@ class TrainerServiceImplTest {
         when(trainerRepository.findTrainerWithTrainees("John.Doe")).thenReturn(Optional.of(trainer));
         Trainer result = trainerService.getTrainerByUserName(creds);
         assertEquals(trainer, result);
-        assertEquals(user, result.getUserProfile());
+        assertEquals(user, result.getUser());
     }
 
     @Test
@@ -89,8 +94,8 @@ class TrainerServiceImplTest {
         verify(trainerRepository).save(captor.capture());
         Trainer saved = captor.getValue();
         assertEquals(specialization, saved.getSpecialization());
-        assertNotNull(saved.getUserProfile());
-        assertEquals("John.Doe", saved.getUserProfile().getUsername());
+        assertNotNull(saved.getUser());
+        assertEquals("John.Doe", saved.getUser().getUsername());
     }
 
     @Test
@@ -106,8 +111,8 @@ class TrainerServiceImplTest {
         when(credentialService.encodePassword("newPass")).thenReturn("newHash");
         Trainer result = trainerService.updateTrainer(req, creds);
         assertEquals(specialization, result.getSpecialization());
-        assertEquals("newHash", result.getUserProfile().getPassword());
-        assertEquals(user, result.getUserProfile());
+        assertEquals("newHash", result.getUser().getPassword());
+        assertEquals(user, result.getUser());
         verify(trainerRepository).update(trainer);
     }
 }

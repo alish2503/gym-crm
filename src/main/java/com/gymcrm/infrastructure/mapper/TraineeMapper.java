@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TraineeMapper {
     public static TraineeDao toDao(Trainee trainee) {
-        TraineeDao dao = new TraineeDao(trainee.getId(), UserMapper.toDao(trainee.getUserProfile()),
+        TraineeDao dao = new TraineeDao(trainee.getId(), UserMapper.toDao(trainee.getUser()),
                 trainee.getDateOfBirth(), trainee.getAddress());
 
         List<Trainer> trainers = trainee.getTrainers();

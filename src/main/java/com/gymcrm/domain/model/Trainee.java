@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Alish
  */
-public class Trainee extends HasUserProfile {
+public class Trainee extends UserProfile {
     private LocalDate dateOfBirth;
     private String address;
     private List<Trainer> trainers = new ArrayList<>();

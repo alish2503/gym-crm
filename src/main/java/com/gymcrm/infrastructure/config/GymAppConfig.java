@@ -1,9 +1,12 @@
 package com.gymcrm.infrastructure.config;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -22,8 +25,14 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan(basePackages = "com.gymcrm")
+@PropertySource("application.properties")
 @EnableTransactionManagement
 public class GymAppConfig {
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -31,26 +40,35 @@ public class GymAppConfig {
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url,
+            @Value("${spring.datasource.username}") String username,
+            @Value("${spring.datasource.password}") String password,
+            @Value("${spring.datasource.driver-class-name}") String driver)
+    {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5432/gymdb");
-        ds.setUsername("gymuser");
-        ds.setPassword("pass");
+        ds.setDriverClassName(driver);
+        ds.setUrl(url);
+        ds.setUsername(username);
+        ds.setPassword(password);
         return ds;
     }
 
+
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+            DataSource dataSource, @Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto,
+            @Value("${spring.jpa.database-platform}") String dialect,
+            @Value("${spring.jpa.show-sql}") boolean showSql)
+    {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
         emf.setPackagesToScan("com.gymcrm.infrastructure.persistence.dao");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         emf.setJpaVendorAdapter(vendorAdapter);
         Properties jpaProps = new Properties();
-        jpaProps.put("hibernate.hbm2ddl.auto", "create");
-        jpaProps.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        jpaProps.put("hibernate.show_sql", "true");
+        jpaProps.put("hibernate.hbm2ddl.auto", ddlAuto);
+        jpaProps.put("hibernate.dialect", dialect);
+        jpaProps.put("hibernate.show_sql", showSql);
         emf.setJpaProperties(jpaProps);
         return emf;
     }

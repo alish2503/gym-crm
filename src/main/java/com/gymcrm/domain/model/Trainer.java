@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Alish
  */
-public class Trainer extends HasUserProfile {
+public class Trainer extends UserProfile {
     private TrainingType specialization;
     private List<Trainee> trainees = new ArrayList<>();
 

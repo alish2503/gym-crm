@@ -1,7 +1,6 @@
 package com.gymcrm;
 
 import com.gymcrm.application.facade.GymFacade;
-import com.gymcrm.domain.model.*;
 import com.gymcrm.infrastructure.config.GymAppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

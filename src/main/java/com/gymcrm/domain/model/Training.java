@@ -8,9 +8,9 @@ import java.time.LocalDate;
 public class Training {
     private Long traineeId;
     private Long trainerId;
-    private TrainingType type;
-    private String name;
-    private LocalDate date;
+    private final TrainingType type;
+    private final String name;
+    private final LocalDate date;
     int duration;
     Trainer trainer;
     Trainee trainee;

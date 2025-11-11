@@ -11,11 +11,9 @@ import java.util.List;
  */
 public interface GymFacade {
     void changePasswordForTrainee(UserCredentials credentials, String newPassword);
-    void activateTrainee(UserCredentials credentials);
-    void deactivateTrainee(UserCredentials credentials);
+    void toggleTrainee(UserCredentials credentials);
     void changePasswordForTrainer(UserCredentials credentials, String newPassword);
-    void activateTrainer(UserCredentials credentials);
-    void deactivateTrainer(UserCredentials credentials);
+    void toggleTrainer(UserCredentials credentials);
     Trainee getTraineeByUsername(UserCredentials credentials);
     UserCredentials createTrainee(CreateTraineeRequest request);
     Trainee updateTrainee(UpdateTraineeRequest request, UserCredentials credentials);

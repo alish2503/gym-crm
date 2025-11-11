@@ -23,8 +23,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,7 +68,7 @@ class TrainerRepositoryImplTest {
         verify(entityManager).persist(argThat((TrainerDao dao) ->
                 dao.getId() == null &&
                         dao.getSpecialization().getName() == domainTrainer.getSpecialization().name() &&
-                        dao.getUser().getUsername().equals(domainTrainer.getUserProfile().getUsername())
+                        dao.getUser().getUsername().equals(domainTrainer.getUser().getUsername())
         ));
     }
 
@@ -74,7 +79,7 @@ class TrainerRepositoryImplTest {
         verify(entityManager).merge(argThat((TrainerDao dao) ->
                 dao.getId().equals(domainTrainer.getId()) &&
                         dao.getSpecialization().getName() == domainTrainer.getSpecialization().name() &&
-                        dao.getUser().getUsername().equals(domainTrainer.getUserProfile().getUsername())
+                        dao.getUser().getUsername().equals(domainTrainer.getUser().getUsername())
         ));
     }
 
@@ -132,7 +137,7 @@ class TrainerRepositoryImplTest {
         when(trainerQuery.getResultList()).thenReturn(List.of(trainerDao));
         List<Trainer> result = repository.getAvailableTrainersNotAssigned(List.of(1L,2L));
         assertEquals(1, result.size());
-        assertEquals(domainTrainer.getUserProfile().getUsername(), result.get(0).getUserProfile().getUsername());
+        assertEquals(domainTrainer.getUser().getUsername(), result.get(0).getUser().getUsername());
         verify(trainerQuery).setParameter("assigned", List.of(1L,2L));
     }
 
@@ -143,7 +148,7 @@ class TrainerRepositoryImplTest {
         when(trainerQuery.getResultList()).thenReturn(List.of(trainerDao));
         List<Trainer> result = repository.findTrainersByUserNamesIn(List.of("trainer"));
         assertEquals(1, result.size());
-        assertEquals("trainer", result.get(0).getUserProfile().getUsername());
+        assertEquals("trainer", result.get(0).getUser().getUsername());
         verify(trainerQuery).setParameter("uNames", List.of("trainer"));
     }
 
@@ -165,6 +170,6 @@ class TrainerRepositoryImplTest {
         when(trainerQuery.getResultList()).thenReturn(List.of(trainerDao));
         List<Trainer> result = repository.findAll();
         assertEquals(1, result.size());
-        assertEquals("trainer", result.get(0).getUserProfile().getUsername());
+        assertEquals("trainer", result.get(0).getUser().getUsername());
     }
 }

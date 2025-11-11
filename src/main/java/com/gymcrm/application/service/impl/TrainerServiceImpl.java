@@ -41,7 +41,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
         log.debug("Fetching trainer by username: {}", username);
         User authenticated = authService.authenticate(username, password);
         Trainer trainer = findTrainerOrThrow(username);
-        trainer.setUserProfile(authenticated);
+        trainer.setUser(authenticated);
         return trainer;
     }
 

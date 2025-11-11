@@ -6,7 +6,7 @@ import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.UserService;
-import com.gymcrm.domain.model.HasUserProfile;
+import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
 import com.gymcrm.domain.port.UserRepository;
@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 /**
  * @author Alish
  */
-abstract class UserServiceImpl<E extends HasUserProfile> implements UserService {
+abstract class UserServiceImpl<E extends UserProfile> implements UserService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     private final Class<E> userClass;
     private final CredentialService credentialService;
@@ -48,7 +48,7 @@ abstract class UserServiceImpl<E extends HasUserProfile> implements UserService 
         String password = credentialService.generatePassword();
         String hashed = credentialService.encodePassword(password);
         User userProfile = new User(username, hashed, firstName, lastName, isActive);
-        created.setUserProfile(userProfile);
+        created.setUser(userProfile);
         userRepository.save(created);
         log.info("{} created successfully with username: {}", userEntityName, username);
         return new UserCredentials(username, password);
@@ -66,20 +66,11 @@ abstract class UserServiceImpl<E extends HasUserProfile> implements UserService 
 
     @Override
     @Transactional
-    public void activate(UserCredentials credentials) {
+    public void toggle(UserCredentials credentials) {
         String username = credentials.username();
         String password = credentials.password();
         log.info("Activating user {}", username);
-        updateUserProfile(username, password, profile -> profile.setActive(true));
-    }
-
-    @Override
-    @Transactional
-    public void deactivate(UserCredentials credentials) {
-        String username = credentials.username();
-        String password = credentials.password();
-        log.info("Deactivating user {}", username);
-        updateUserProfile(username, password, profile -> profile.setActive(false));
+        updateUserProfile(username, password, profile -> profile.setActive(!profile.isActive()));
     }
 
     protected void updateUserProfile(String username, String password, Consumer<User> updater) {
@@ -101,7 +92,7 @@ abstract class UserServiceImpl<E extends HasUserProfile> implements UserService 
         userProfile.setFirstName(request.getFirstName());
         userProfile.setLastName(request.getLastName());
         userProfile.setActive(request.isActive());
-        user.setUserProfile(userProfile);
+        user.setUser(userProfile);
         userRepository.update(user);
     }
 }

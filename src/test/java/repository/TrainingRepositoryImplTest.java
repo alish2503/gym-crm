@@ -1,7 +1,14 @@
 package repository;
 
-import com.gymcrm.domain.model.*;
-import com.gymcrm.infrastructure.persistence.dao.*;
+import com.gymcrm.domain.model.FullName;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
+import com.gymcrm.domain.model.TrainingTypeEnum;
+import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.persistence.dao.UserDao;
 import com.gymcrm.infrastructure.repository.TrainingRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -15,9 +22,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Alish
@@ -71,7 +85,7 @@ class TrainingRepositoryImplTest {
         assertEquals("Morning Yoga", t.getName());
         assertEquals(TrainingTypeEnum.YOGA, t.getType().name());
         assertNotNull(t.getTrainer());
-        assertEquals("T", t.getTrainer().getUserProfile().getFirstName());
+        assertEquals("T", t.getTrainer().getUser().getFirstName());
         assertEquals(TrainingTypeEnum.YOGA, t.getTrainer().getSpecialization().name());
         verify(trainingQuery).setParameter("uname", "traineeUser");
         verify(trainingQuery).setParameter("from", filter.from());
@@ -112,7 +126,7 @@ class TrainingRepositoryImplTest {
         Training t = trainings.get(0);
         assertEquals("Morning Yoga", t.getName());
         assertNotNull(t.getTrainee());
-        assertEquals("A", t.getTrainee().getUserProfile().getFirstName());
+        assertEquals("A", t.getTrainee().getUser().getFirstName());
         verify(trainingQuery).setParameter("uname", "trainerUser");
         verify(trainingQuery).setParameter("from", filter.from());
         verify(trainingQuery).setParameter("to", filter.to());

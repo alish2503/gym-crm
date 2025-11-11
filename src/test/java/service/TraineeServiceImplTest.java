@@ -6,7 +6,9 @@ import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TraineeServiceImpl;
-import com.gymcrm.domain.model.*;
+import com.gymcrm.domain.model.Trainee;
+import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
@@ -23,7 +25,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -68,7 +74,7 @@ class TraineeServiceImplTest {
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
         Trainee result = traineeService.getTraineeByUserName(creds);
         assertEquals(trainee, result);
-        assertEquals(user, result.getUserProfile());
+        assertEquals(user, result.getUser());
     }
 
     @Test
@@ -94,8 +100,8 @@ class TraineeServiceImplTest {
         Trainee saved = captor.getValue();
         assertEquals("addr", saved.getAddress());
         assertEquals(LocalDate.of(2000, 1, 1), saved.getDateOfBirth());
-        assertNotNull(saved.getUserProfile());
-        assertEquals("John.Doe", saved.getUserProfile().getUsername());
+        assertNotNull(saved.getUser());
+        assertEquals("John.Doe", saved.getUser().getUsername());
     }
 
     @Test
@@ -130,10 +136,10 @@ class TraineeServiceImplTest {
 
     @Test
     void updateTrainersForTrainee_shouldUpdateAssignedTrainers() {
-        Trainer t1 = new Trainer(); t1.setUserProfile(new User("a","pass","A",
+        Trainer t1 = new Trainer(); t1.setUser(new User("a","pass","A",
                 "B",true));
 
-        Trainer t2 = new Trainer(); t2.setUserProfile(new User("b","pass","B",
+        Trainer t2 = new Trainer(); t2.setUser(new User("b","pass","B",
                 "C",true));
 
         when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
@@ -142,13 +148,13 @@ class TraineeServiceImplTest {
         List<Trainer> updated = traineeService.updateTrainersForTrainee(creds, List.of("a","b"));
         assertEquals(2, updated.size());
         assertTrue(trainee.getTrainers().containsAll(updated));
-        assertEquals(user, trainee.getUserProfile());
+        assertEquals(user, trainee.getUser());
         verify(traineeRepository).update(trainee);
     }
 
     @Test
     void updateTrainersForTrainee_shouldThrowIfTrainerMissing() {
-        Trainer t1 = new Trainer(); t1.setUserProfile(new User("a","pass","A",
+        Trainer t1 = new Trainer(); t1.setUser(new User("a","pass","A",
                 "B",true));
 
         when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
@@ -188,18 +194,11 @@ class TraineeServiceImplTest {
     }
 
     @Test
-    void activate_shouldSetActiveTrue() {
+    void toggle_shouldChangeActiveValue() {
         when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
-        traineeService.activate(creds);
+        boolean previousActiveState = user.isActive();
+        traineeService.toggle(creds);
         verify(userProfileRepository).updateProfile(user);
-        assertTrue(user.isActive());
-    }
-
-    @Test
-    void deactivate_shouldSetActiveFalse() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
-        traineeService.deactivate(creds);
-        verify(userProfileRepository).updateProfile(user);
-        assertFalse(user.isActive());
+        assertNotEquals(previousActiveState, user.isActive());
     }
 }

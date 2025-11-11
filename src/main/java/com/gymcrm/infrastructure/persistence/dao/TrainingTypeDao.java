@@ -1,7 +1,14 @@
 package com.gymcrm.infrastructure.persistence.dao;
 
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * @author Alish

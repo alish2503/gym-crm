@@ -12,7 +12,7 @@ public class TrainerMapper {
 
     public static TrainerDao toDao(Trainer trainer) {
         TrainingTypeDao typeDao = TrainingTypeMapper.toDao(trainer.getSpecialization());
-        return new TrainerDao(trainer.getId(), UserMapper.toDao(trainer.getUserProfile()), typeDao);
+        return new TrainerDao(trainer.getId(), UserMapper.toDao(trainer.getUser()), typeDao);
     }
 
     public static TrainerDao toDao(Long id) {

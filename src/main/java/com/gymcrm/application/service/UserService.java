@@ -7,6 +7,5 @@ import com.gymcrm.application.UserCredentials;
  */
 public interface UserService {
     void changePassword(UserCredentials credentials, String newPassword);
-    void activate(UserCredentials credentials);
-    void deactivate(UserCredentials credentials);
+    void toggle(UserCredentials credentials);
 }

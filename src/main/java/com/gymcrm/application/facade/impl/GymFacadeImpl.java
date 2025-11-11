@@ -1,12 +1,19 @@
 package com.gymcrm.application.facade.impl;
 
 import com.gymcrm.application.facade.GymFacade;
-import com.gymcrm.application.request.*;
 import com.gymcrm.application.UserCredentials;
-import com.gymcrm.domain.model.*;
+import com.gymcrm.application.request.CreateTraineeRequest;
+import com.gymcrm.application.request.CreateTrainerRequest;
+import com.gymcrm.application.request.CreateTrainingRequest;
+import com.gymcrm.application.request.UpdateTraineeRequest;
+import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.application.service.TrainerService;
 import com.gymcrm.application.service.TrainingService;
+import com.gymcrm.domain.model.Trainee;
+import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +43,8 @@ class GymFacadeImpl implements GymFacade {
     }
 
     @Override
-    public void activateTrainee(UserCredentials credentials) {
-        traineeService.activate(credentials);
-    }
-
-    @Override
-    public void deactivateTrainee(UserCredentials credentials) {
-        traineeService.deactivate(credentials);
+    public void toggleTrainee(UserCredentials credentials) {
+        traineeService.toggle(credentials);
     }
 
     @Override
@@ -51,13 +53,8 @@ class GymFacadeImpl implements GymFacade {
     }
 
     @Override
-    public void activateTrainer(UserCredentials credentials) {
-        trainerService.activate(credentials);
-    }
-
-    @Override
-    public void deactivateTrainer(UserCredentials credentials) {
-        trainerService.deactivate(credentials);
+    public void toggleTrainer(UserCredentials credentials) {
+        trainerService.toggle(credentials);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.gymcrm.infrastructure.mapper;
 
-import com.gymcrm.domain.model.*;
+import com.gymcrm.domain.model.Trainee;
+import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
 import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
 import com.gymcrm.infrastructure.persistence.dao.TrainingDao;

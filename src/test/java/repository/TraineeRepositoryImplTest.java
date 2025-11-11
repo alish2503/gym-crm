@@ -24,8 +24,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,10 +67,10 @@ class TraineeRepositoryImplTest {
     void save_shouldPersistDao_withArgThat() {
         repository.save(domainTrainee);
         verify(entityManager).persist(argThat((TraineeDao dao) ->
-                dao.getId() == null && // при сохранении id ещё null
+                dao.getId() == null &&
                         dao.getAddress().equals(domainTrainee.getAddress()) &&
                         dao.getDateOfBirth().equals(domainTrainee.getDateOfBirth()) &&
-                        dao.getUser().getUsername().equals(domainTrainee.getUserProfile().getUsername())
+                        dao.getUser().getUsername().equals(domainTrainee.getUser().getUsername())
         ));
     }
 
@@ -78,7 +82,7 @@ class TraineeRepositoryImplTest {
                 dao.getId().equals(domainTrainee.getId()) &&
                         dao.getAddress().equals(domainTrainee.getAddress()) &&
                         dao.getDateOfBirth().equals(domainTrainee.getDateOfBirth()) &&
-                        dao.getUser().getUsername().equals(domainTrainee.getUserProfile().getUsername())
+                        dao.getUser().getUsername().equals(domainTrainee.getUser().getUsername())
         ));
     }
 

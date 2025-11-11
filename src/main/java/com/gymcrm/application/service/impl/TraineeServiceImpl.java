@@ -49,7 +49,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
         log.debug("Fetching trainee by username: {}", username);
         User authenticated = authService.authenticate(username, password);
         Trainee trainee = findTraineeOrThrow(username);
-        trainee.setUserProfile(authenticated);
+        trainee.setUser(authenticated);
         return trainee;
     }
 
@@ -100,14 +100,14 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
         List<Trainer> trainers = trainerRepository.findTrainersByUserNamesIn(usernames);
         if (trainers.size() < usernames.size()) {
             Set<String> found = trainers.stream().
-                    map(t -> t.getUserProfile().getUsername()).collect(Collectors.toSet());
+                    map(t -> t.getUser().getUsername()).collect(Collectors.toSet());
 
             List<String> notFound = usernames.stream().filter(name -> !found.contains(name)).toList();
             String errorMessage = String.join(", ", notFound);
             throw new IllegalArgumentException("Trainers with user names: " + errorMessage + " not found");
         }
         trainee.setTrainers(trainers);
-        trainee.setUserProfile(authenticated);
+        trainee.setUser(authenticated);
         traineeRepository.update(trainee);
         log.debug("Trainers for trainee {} updated", username);
         return trainers;

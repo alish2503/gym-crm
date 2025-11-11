@@ -1,6 +1,6 @@
 package com.gymcrm.infrastructure.repository;
 
-import com.gymcrm.domain.model.HasUserProfile;
+import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.port.UserRepository;
 
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * @author Alish
  */
-abstract class UserRepositoryImpl<E extends HasUserProfile, D> extends BaseRepositoryImpl<E, D> implements UserRepository<E> {
+abstract class UserRepositoryImpl<E extends UserProfile, D> extends BaseRepositoryImpl<E, D> implements UserRepository<E> {
     private final Class<D> daoClass;
 
     protected UserRepositoryImpl(Class<D> daoClass) {
