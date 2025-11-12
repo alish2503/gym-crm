@@ -1,20 +1,29 @@
 package com.gymcrm.application.facade.impl;
 
 import com.gymcrm.application.facade.GymFacade;
-import com.gymcrm.domain.model.Trainee;
-import com.gymcrm.domain.model.Trainer;
-import com.gymcrm.domain.model.Training;
+import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.request.CreateTraineeRequest;
+import com.gymcrm.application.request.CreateTrainerRequest;
+import com.gymcrm.application.request.CreateTrainingRequest;
+import com.gymcrm.application.request.UpdateTraineeRequest;
+import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.application.service.TrainerService;
 import com.gymcrm.application.service.TrainingService;
+import com.gymcrm.domain.model.Trainee;
+import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Alish
  */
 @Service
-public class GymFacadeImpl implements GymFacade {
+class GymFacadeImpl implements GymFacade {
 
     private final TraineeService traineeService;
     private final TrainerService trainerService;
@@ -27,48 +36,86 @@ public class GymFacadeImpl implements GymFacade {
         this.trainingService = trainingService;
     }
 
+
     @Override
-    public Trainee createTrainee(Trainee trainee) {
-        return traineeService.create(trainee);
+    public void changePasswordForTrainee(UserCredentials credentials, String newPassword) {
+        traineeService.changePassword(credentials, newPassword);
     }
 
     @Override
-    public void updateTrainee(Trainee trainee) {
-        traineeService.update(trainee);
+    public void toggleTrainee(UserCredentials credentials) {
+        traineeService.toggle(credentials);
     }
 
     @Override
-    public void deleteTrainee(String username) {
-        traineeService.delete(username);
+    public void changePasswordForTrainer(UserCredentials credentials, String newPassword) {
+        trainerService.changePassword(credentials, newPassword);
     }
 
     @Override
-    public Trainee getTraineeByUserName(String userName) {
-        return traineeService.getByUsername(userName);
+    public void toggleTrainer(UserCredentials credentials) {
+        trainerService.toggle(credentials);
     }
 
     @Override
-    public Trainer createTrainer(Trainer trainer) {
-        return trainerService.create(trainer);
+    public Trainee getTraineeByUsername(UserCredentials credentials) {
+        return traineeService.getTraineeByUserName(credentials);
     }
 
     @Override
-    public void updateTrainer(Trainer trainer) {
-        trainerService.update(trainer);
+    public UserCredentials createTrainee(CreateTraineeRequest request) {
+        return traineeService.createTrainee(request);
     }
 
     @Override
-    public Trainer getTrainerByUserName(String userName) {
-        return trainerService.getByUsername(userName);
+    public Trainee updateTrainee(UpdateTraineeRequest request, UserCredentials credentials) {
+        return traineeService.updateTrainee(request, credentials);
     }
 
     @Override
-    public Training createTraining(Training training) {
-        return trainingService.create(training);
+    public void deleteTrainee(UserCredentials credentials) {
+        traineeService.deleteTrainee(credentials);
     }
 
     @Override
-    public Training getTrainingById(Long id) {
-        return trainingService.getById(id);
+    public List<Trainer> updateTrainersForTrainee(UserCredentials credentials, List<String> usernames) {
+        return traineeService.updateTrainersForTrainee(credentials, usernames);
+    }
+
+    @Override
+    public List<Trainer> getAvailableTrainersForTrainee(UserCredentials credentials) {
+        return traineeService.getAvailableTrainersForTrainee(credentials);
+    }
+
+    @Override
+    public Trainer getTrainerByUsername(UserCredentials credentials) {
+        return trainerService.getTrainerByUserName(credentials);
+    }
+
+    @Override
+    public UserCredentials createTrainer(CreateTrainerRequest request) {
+        return trainerService.createTrainer(request);
+    }
+
+    @Override
+    public Trainer updateTrainer(UpdateTrainerRequest request, UserCredentials credentials) {
+        return trainerService.updateTrainer(request, credentials);
+    }
+
+    @Override
+    public void createTraining(CreateTrainingRequest request) {
+        trainingService.createTraining(request);
+    }
+
+    @Override
+    public List<Training> getTrainingsForTrainee(UserCredentials credentials, TrainingFilter trainingFilter)
+    {
+        return trainingService.getTrainingsForTrainee(credentials, trainingFilter);
+    }
+
+    @Override
+    public List<Training> getTrainingsForTrainer(UserCredentials credentials, TrainingFilter trainingFilter)
+    {
+        return trainingService.getTrainingsForTrainer(credentials, trainingFilter);
     }
 }

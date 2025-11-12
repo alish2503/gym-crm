@@ -3,6 +3,7 @@ package com.gymcrm.infrastructure.mapper;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
 
 /**
  * @author Alish
@@ -10,14 +11,21 @@ import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
 public class TrainerMapper {
 
     public static TrainerDao toDao(Trainer trainer) {
-        TrainerDao dao = new TrainerDao();
-        UserMapperUtil.mapToDaoBase(trainer, dao);
-        dao.setSpecialization(trainer.getSpecialization().getName().name());
-        return dao;
+        TrainingTypeDao typeDao = TrainingTypeMapper.toDao(trainer.getSpecialization());
+        return new TrainerDao(trainer.getId(), UserMapper.toDao(trainer.getUser()), typeDao);
     }
 
-    public static Trainer toDomain(TrainerDao dao, TrainingType specialization) {
-        return new Trainer(dao.getUsername(), dao.getPassword(), dao.getFirstName(), dao.getLastName(), dao.isActive(),
-                specialization);
+    public static TrainerDao toDao(Long id) {
+        return new TrainerDao(id);
+    }
+
+    public static Trainer toDomain(TrainerDao trainerDao) {
+        TrainingType type = TrainingTypeMapper.toDomain(trainerDao.getSpecialization());
+        return new Trainer(trainerDao.getId(), type);
+    }
+
+    public static Trainer toDomainWithProfile(TrainerDao trainerDao) {
+        TrainingType type = TrainingTypeMapper.toDomain(trainerDao.getSpecialization());
+        return new Trainer(trainerDao.getId(), UserMapper.toDomain(trainerDao.getUser()), type);
     }
 }

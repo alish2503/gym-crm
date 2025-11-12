@@ -3,9 +3,81 @@ package com.gymcrm.domain.model;
 import java.time.LocalDate;
 
 /**
- * @param duration minutes
  * @author Alish
  */
-public record Training(String trainingName, TrainingType type, LocalDate trainingDate, int duration, Trainer trainer,
-                       Trainee trainee) {
+public class Training {
+    private Long traineeId;
+    private Long trainerId;
+    private final TrainingType type;
+    private final String name;
+    private final LocalDate date;
+    int duration;
+    Trainer trainer;
+    Trainee trainee;
+
+    public Training(TrainingType type, String name, LocalDate date, int duration, Trainer trainer, Trainee trainee) {
+        this.type = type;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.trainer = trainer;
+        this.trainee = trainee;
+    }
+
+    public Training(TrainingType type, String name, LocalDate date, int duration, Trainer trainer) {
+        this.type = type;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.trainer = trainer;
+    }
+
+    public Training(TrainingType type, String name, LocalDate date, int duration, Trainee trainee) {
+        this.type = type;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.trainee = trainee;
+    }
+
+    public Training(TrainingType type, String name, LocalDate date, int duration, Long trainerId, Long traineeId) {
+        this.traineeId = traineeId;
+        this.trainerId = trainerId;
+        this.type = type;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+    }
+
+    public Long getTraineeId() {
+        return traineeId;
+    }
+
+    public Long getTrainerId() {
+        return trainerId;
+    }
+
+    public TrainingType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public Trainee getTrainee() {
+        return trainee;
+    }
 }

@@ -3,27 +3,37 @@ package com.gymcrm.domain.model;
 /**
  * @author Alish
  */
-public abstract class User {
+public class User extends FullName {
+    Long id;
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
     private boolean isActive;
 
-    public User(String username, String password, String firstName, String lastName, boolean isActive) {
+    public User(Long id, String username, String password, String firstName, String lastName, boolean isActive) {
+        super(firstName, lastName);
+        this.id = id;
         this.username = username;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.isActive = isActive;
     }
 
-    public User(String firstName, String lastName, boolean isActive) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, String firstName, String lastName, boolean isActive) {
+        super(firstName, lastName);
+        this.username = username;
+        this.password = password;
         this.isActive = isActive;
     }
 
+    public User() {}
+
+    public Long getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;
@@ -31,14 +41,6 @@ public abstract class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public boolean isActive() {
@@ -49,19 +51,11 @@ public abstract class User {
         this.username = username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

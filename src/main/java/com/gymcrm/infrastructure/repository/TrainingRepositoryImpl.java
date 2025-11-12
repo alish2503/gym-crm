@@ -1,62 +1,107 @@
 package com.gymcrm.infrastructure.repository;
 
+import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
+import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingRepository;
-import com.gymcrm.infrastructure.assembler.TrainingAssembler;
 import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
 import com.gymcrm.infrastructure.mapper.TrainingMapper;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alish
  */
 @Repository
-public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao, Long> implements TrainingRepository {
-
-    private final TrainingAssembler assembler;
-    private long idCounter = 0;
-
-    @Autowired
-    public TrainingRepositoryImpl(InMemoryStorage storage, TrainingAssembler assembler) {
-        super(storage, "trainings");
-        this.assembler = assembler;
-        if (!storageMap.isEmpty()) {
-            idCounter = storageMap.keySet().stream()
-                    .mapToLong(Long::longValue)
-                    .max()
-                    .orElse(0L);
-        }
-    }
+public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, TrainingDao> implements TrainingRepository {
 
     @Override
-    public Training save(Training training) {
-        TrainingDao dao = mapToDao(training);
-        dao.setId(++idCounter);
-        storageMap.put(dao.getId(), dao);
-        return mapToDomain(dao);
+    public List<Training> findTrainingsForTrainee(String username, TrainingFilter trainingFilter) {
+        LocalDate from = trainingFilter.from();
+        LocalDate to = trainingFilter.to();
+        FullName trainerName = trainingFilter.personName();
+        TrainingTypeEnum typeEnum = trainingFilter.type();
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer join fetch trainer.user " +
+                    "where tr.trainee.user.username = :uname ";
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("uname", username);
+        jpql = appendDateAndNameFilters(jpql, params, from, to, trainerName, "trainer");
+        if (typeEnum != null) {
+            jpql += " and tr.type.name = :tType ";
+            params.put("tType", typeEnum);
+        }
+        TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
+        params.forEach(query::setParameter);
+        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainee).toList();
     }
 
-    @Override
-    public Optional<Training> findById(Long id) {
-        TrainingDao dao = storageMap.get(id);
-        if (dao == null) {
-            return Optional.empty();
-        }
-        return Optional.of(mapToDomain(dao));
+    public List<Training> findTrainingsForTrainer(String userName, TrainingFilter trainingFilter) {
+        LocalDate from = trainingFilter.from();
+        LocalDate to = trainingFilter.to();
+        FullName traineeName = trainingFilter.personName();
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee join fetch trainee.user " +
+                    "where tr.trainer.user.username = :uname ";
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("uname", userName);
+        jpql = appendDateAndNameFilters(jpql, params, from, to, traineeName, "trainee");
+        TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
+        params.forEach(query::setParameter);
+        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainer).toList();
     }
+
+    public boolean existsTraining(String trainerUsername, String traineeUsername,
+                                  LocalDate trainingDate, String trainingName) {
+
+        String jpql = "select count(t) from TrainingDao t where t.trainer.user.username = :trainerUsername " +
+                "and t.trainee.user.username = :traineeUsername and t.date = :tDate " +
+                "and t.name = :tName";
+
+        Long count = entityManager.createQuery(jpql, Long.class)
+                .setParameter("trainerUsername", trainerUsername)
+                .setParameter("traineeUsername", traineeUsername)
+                .setParameter("tDate", trainingDate)
+                .setParameter("tName", trainingName)
+                .getSingleResult();
+
+        return count > 0;
+    }
+
+
+
+    private String appendDateAndNameFilters(String jpql, Map<String, Object> params, LocalDate from,
+                                            LocalDate to, FullName name, String aliasPrefix)
+    {
+
+        if (from != null) {
+            jpql += " and tr.date >= :from ";
+            params.put("from", from);
+        }
+        if (to != null) {
+            jpql += " and tr.date <= :to ";
+            params.put("to", to);
+        }
+        if (name != null) {
+            jpql += " and " + aliasPrefix + ".user.firstName = :fName " +
+                    " and " + aliasPrefix + ".user.lastName = :lName ";
+            params.put("fName", name.getFirstName());
+            params.put("lName", name.getLastName());
+        }
+        return jpql;
+    }
+
+
 
     @Override
     protected TrainingDao mapToDao(Training entity) {
         return TrainingMapper.toDao(entity);
-    }
-
-    @Override
-    protected Training mapToDomain(TrainingDao dao) {
-        return assembler.mapToDomain(dao);
     }
 }
 

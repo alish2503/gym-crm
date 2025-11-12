@@ -1,28 +1,49 @@
 package com.gymcrm.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Alish
  */
-public class Trainer extends User {
+public class Trainer extends UserProfile {
     private TrainingType specialization;
+    private List<Trainee> trainees = new ArrayList<>();
 
-    public Trainer(String userName, String password, String firstName, String lastName,
-                   boolean isActive, TrainingType specialization) {
-
-        super(userName, password, firstName, lastName, isActive);
+    public Trainer(Long id, User user, TrainingType specialization) {
+        super(id, user);
         this.specialization = specialization;
     }
 
-    public Trainer(String firstName, String lastName, boolean isActive, TrainingType specialization) {
-        super(firstName, lastName, isActive);
+    public Trainer(User user, TrainingType specialization) {
+        super(user);
         this.specialization = specialization;
     }
+
+    public Trainer(Long id, TrainingType specialization) {
+        super(id);
+        this.specialization = specialization;
+    }
+
+    public Trainer(TrainingType specialization) {
+        this.specialization = specialization;
+    }
+
+    public Trainer() {}
 
     public TrainingType getSpecialization() {
         return specialization;
     }
 
+    public List<Trainee> getTrainees() {
+        return trainees;
+    }
+
     public void setSpecialization(TrainingType specialization) {
         this.specialization = specialization;
+    }
+
+    public void setTrainees(List<Trainee> trainees) {
+        this.trainees = trainees;
     }
 }

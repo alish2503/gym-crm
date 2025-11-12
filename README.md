@@ -2,51 +2,101 @@
 # Gym CRM System (Spring Core)
 
 ## Overview
-**Gym CRM System** is a Spring-based module for managing **Trainees**, **Trainers**, and **Training sessions** in a simple in-memory CRM. It demonstrates key Spring features including **dependency injection, bean configuration, auto-wiring, and bean post-processing**, along with **unit testing** and **logging**.
+**Gym CRM System** is a Spring-based module for managing **Trainees**, **Trainers**, and **Training sessions** using **Hibernate** and **PostgreSQL**.  
+It demonstrates key concepts such as:
+
+- Hibernate ORM mapping
+- Many-to-Many, One-to-One, One-to-Many, Many-to-One relationships
+- Transaction management
+- Custom repository implementations
+- Authentication and password management
+- Unit testing with **JUnit 5**
+- Logging using **SLF4J/Logback**
+
+This module replaces the previous in-memory CRM implementation with a real database-backed solution.
 
 ---
 
 ## Features
 
-- **Trainee Service**: Create, update, delete, and list trainees. Automatically generates a **username** and a random **10-character password**.  
-- **Trainer Service**: Create, update, and list trainers. Username and password generation similar to trainees.  
-- **Training Service**: Create and list training sessions.  
-- **In-memory Storage**: Stores each entity type in a separate namespace (`Map`) and can initialize data from external files.  
-- **Facade Pattern**: Provides a single entry point to all services.  
-- **Logging**: Tracks operations for auditing and debugging.  
+- Create Trainer profile
+- Create Trainee profile 
+- Trainee username and password matching (authentication)
+- Trainer username and password matching (authentication)
+- Select Trainer profile by username 
+- Select Trainee profile by username 
+- Trainee password change 
+- Trainer password change 
+- Update Trainer profile 
+- Update Trainee profile 
+- Activate/Deactivate Trainee 
+- Activate/Deactivate Trainer 
+- Delete Trainee profile by username (hard delete with cascade deletion of trainings)
+- Get Trainee Trainings List by trainee username and criteria (from date, to date, trainer name, training type)
+- Get Trainer Trainings List by trainer username and criteria (from date, to date, trainee name)
+- Add training 
+- Get Trainers list not assigned to a Trainee by trainee username 
+- Update Trainee's trainers list
 
+---
+
+## Database Setup (PostgreSQL + Docker Compose)
+
+Example `docker-compose.yml`:
+
+```yaml
+services:
+  postgres:
+    image: postgres:16
+    container_name: gym-crm-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: gymdb
+      POSTGRES_USER: gymuser
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+```
+
+> On container startup, `import.sql` automatically populates the `training_type` reference table.
+
+---
+
+## import.sql (Training Types)
+
+```sql
+
+INSERT INTO training_type (id, name) VALUES (1, 'FITNESS');
+INSERT INTO training_type (id, name) VALUES (2, 'YOGA');
+INSERT INTO training_type (id, name) VALUES (3, 'ZUMBA');
+INSERT INTO training_type (id, name) VALUES (4, 'STRETCHING');
+INSERT INTO training_type (id, name) VALUES (5, 'RESISTANCE');
+```
 ---
 
 ## Launch
 
-Configure `application.properties`:
-```properties
-storage.init.file=data/initial-data.csv
-```
+1. **Start PostgreSQL via Docker Compose**:
 
-Build and run with Maven:
-```bash
-mvn exec:java -Dexec.mainClass="com.gymcrm.GymApp"
-```
+    ```bash
+    docker-compose up -d
+    ```
 
----
+2. **Hibernate Configuration (`GymAppConfig.java`)**:
 
-## Usage
+    - URL: `jdbc:postgresql://localhost:5432/gymdb`
+    - Username: `gymuser`
+    - Password: `pass`
+    - Dialect: `org.hibernate.dialect.PostgreSQLDialect`
 
-- Run the `GymApp` class.  
-- Interact with services through the facade:
-```java
-GymFacade facade = context.getBean(GymFacade.class);
+3. **Run the application**:
 
-Trainee trainee = facade.createTrainee(new Trainee("John", "Doe", true, LocalDate.of(1995, 1, 1), "NY"));
-Trainer trainer = facade.createTrainer(new Trainer("Alex", "Stone", true, new TrainingType(TrainingTypeEnum.YOGA)));
-Training training = facade.createTraining(new Training("Morning Yoga", new TrainingType(TrainingTypeEnum.YOGA),
-                LocalDate.of(2025, 10, 22), 60, trainer, trainee));
-```
-
-- Usernames are automatically generated: `FirstName.LastName`.  
-- Duplicate names get numeric suffixes (e.g., `John.Doe2`).  
-- Passwords are random 10-character strings.  
+    ```bash
+    mvn exec:java -Dexec.mainClass="com.gymcrm.GymApp"
+    ```
 
 ---
 
@@ -54,23 +104,19 @@ Training training = facade.createTraining(new Training("Morning Yoga", new Train
 
 ```
 com.gymcrm
- ├─ application 
- |  ├─ facade
- |  └─ service
- ├─ domain 
- |  ├─ exception
- |  ├─ model
- |  └─ port
+ ├─ application
+ │   ├─ facade           # GymFacade and implementation
+ │   ├─ service          # Services: Trainee, Trainer, Training, Auth
+ │   └─ request          # Auxiliary classes for Create/Update operations
+ ├─ domain
+ │   ├─ model            # domain entities: User, Trainee, Trainer, Training, TrainingType
+ │   └─ port             # Repository interfaces
  ├─ infrastructure
- |  ├─ assembler
- |  ├─ config
- |  ├─ mapper
- |  ├─ persistence
- |  |  ├─ dao
- |  |  └─ storage
- |  └─ repository
- |
- └─ GymApp.java
+ │   ├─ config           # Hibernate + DataSource configuration
+ │   ├─ mapper           # Domain entity ↔ DAO mappers
+ │   ├─ persistence/dao  # DAO classes
+ │   └─ repository       # Hibernate repositories
+ └─ GymApp.java          # Application entry point
 ```
 
 ---
@@ -89,17 +135,10 @@ mvn test
 
 - Java 8+  
 - Spring Core  
+- Hibernate ORM
+- PostgreSQL
 - JUnit 5  
 - SLF4J / Logback for logging  
-
----
-
-## Notes
-
-- All data is **in-memory** and not persisted to a database.  
-- Username collisions are automatically handled.  
-- Passwords are random 10-character alphanumeric strings.  
-- External files can initialize storage at startup using Spring bean post-processing.  
 
 ---
 

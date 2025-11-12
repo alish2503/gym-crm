@@ -1,11 +1,11 @@
 package com.gymcrm.application.service;
 
-import com.gymcrm.domain.model.User;
+import com.gymcrm.application.UserCredentials;
 
 /**
  * @author Alish
  */
-public interface UserService<T extends User> extends BaseService<T> {
-    T getByUsername(String username);
-    void update(T user);
+public interface UserService {
+    void changePassword(UserCredentials credentials, String newPassword);
+    void toggle(UserCredentials credentials);
 }
