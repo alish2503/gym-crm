@@ -3,9 +3,10 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingTypeRepository;
+import com.gymcrm.infrastructure.mapper.TrainingTypeMapper;
 import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.persistence.storage.InMemoryStorage;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,22 +15,24 @@ import java.util.Optional;
  * @author Alish
  */
 @Repository
-class TrainingTypeRepositoryImpl extends GenericRepository<TrainingType, TrainingTypeDao, Long> implements TrainingTypeRepository {
+public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
 
-    @Autowired
-    public TrainingTypeRepositoryImpl(InMemoryStorage storage) {
-        super(storage, "trainingTypes");
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public Optional<TrainingType> findByName(TrainingTypeEnum typeEnum) {
+        return entityManager.
+                createQuery("from TrainingTypeDao where name = :typeName ", TrainingTypeDao.class).
+                setParameter("typeName", typeEnum).
+                getResultStream().findFirst().map(TrainingTypeMapper::toDomain);
     }
 
     @Override
-    public Optional<TrainingType> findByName(String name) {
-        return storageMap.values().stream()
-                .filter(t -> t.getName().equalsIgnoreCase(name))
-                .findFirst().map(this::mapToDomain);
+    public boolean existsByName(TrainingTypeEnum typeEnum) {
+        String jpql = "select count(t) from TrainingTypeDao t where t.name = :typeName";
+        Long count = entityManager.createQuery(jpql, Long.class).setParameter("typeName", typeEnum).getSingleResult();
+        return count > 0;
     }
 
-    @Override
-    protected TrainingType mapToDomain(TrainingTypeDao dao) {
-        return new TrainingType(TrainingTypeEnum.valueOf(dao.getName()));
-    }
 }

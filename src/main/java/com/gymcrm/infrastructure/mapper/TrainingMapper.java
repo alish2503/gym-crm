@@ -3,9 +3,11 @@ package com.gymcrm.infrastructure.mapper;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingType;
+import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
 import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
-
-import java.time.LocalDate;
+import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
 
 /**
  * @author Alish
@@ -13,18 +15,22 @@ import java.time.LocalDate;
 public class TrainingMapper {
 
     public static TrainingDao toDao(Training training) {
-        String traineeUsername = training.trainee().getUsername();
-        String trainerUsername = training.trainer().getUsername();
-        String trainingTypeName = training.type().getName().name();
-        String trainingName = training.trainingName();
-        LocalDate date = training.trainingDate();
-        int duration = training.duration();
-        return new TrainingDao(traineeUsername, trainerUsername, trainingTypeName, trainingName,
-                date, duration);
+        TraineeDao traineeDao = TraineeMapper.toDao(training.getTraineeId());
+        TrainerDao trainerDao = TrainerMapper.toDao(training.getTrainerId());
+        TrainingTypeDao trainingTypeDao = TrainingTypeMapper.toDao(training.getType());
+        return new TrainingDao(training.getName(), training.getDate(), training.getDuration(),
+                traineeDao, trainerDao, trainingTypeDao);
     }
 
-    public static Training toDomain(TrainingDao dao, Trainer trainer, Trainee trainee) {
-        return new Training(dao.getTrainingName(), trainer.getSpecialization(), dao.getTrainingDate(), dao.getDuration(),
-                trainer, trainee);
+    public static Training toDomainForTrainee(TrainingDao dao) {
+        Trainer trainer = TrainerMapper.toDomainWithProfile(dao.getTrainer());
+        TrainingType type = TrainingTypeMapper.toDomain(dao.getType());
+        return new Training(type, dao.getName(), dao.getDate(), dao.getDuration(), trainer);
+    }
+
+    public static Training toDomainForTrainer(TrainingDao dao) {
+        Trainee trainee = TraineeMapper.toDomainWithProfile(dao.getTrainee());
+        TrainingType type = TrainingTypeMapper.toDomain(dao.getType());
+        return new Training(type, dao.getName(), dao.getDate(), dao.getDuration(), trainee);
     }
 }
