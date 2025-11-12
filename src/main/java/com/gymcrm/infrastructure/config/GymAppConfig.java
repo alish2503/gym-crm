@@ -53,11 +53,9 @@ public class GymAppConfig {
         return ds;
     }
 
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
             DataSource dataSource, @Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto,
-            @Value("${spring.jpa.database-platform}") String dialect,
             @Value("${spring.jpa.show-sql}") boolean showSql)
     {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
@@ -67,7 +65,6 @@ public class GymAppConfig {
         emf.setJpaVendorAdapter(vendorAdapter);
         Properties jpaProps = new Properties();
         jpaProps.put("hibernate.hbm2ddl.auto", ddlAuto);
-        jpaProps.put("hibernate.dialect", dialect);
         jpaProps.put("hibernate.show_sql", showSql);
         emf.setJpaProperties(jpaProps);
         return emf;
