@@ -9,10 +9,10 @@ public class UpdateTraineeRequest extends UpdateUserRequest {
     private final LocalDate dateOfBirth;
     private final String address;
 
-    public UpdateTraineeRequest(String username, String password, String firstName, String lastName,
+    public UpdateTraineeRequest(String username, String firstName, String lastName,
                                 boolean isActive, LocalDate dateOfBirth, String address)
     {
-        super(username, password, firstName, lastName, isActive);
+        super(username, firstName, lastName, isActive);
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }

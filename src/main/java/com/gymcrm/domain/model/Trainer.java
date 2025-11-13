@@ -39,10 +39,6 @@ public class Trainer extends UserProfile {
         return trainees;
     }
 
-    public void setSpecialization(TrainingType specialization) {
-        this.specialization = specialization;
-    }
-
     public void setTrainees(List<Trainee> trainees) {
         this.trainees = trainees;
     }

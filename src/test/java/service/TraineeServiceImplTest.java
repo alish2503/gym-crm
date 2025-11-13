@@ -3,7 +3,6 @@ package service;
 import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
-import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TraineeServiceImpl;
 import com.gymcrm.domain.model.Trainee;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,37 +50,31 @@ class TraineeServiceImplTest {
     @Mock
     private CredentialService credentialService;
 
-    @Mock
-    private AuthService authService;
-
     @InjectMocks
     private TraineeServiceImpl traineeService;
 
-    private UserCredentials creds;
     private User user;
     private Trainee trainee;
 
     @BeforeEach
     void setUp() {
-        creds = new UserCredentials("John.Doe", "pass");
         user = new User("John.Doe", "hashed", "John", "Doe", true);
         trainee = new Trainee(LocalDate.of(1990, 1, 1), "oldAddr");
+        trainee.setUser(user);
     }
 
     @Test
     void getTraineeByUserName_shouldReturnTraineeWithAuthenticatedUser() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
-        Trainee result = traineeService.getTraineeByUserName(creds);
+        Trainee result = traineeService.getTraineeByUserName("John.Doe");
         assertEquals(trainee, result);
         assertEquals(user, result.getUser());
     }
 
     @Test
     void getTraineeByUserName_shouldThrowIfNotFound() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> traineeService.getTraineeByUserName(creds));
+        assertThrows(EntityNotFoundException.class, () -> traineeService.getTraineeByUserName("John.Doe"));
     }
 
     @Test
@@ -107,14 +100,12 @@ class TraineeServiceImplTest {
     @Test
     void updateTrainee_shouldUpdateFields() {
         UpdateTraineeRequest req = new UpdateTraineeRequest(
-                "john", "newP", "John", "Doe", true,
+                "John.Doe", "John", "Doe", true,
                 LocalDate.of(2000,1,1),"newAddr"
         );
 
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
-        when(credentialService.encodePassword("newP")).thenReturn("newHash");
-        Trainee result = traineeService.updateTrainee(req, creds);
+        Trainee result = traineeService.updateTrainee(req);
         assertEquals("newAddr", result.getAddress());
         assertEquals(LocalDate.of(2000,1,1), result.getDateOfBirth());
         verify(traineeRepository).update(trainee);
@@ -122,16 +113,14 @@ class TraineeServiceImplTest {
 
     @Test
     void deleteTrainee_shouldDeleteById() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findIdByUsername("John.Doe")).thenReturn(Optional.of(42L));
-        traineeService.deleteTrainee(creds);
+        traineeService.deleteTrainee("John.Doe");
         verify(traineeRepository).deleteById(42L);
     }
 
     @Test
     void deleteTrainee_shouldThrowIfIdNotFound() {
-        when(authService.authenticate("John.Doe", "pass")).thenThrow(new EntityNotFoundException());
-        assertThrows(EntityNotFoundException.class, () -> traineeService.deleteTrainee(creds));
+        assertThrows(EntityNotFoundException.class, () -> traineeService.deleteTrainee("John.Doe"));
     }
 
     @Test
@@ -142,10 +131,9 @@ class TraineeServiceImplTest {
         Trainer t2 = new Trainer(); t2.setUser(new User("b","pass","B",
                 "C",true));
 
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
         when(trainerRepository.findTrainersByUserNamesIn(List.of("a","b"))).thenReturn(List.of(t1,t2));
-        List<Trainer> updated = traineeService.updateTrainersForTrainee(creds, List.of("a","b"));
+        List<Trainer> updated = traineeService.updateTrainersForTrainee("John.Doe", List.of("a","b"));
         assertEquals(2, updated.size());
         assertTrue(trainee.getTrainers().containsAll(updated));
         assertEquals(user, trainee.getUser());
@@ -157,48 +145,44 @@ class TraineeServiceImplTest {
         Trainer t1 = new Trainer(); t1.setUser(new User("a","pass","A",
                 "B",true));
 
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
         when(trainerRepository.findTrainersByUserNamesIn(List.of("a","b"))).thenReturn(List.of(t1));
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> traineeService.updateTrainersForTrainee(creds, List.of("a","b")));
+                () -> traineeService.updateTrainersForTrainee("John.Doe", List.of("a","b")));
 
         assertTrue(ex.getMessage().contains("b"));
     }
 
     @Test
     void getAvailableTrainersForTrainee_shouldReturnAllIfNoAssigned() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of());
         when(trainerRepository.findAll()).thenReturn(List.of(new Trainer(), new Trainer()));
-        List<Trainer> result = traineeService.getAvailableTrainersForTrainee(creds);
+        List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
         assertEquals(2, result.size());
     }
 
     @Test
     void getAvailableTrainersForTrainee_shouldReturnAvailableNotAssigned() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of(1L, 2L));
         when(trainerRepository.getAvailableTrainersNotAssigned(List.of(1L,2L))).thenReturn(List.of(new Trainer()));
-        List<Trainer> result = traineeService.getAvailableTrainersForTrainee(creds);
+        List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
         assertEquals(1, result.size());
     }
 
     @Test
     void changePassword_shouldEncodeAndUpdateProfile() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(credentialService.encodePassword("newPass")).thenReturn("newHash");
-        traineeService.changePassword(creds, "newPass");
+        when(userProfileRepository.findProfileByUserName("John.Doe")).thenReturn(Optional.of(user));
+        traineeService.changePassword("John.Doe", "newPass");
         verify(userProfileRepository).updateProfile(user);
         assertEquals("newHash", user.getPassword());
     }
 
     @Test
     void toggle_shouldChangeActiveValue() {
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
-        boolean previousActiveState = user.isActive();
-        traineeService.toggle(creds);
+        when(userProfileRepository.findProfileByUserName("John.Doe")).thenReturn(Optional.of(user));
+        traineeService.toggle("John.Doe",  false);
         verify(userProfileRepository).updateProfile(user);
-        assertNotEquals(previousActiveState, user.isActive());
+        assertFalse(user.isActive());
     }
 }

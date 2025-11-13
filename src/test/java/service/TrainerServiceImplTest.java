@@ -2,8 +2,7 @@ package service;
 
 import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.request.CreateTrainerRequest;
-import com.gymcrm.application.request.UpdateTrainerRequest;
-import com.gymcrm.application.service.AuthService;
+import com.gymcrm.application.request.UpdateUserRequest;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TrainerServiceImpl;
 import com.gymcrm.domain.model.Trainer;
@@ -24,7 +23,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,38 +41,27 @@ class TrainerServiceImplTest {
     @Mock
     private CredentialService credentialService;
 
-    @Mock
-    private AuthService authService;
-
     @InjectMocks
     private TrainerServiceImpl trainerService;
 
-    private UserCredentials creds;
     private User user;
+    private Trainer trainer;
     private TrainingType specialization;
 
     @BeforeEach
     void setUp() {
-        creds = new UserCredentials("John.Doe", "pass");
         user = new User("John.Doe", "hashed", "John", "Doe", true);
         specialization = new TrainingType(1L, TrainingTypeEnum.YOGA);
+        trainer = new Trainer(specialization);
+        trainer.setUser(user);
     }
 
     @Test
-    void getTrainerByUserName_shouldReturnTrainerWithAuthenticatedUser() {
-        Trainer trainer = new Trainer(specialization);
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
+    void getTrainerByUserName_shouldReturnTrainer() {
         when(trainerRepository.findTrainerWithTrainees("John.Doe")).thenReturn(Optional.of(trainer));
-        Trainer result = trainerService.getTrainerByUserName(creds);
+        Trainer result = trainerService.getTrainerByUserName("John.Doe");
         assertEquals(trainer, result);
         assertEquals(user, result.getUser());
-    }
-
-    @Test
-    void getTrainerByUserName_shouldThrowIfIncorrectPassword() {
-        when(authService.authenticate("John.Doe", "pass")).thenThrow(new SecurityException());
-        assertThrows(SecurityException.class, () -> trainerService.getTrainerByUserName(creds)
-        );
     }
 
     @Test
@@ -100,18 +87,13 @@ class TrainerServiceImplTest {
 
     @Test
     void updateTrainer_shouldUpdateFields() {
-        Trainer trainer = new Trainer(specialization);
-        UpdateTrainerRequest req = new UpdateTrainerRequest(
-                "John.Doe", "newPass", "John", "Doe", true, TrainingTypeEnum.YOGA
+        UpdateUserRequest req = new UpdateUserRequest(
+                "John.Doe", "John", "Doe", true
         );
 
-        when(authService.authenticate("John.Doe", "pass")).thenReturn(user);
         when(trainerRepository.findTrainerWithTrainees("John.Doe")).thenReturn(Optional.of(trainer));
-        when(trainingTypeRepository.findByName(TrainingTypeEnum.YOGA)).thenReturn(Optional.of(specialization));
-        when(credentialService.encodePassword("newPass")).thenReturn("newHash");
-        Trainer result = trainerService.updateTrainer(req, creds);
+        Trainer result = trainerService.updateTrainer(req);
         assertEquals(specialization, result.getSpecialization());
-        assertEquals("newHash", result.getUser().getPassword());
         assertEquals(user, result.getUser());
         verify(trainerRepository).update(trainer);
     }

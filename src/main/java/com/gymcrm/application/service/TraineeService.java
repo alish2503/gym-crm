@@ -12,10 +12,10 @@ import java.util.List;
  * @author Alish
  */
 public interface TraineeService extends UserService {
-    Trainee getTraineeByUserName(UserCredentials credentials);
+    Trainee getTraineeByUserName(String username);
     UserCredentials createTrainee(CreateTraineeRequest request);
-    Trainee updateTrainee(UpdateTraineeRequest request, UserCredentials credentials);
-    void deleteTrainee(UserCredentials credentials);
-    List<Trainer> updateTrainersForTrainee(UserCredentials credentials, List<String> usernames);
-    List<Trainer> getAvailableTrainersForTrainee(UserCredentials credentials);
+    Trainee updateTrainee(UpdateTraineeRequest request);
+    void deleteTrainee(String username);
+    List<Trainer> updateTrainersForTrainee(String username, List<String> usernames);
+    List<Trainer> getAvailableTrainersForTrainee(String username);
 }

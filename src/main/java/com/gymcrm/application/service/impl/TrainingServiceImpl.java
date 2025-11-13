@@ -1,8 +1,6 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.request.CreateTrainingRequest;
-import com.gymcrm.application.service.AuthService;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
@@ -29,19 +27,17 @@ public class TrainingServiceImpl implements TrainingService {
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
-    private final AuthService authService;
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
                                TrainerRepository trainerRepository,
-                               TrainingTypeRepository trainingTypeRepository, AuthService authService)
+                               TrainingTypeRepository trainingTypeRepository)
     {
 
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
-        this.authService = authService;
     }
 
     @Override
@@ -73,27 +69,21 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Training> getTrainingsForTrainee(UserCredentials credentials, TrainingFilter trainingFilter)
+    public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter)
     {
-        String traineeUsername = credentials.username();
-        String password = credentials.password();
         TrainingTypeEnum typeEnum = trainingFilter.type();
-        log.debug("Fetching trainings by trainee username: {}", traineeUsername);
-        authService.authenticate(traineeUsername, password);
+        log.debug("Fetching trainings by trainee username: {}", username);
         if (typeEnum != null && !trainingTypeRepository.existsByName(typeEnum)) {
             throw new EntityNotFoundException("No training type: " + typeEnum + " found");
         }
-        return trainingRepository.findTrainingsForTrainee(traineeUsername, trainingFilter);
+        return trainingRepository.findTrainingsForTrainee(username, trainingFilter);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Training> getTrainingsForTrainer(UserCredentials credentials, TrainingFilter trainingFilter)
+    public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter)
     {
-        String trainerUsername = credentials.username();
-        String password = credentials.password();
-        log.debug("Fetching trainings by trainer username: {}", trainerUsername);
-        authService.authenticate(trainerUsername, password);
-        return trainingRepository.findTrainingsForTrainer(trainerUsername, trainingFilter);
+        log.debug("Fetching trainings by trainer username: {}", username);
+        return trainingRepository.findTrainingsForTrainer(username, trainingFilter);
     }
 }

@@ -22,8 +22,8 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     public Optional<Trainer> findTrainerWithTrainees(String username) {
-        String jpql = "select distinct t from TrainerDao t left join fetch t.trainees tr " +
-                    "left join fetch tr.user where t.user.username = :uName";
+        String jpql = "select distinct t from TrainerDao t join fetch t.user user " +
+                "left join fetch t.trainees tr left join fetch tr.user where user = :uName";
 
         return entityManager.createQuery(jpql, TrainerDao.class).
                 setParameter("uName", username)
@@ -41,8 +41,8 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
 
     @Override
     public List<Trainer> getAvailableTrainersNotAssigned(List<Long> assignedIds) {
-        String jpql = "select t from TrainerDao t join fetch t.user " +
-                    "join where t.id not in :assigned";
+        String jpql = "select t from TrainerDao t join fetch t.user user " +
+                    "where t.id not in :assigned and user.isActive = true";
 
         return entityManager.createQuery(jpql, TrainerDao.class)
                 .setParameter("assigned", assignedIds)

@@ -31,6 +31,12 @@ public class User extends FullName {
 
     public User() {}
 
+    public User(String username, String password, String firstName, String lastName) {
+        super(firstName, lastName);
+        this.username = username;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }

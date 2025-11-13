@@ -1,14 +1,11 @@
 package service;
 
-import com.gymcrm.application.UserCredentials;
 import com.gymcrm.application.request.CreateTrainingRequest;
-import com.gymcrm.application.service.AuthService;
 import com.gymcrm.application.service.impl.TrainingServiceImpl;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
@@ -48,17 +45,9 @@ class TrainingServiceImplTest {
     @Mock
     private TrainingTypeRepository trainingTypeRepository;
 
-    @Mock
-    private AuthService authService;
-
     @InjectMocks
     private TrainingServiceImpl trainingService;
 
-    private UserCredentials traineeCreds;
-    private UserCredentials trainerCreds;
-
-    private User traineeUser;
-    private User trainerUser;
     private CreateTrainingRequest request;
 
     private TrainingType yogaType;
@@ -69,10 +58,6 @@ class TrainingServiceImplTest {
                 TrainingTypeEnum.YOGA, "Morning Yoga",
                 LocalDate.of(2025, 11, 10), 60);
 
-        traineeCreds = new UserCredentials("trainee1", "pass");
-        trainerCreds = new UserCredentials("trainer1", "pass");
-        traineeUser = new User("trainee1", "hashed", "John", "Doe", true);
-        trainerUser = new User("trainer1", "hashed", "Jane", "Smith", true);
         yogaType = new TrainingType(1L, TrainingTypeEnum.YOGA);
     }
 
@@ -114,10 +99,9 @@ class TrainingServiceImplTest {
         Training t2 = new Training(yogaType,"Evening Yoga",
                 LocalDate.of(2025,11,15),45,1L,2L);
 
-        when(authService.authenticate("trainee1","pass")).thenReturn(traineeUser);
         when(trainingTypeRepository.existsByName(TrainingTypeEnum.YOGA)).thenReturn(true);
         when(trainingRepository.findTrainingsForTrainee("trainee1", filter)).thenReturn(List.of(t1,t2));
-        List<Training> trainings = trainingService.getTrainingsForTrainee(traineeCreds, filter);
+        List<Training> trainings = trainingService.getTrainingsForTrainee("trainee1", filter);
         assertEquals(2, trainings.size());
         assertEquals("Morning Yoga", trainings.get(0).getName());
         assertEquals(60, trainings.get(0).getDuration());
@@ -127,9 +111,8 @@ class TrainingServiceImplTest {
     @Test
     void getTrainingsForTrainee_shouldThrowIfTypeNotFound() {
         TrainingFilter filter = new TrainingFilter(null, null, null,TrainingTypeEnum.FITNESS);
-        when(authService.authenticate("trainee1","pass")).thenReturn(traineeUser);
         when(trainingTypeRepository.existsByName(TrainingTypeEnum.FITNESS)).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> trainingService.getTrainingsForTrainee(traineeCreds, filter));
+        assertThrows(EntityNotFoundException.class, () -> trainingService.getTrainingsForTrainee("trainee1", filter));
     }
 
     @Test
@@ -139,9 +122,8 @@ class TrainingServiceImplTest {
         Training t1 = new Training(yogaType,"Morning Yoga",
                 LocalDate.of(2025,11,10),60,1L,2L);
 
-        when(authService.authenticate("trainer1","pass")).thenReturn(trainerUser);
         when(trainingRepository.findTrainingsForTrainer("trainer1", filter)).thenReturn(List.of(t1));
-        List<Training> trainings = trainingService.getTrainingsForTrainer(trainerCreds, filter);
+        List<Training> trainings = trainingService.getTrainingsForTrainer("trainer1", filter);
         assertEquals(1, trainings.size());
         assertEquals("Morning Yoga", trainings.get(0).getName());
         assertEquals(60, trainings.get(0).getDuration());

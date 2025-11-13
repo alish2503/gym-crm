@@ -1,9 +1,8 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTrainerRequest;
-import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.UserCredentials;
-import com.gymcrm.application.service.AuthService;
+import com.gymcrm.application.request.UpdateUserRequest;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TrainerRepository;
@@ -25,24 +24,21 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     public TrainerServiceImpl(TrainerRepository trainerRepository,
                               TrainingTypeRepository trainingTypeRepository,
                               UserProfileRepository userProfileRepository,
-                              CredentialService credentialService,
-                              AuthService authService)
+                              CredentialService credentialService)
     {
-        super(trainerRepository, userProfileRepository, credentialService, authService, Trainer.class);
+        super(trainerRepository, userProfileRepository, credentialService, Trainer.class);
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Trainer getTrainerByUserName(UserCredentials credentials) {
-        String username = credentials.username();
-        String password = credentials.password();
+    public Trainer getTrainerByUserName(String username) {
         log.debug("Fetching trainer by username: {}", username);
-        User authenticated = authService.authenticate(username, password);
-        Trainer trainer = findTrainerOrThrow(username);
-        trainer.setUser(authenticated);
-        return trainer;
+        return trainerRepository.findTrainerWithTrainees(username)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Trainer not found with user name: " + username
+                ));
     }
 
     @Override
@@ -55,15 +51,11 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
 
     @Override
     @Transactional
-    public Trainer updateTrainer(UpdateTrainerRequest request, UserCredentials credentials) {
-        String username = credentials.username();
-        String password = credentials.password();
+    public Trainer updateTrainer(UpdateUserRequest request) {
+        String username = request.getUsername();
         log.info("Updating trainer with username: {}", username);
-        User authenticated = authService.authenticate(username, password);
-        Trainer updated = findTrainerOrThrow(username);
-        TrainingType specialization = findTypeOrThrow(request.getSpecialization());
-        updated.setSpecialization(specialization);
-        updateUser(updated, authenticated, request);
+        Trainer updated = getTrainerByUserName(username);
+        updateUser(updated, request);
         log.debug("Trainer {} updated", username);
         return updated;
     }
@@ -72,13 +64,6 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
         return trainingTypeRepository.findByName(typeEnum).orElseThrow(
                 () -> new EntityNotFoundException("No specialization: " + typeEnum + " found")
         );
-    }
-
-    protected Trainer findTrainerOrThrow(String username) {
-        return trainerRepository.findTrainerWithTrainees(username)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Trainer not found with user name: " + username
-                ));
     }
 }
 
