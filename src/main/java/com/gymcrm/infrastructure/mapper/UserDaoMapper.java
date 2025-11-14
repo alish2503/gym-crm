@@ -1,12 +1,14 @@
 package com.gymcrm.infrastructure.mapper;
 
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.dao.UserDao;
 
 /**
  * @author Alish
  */
-public class UserMapper {
+public class UserDaoMapper {
+
+    private UserDaoMapper() {}
 
     public static UserDao toDao(User userProfile) {
         return new UserDao(userProfile.getId(), userProfile.getUsername(), userProfile.getPassword(),

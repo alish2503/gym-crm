@@ -4,11 +4,11 @@ import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.dao.TraineeDao;
+import com.gymcrm.infrastructure.dao.TrainerDao;
+import com.gymcrm.infrastructure.dao.TrainingDao;
+import com.gymcrm.infrastructure.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.dao.UserDao;
 import com.gymcrm.infrastructure.repository.TrainingRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -62,7 +62,7 @@ class TrainingRepositoryImplTest {
                 "Address");
 
         trainerDao = new TrainerDao(2L,
-                new com.gymcrm.infrastructure.persistence.dao.UserDao(22L, "trainerUser",
+                new UserDao(22L, "trainerUser",
                         "pass", "T", "R", true),
                 new TrainingTypeDao(1L, TrainingTypeEnum.YOGA));
 
@@ -83,10 +83,10 @@ class TrainingRepositoryImplTest {
         assertEquals(1, trainings.size());
         Training t = trainings.get(0);
         assertEquals("Morning Yoga", t.getName());
-        assertEquals(TrainingTypeEnum.YOGA, t.getType().name());
+        assertEquals(TrainingTypeEnum.YOGA, t.getType().typeEnum());
         assertNotNull(t.getTrainer());
         assertEquals("T", t.getTrainer().getUser().getFirstName());
-        assertEquals(TrainingTypeEnum.YOGA, t.getTrainer().getSpecialization().name());
+        assertEquals(TrainingTypeEnum.YOGA, t.getTrainer().getSpecialization().typeEnum());
         verify(trainingQuery).setParameter("uname", "traineeUser");
         verify(trainingQuery).setParameter("from", filter.from());
         verify(trainingQuery).setParameter("to", filter.to());

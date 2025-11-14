@@ -1,6 +1,6 @@
 package service;
 
-import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.request.CreateTrainerRequest;
 import com.gymcrm.application.request.UpdateUserRequest;
 import com.gymcrm.application.service.CredentialService;
@@ -59,7 +59,7 @@ class TrainerServiceImplTest {
     @Test
     void getTrainerByUserName_shouldReturnTrainer() {
         when(trainerRepository.findTrainerWithTrainees("John.Doe")).thenReturn(Optional.of(trainer));
-        Trainer result = trainerService.getTrainerByUserName("John.Doe");
+        Trainer result = trainerService.getTrainerByUsername("John.Doe");
         assertEquals(trainer, result);
         assertEquals(user, result.getUser());
     }
@@ -67,7 +67,7 @@ class TrainerServiceImplTest {
     @Test
     void createTrainer_shouldCallCreateUserAndReturnCredentials() {
         CreateTrainerRequest req = new CreateTrainerRequest(
-                true, "John", "Doe", TrainingTypeEnum.YOGA
+                "John", "Doe", TrainingTypeEnum.YOGA
         );
 
         when(trainingTypeRepository.findByName(TrainingTypeEnum.YOGA)).thenReturn(Optional.of(specialization));

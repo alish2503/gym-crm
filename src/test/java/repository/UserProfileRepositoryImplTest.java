@@ -1,8 +1,8 @@
 package repository;
 
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.mapper.UserMapper;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.mapper.UserDaoMapper;
+import com.gymcrm.infrastructure.dao.UserDao;
 import com.gymcrm.infrastructure.repository.UserProfileRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -49,7 +49,7 @@ class UserProfileRepositoryImplTest {
     @BeforeEach
     void init() {
         domainUser = new User(1L, "john", "pass", "John", "Doe", true);
-        userDao = UserMapper.toDao(domainUser);
+        userDao = UserDaoMapper.toDao(domainUser);
     }
 
     @Test

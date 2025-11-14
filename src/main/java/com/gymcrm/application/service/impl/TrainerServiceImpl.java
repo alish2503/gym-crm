@@ -1,7 +1,7 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTrainerRequest;
-import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.request.UpdateUserRequest;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.*;
@@ -33,7 +33,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
 
     @Override
     @Transactional(readOnly = true)
-    public Trainer getTrainerByUserName(String username) {
+    public Trainer getTrainerByUsername(String username) {
         log.debug("Fetching trainer by username: {}", username);
         return trainerRepository.findTrainerWithTrainees(username)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -54,7 +54,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     public Trainer updateTrainer(UpdateUserRequest request) {
         String username = request.getUsername();
         log.info("Updating trainer with username: {}", username);
-        Trainer updated = getTrainerByUserName(username);
+        Trainer updated = getTrainerByUsername(username);
         updateUser(updated, request);
         log.debug("Trainer {} updated", username);
         return updated;

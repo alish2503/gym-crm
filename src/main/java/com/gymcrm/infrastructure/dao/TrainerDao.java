@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.persistence.dao;
+package com.gymcrm.infrastructure.dao;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -27,7 +27,7 @@ public class TrainerDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name="user_id", unique=true, nullable=false)
     private UserDao user;
 

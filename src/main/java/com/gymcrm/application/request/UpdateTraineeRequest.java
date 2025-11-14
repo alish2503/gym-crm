@@ -17,7 +17,6 @@ public class UpdateTraineeRequest extends UpdateUserRequest {
         this.address = address;
     }
 
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }

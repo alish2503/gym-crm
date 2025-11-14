@@ -2,7 +2,7 @@ package repository;
 
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import com.gymcrm.infrastructure.repository.TrainingTypeRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -56,7 +56,7 @@ class TrainingTypeRepositoryImplTest {
         when(trainingTypeQuery.getResultStream()).thenReturn(Stream.of(dao));
         Optional<TrainingType> result = repository.findByName(TrainingTypeEnum.FITNESS);
         assertTrue(result.isPresent());
-        assertEquals(TrainingTypeEnum.FITNESS, result.get().name());
+        assertEquals(TrainingTypeEnum.FITNESS, result.get().typeEnum());
         verify(trainingTypeQuery).setParameter("typeName", TrainingTypeEnum.FITNESS);
     }
 

@@ -4,11 +4,11 @@ import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.mapper.TraineeMapper;
-import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
+import com.gymcrm.infrastructure.dao.TraineeDao;
+import com.gymcrm.infrastructure.dao.TrainerDao;
+import com.gymcrm.infrastructure.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.dao.UserDao;
 import com.gymcrm.infrastructure.repository.TraineeRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -60,7 +60,7 @@ class TraineeRepositoryImplTest {
                 "Doe", true), LocalDate.of(1990, 1, 1),
                 "Address");
 
-        traineeDao = TraineeMapper.toDao(domainTrainee);
+        traineeDao = TraineeDaoMapper.toDao(domainTrainee);
     }
 
     @Test
@@ -129,7 +129,7 @@ class TraineeRepositoryImplTest {
         assertEquals("Address", trainee.getAddress());
         assertEquals(1, trainee.getTrainers().size());
         Trainer trainer = trainee.getTrainers().get(0);
-        assertEquals(TrainingTypeEnum.FITNESS, trainer.getSpecialization().name());
+        assertEquals(TrainingTypeEnum.FITNESS, trainer.getSpecialization().typeEnum());
         verify(traineeQuery).setParameter("uName", "john");
     }
 

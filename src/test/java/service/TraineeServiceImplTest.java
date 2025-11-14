@@ -1,6 +1,6 @@
 package service;
 
-import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.service.CredentialService;
@@ -66,20 +66,20 @@ class TraineeServiceImplTest {
     @Test
     void getTraineeByUserName_shouldReturnTraineeWithAuthenticatedUser() {
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
-        Trainee result = traineeService.getTraineeByUserName("John.Doe");
+        Trainee result = traineeService.getTraineeByUsername("John.Doe");
         assertEquals(trainee, result);
         assertEquals(user, result.getUser());
     }
 
     @Test
-    void getTraineeByUserName_shouldThrowIfNotFound() {
+    void getTraineeByUsername_shouldThrowIfNotFound() {
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> traineeService.getTraineeByUserName("John.Doe"));
+        assertThrows(EntityNotFoundException.class, () -> traineeService.getTraineeByUsername("John.Doe"));
     }
 
     @Test
     void createTrainee_shouldCallCreateUserAndReturnCredentials() {
-        CreateTraineeRequest req = new CreateTraineeRequest(true, "John", "Doe",
+        CreateTraineeRequest req = new CreateTraineeRequest("John", "Doe",
                 LocalDate.of(2000, 1, 1), "addr");
 
         when(credentialService.generateUsername("John", "Doe")).thenReturn("John.Doe");

@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.persistence.dao;
+package com.gymcrm.infrastructure.dao;
 
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import jakarta.persistence.Column;

@@ -3,9 +3,9 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.port.TraineeRepository;
-import com.gymcrm.infrastructure.mapper.TrainerMapper;
-import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
-import com.gymcrm.infrastructure.mapper.TraineeMapper;
+import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
+import com.gymcrm.infrastructure.dao.TraineeDao;
+import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,8 +29,7 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
 
     @Override
     public Optional<Trainee> findTraineeWithTrainers(String username) {
-        String jpql = "select distinct t from TraineeDao t join fetch t.user user " +
-                "left join fetch t.trainers tr left join fetch tr.user where user = :uName";
+        String jpql = "select distinct t from TraineeDao t left join fetch t.trainers where t.user = :uName";
 
         return entityManager.createQuery(jpql, TraineeDao.class).
                 setParameter("uName", username)
@@ -38,9 +37,9 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
                 .findFirst()
                 .map(dao -> {
                     List<Trainer> trainers = dao.getTrainers().stream()
-                            .map(TrainerMapper::toDomainWithProfile)
+                            .map(TrainerDaoMapper::toDomain)
                             .toList();
-                    Trainee trainee = TraineeMapper.toDomain(dao);
+                    Trainee trainee = TraineeDaoMapper.toDomain(dao);
                     trainee.setTrainers(trainers);
                     return trainee;
                 });
@@ -48,6 +47,6 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
 
     @Override
     protected TraineeDao mapToDao(Trainee entity) {
-        return TraineeMapper.toDao(entity);
+        return TraineeDaoMapper.toDao(entity);
     }
 }

@@ -1,10 +1,10 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.request.CreateUserRequest;
 import com.gymcrm.application.request.UpdateUserRequest;
-import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.UserService;
+import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
@@ -35,7 +35,7 @@ abstract class UserServiceImpl<E extends UserProfile> implements UserService {
         this.userClass = userClas;
     }
 
-    protected UserCredentials createUser(CreateUserRequest request, E created) {
+    protected UserCredentials createUser(FullName request, E created) {
         String userEntityName = userClass.getSimpleName();
         String firstName = request.getFirstName();
         String lastName = request.getLastName();

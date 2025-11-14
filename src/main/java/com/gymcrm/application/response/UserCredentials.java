@@ -1,4 +1,4 @@
-package com.gymcrm.application;
+package com.gymcrm.application.response;
 
 /**
  * @author Alish

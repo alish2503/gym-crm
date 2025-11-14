@@ -5,8 +5,8 @@ import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingRepository;
-import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
-import com.gymcrm.infrastructure.mapper.TrainingMapper;
+import com.gymcrm.infrastructure.dao.TrainingDao;
+import com.gymcrm.infrastructure.mapper.TrainingDaoMapper;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
@@ -27,9 +27,7 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
         LocalDate to = trainingFilter.to();
         FullName trainerName = trainingFilter.personName();
         TrainingTypeEnum typeEnum = trainingFilter.type();
-        String jpql = "select tr from TrainingDao tr join fetch tr.trainer trainer join fetch trainer.user " +
-                    "where tr.trainee.user.username = :uname ";
-
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainer where tr.trainee.user.username = :uname";
         Map<String, Object> params = new HashMap<>();
         params.put("uname", username);
         jpql = appendDateAndNameFilters(jpql, params, from, to, trainerName, "trainer");
@@ -39,22 +37,20 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
         }
         TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
         params.forEach(query::setParameter);
-        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainee).toList();
+        return query.getResultList().stream().map(TrainingDaoMapper::toDomainForTrainee).toList();
     }
 
     public List<Training> findTrainingsForTrainer(String userName, TrainingFilter trainingFilter) {
         LocalDate from = trainingFilter.from();
         LocalDate to = trainingFilter.to();
         FullName traineeName = trainingFilter.personName();
-        String jpql = "select tr from TrainingDao tr join fetch tr.trainee trainee join fetch trainee.user " +
-                    "where tr.trainer.user.username = :uname ";
-
+        String jpql = "select tr from TrainingDao tr join fetch tr.trainee where tr.trainer.user.username = :uname ";
         Map<String, Object> params = new HashMap<>();
         params.put("uname", userName);
         jpql = appendDateAndNameFilters(jpql, params, from, to, traineeName, "trainee");
         TypedQuery<TrainingDao> query = entityManager.createQuery(jpql, TrainingDao.class);
         params.forEach(query::setParameter);
-        return query.getResultList().stream().map(TrainingMapper::toDomainForTrainer).toList();
+        return query.getResultList().stream().map(TrainingDaoMapper::toDomainForTrainer).toList();
     }
 
     public boolean existsTraining(String trainerUsername, String traineeUsername,
@@ -101,7 +97,7 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
 
     @Override
     protected TrainingDao mapToDao(Training entity) {
-        return TrainingMapper.toDao(entity);
+        return TrainingDaoMapper.toDao(entity);
     }
 }
 

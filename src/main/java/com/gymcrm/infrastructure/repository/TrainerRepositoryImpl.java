@@ -3,9 +3,9 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.infrastructure.mapper.TraineeMapper;
-import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
-import com.gymcrm.infrastructure.mapper.TrainerMapper;
+import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
+import com.gymcrm.infrastructure.dao.TrainerDao;
+import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,18 +22,17 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     public Optional<Trainer> findTrainerWithTrainees(String username) {
-        String jpql = "select distinct t from TrainerDao t join fetch t.user user " +
-                "left join fetch t.trainees tr left join fetch tr.user where user = :uName";
-
+        String jpql = "select distinct t from TrainerDao t left join fetch t.trainees where t.user = :uName";
         return entityManager.createQuery(jpql, TrainerDao.class).
                 setParameter("uName", username)
                 .getResultStream()
                 .findFirst()
                 .map(dao -> {
                     List<Trainee> trainees = dao.getTrainees().stream()
-                            .map(TraineeMapper::toDomainWithProfile)
+                            .map(TraineeDaoMapper::toDomain)
                             .toList();
-                    Trainer trainer = TrainerMapper.toDomain(dao);
+
+                    Trainer trainer = TrainerDaoMapper.toDomain(dao);
                     trainer.setTrainees(trainees);
                     return trainer;
                 });
@@ -41,24 +40,20 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
 
     @Override
     public List<Trainer> getAvailableTrainersNotAssigned(List<Long> assignedIds) {
-        String jpql = "select t from TrainerDao t join fetch t.user user " +
-                    "where t.id not in :assigned and user.isActive = true";
-
+        String jpql = "select t from TrainerDao t where t.id not in :assigned and t.user.isActive = true";
         return entityManager.createQuery(jpql, TrainerDao.class)
                 .setParameter("assigned", assignedIds)
                 .getResultList()
                 .stream()
-                .map(TrainerMapper::toDomainWithProfile)
+                .map(TrainerDaoMapper::toDomain)
                 .toList();
     }
 
     @Override
     public List<Trainer> findTrainersByUserNamesIn(List<String> usernames) {
-        String jpql = "select t from TrainerDao t join fetch t.user u " +
-                    "where u.username in :uNames";
-
+        String jpql = "select t from TrainerDao t where t.user.username in :uNames";
         return entityManager.createQuery(jpql, TrainerDao.class).setParameter("uNames", usernames).
-                getResultList().stream().map(TrainerMapper::toDomainWithProfile).toList();
+                getResultList().stream().map(TrainerDaoMapper::toDomain).toList();
     }
 
     @Override
@@ -69,13 +64,13 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
 
     @Override
     public List<Trainer> findAll() {
-        String jpql = "select t from TrainerDao t join fetch t.user";
+        String jpql = "from TrainerDao";
         return entityManager.createQuery(jpql, TrainerDao.class).getResultList().stream().
-                map(TrainerMapper::toDomainWithProfile).toList();
+                map(TrainerDaoMapper::toDomain).toList();
     }
 
     @Override
     protected TrainerDao mapToDao(Trainer entity) {
-        return TrainerMapper.toDao(entity);
+        return TrainerDaoMapper.toDao(entity);
     }
 }

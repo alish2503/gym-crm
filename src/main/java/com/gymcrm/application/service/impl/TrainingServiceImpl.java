@@ -7,6 +7,7 @@ import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.application.service.TrainingService;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
+import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,17 +28,20 @@ public class TrainingServiceImpl implements TrainingService {
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
                                TrainerRepository trainerRepository,
-                               TrainingTypeRepository trainingTypeRepository)
+                               TrainingTypeRepository trainingTypeRepository,
+                               UserProfileRepository userProfileRepository)
     {
 
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     @Override
@@ -71,6 +75,9 @@ public class TrainingServiceImpl implements TrainingService {
     @Transactional(readOnly = true)
     public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter)
     {
+        if (!userProfileRepository.existsByUserName(username)) {
+            throw new EntityNotFoundException("No trainee found with user name: " + username);
+        }
         TrainingTypeEnum typeEnum = trainingFilter.type();
         log.debug("Fetching trainings by trainee username: {}", username);
         if (typeEnum != null && !trainingTypeRepository.existsByName(typeEnum)) {
@@ -83,7 +90,16 @@ public class TrainingServiceImpl implements TrainingService {
     @Transactional(readOnly = true)
     public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter)
     {
+        if (!userProfileRepository.existsByUserName(username)) {
+            throw new EntityNotFoundException("No trainer found with user name: " + username);
+        }
         log.debug("Fetching trainings by trainer username: {}", username);
         return trainingRepository.findTrainingsForTrainer(username, trainingFilter);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TrainingType> getTrainingTypes() {
+        return trainingTypeRepository.findAll();
     }
 }

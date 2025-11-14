@@ -2,7 +2,7 @@ package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
-import com.gymcrm.application.UserCredentials;
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.port.TraineeRepository;
@@ -40,7 +40,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
 
     @Override
     @Transactional(readOnly = true)
-    public Trainee getTraineeByUserName(String username) {
+    public Trainee getTraineeByUsername(String username) {
         log.debug("Fetching trainee by username: {}", username);
         return traineeRepository.findTraineeWithTrainers(username)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -60,7 +60,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     public Trainee updateTrainee(UpdateTraineeRequest request) {
         String username = request.getUsername();
         log.info("Updating trainee with username: {}", username);
-        Trainee updated = getTraineeByUserName(username);
+        Trainee updated = getTraineeByUsername(username);
         updated.setDateOfBirth(request.getDateOfBirth());
         updated.setAddress(request.getAddress());
         updateUser(updated, request);
@@ -83,7 +83,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     @Transactional
     public List<Trainer> updateTrainersForTrainee(String username, List<String> usernames) {
         log.info("Updating trainers for trainee with username: {}", username);
-        Trainee trainee = getTraineeByUserName(username);
+        Trainee trainee = getTraineeByUsername(username);
         List<Trainer> trainers = trainerRepository.findTrainersByUserNamesIn(usernames);
         if (trainers.size() < usernames.size()) {
             Set<String> found = trainers.stream().
@@ -91,7 +91,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
 
             List<String> notFound = usernames.stream().filter(name -> !found.contains(name)).toList();
             String errorMessage = String.join(", ", notFound);
-            throw new IllegalArgumentException("Trainers with user names: " + errorMessage + " not found");
+            throw new EntityNotFoundException("Trainers with user names: " + errorMessage + " not found");
         }
         trainee.setTrainers(trainers);
         traineeRepository.update(trainee);

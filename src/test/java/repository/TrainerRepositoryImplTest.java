@@ -4,10 +4,10 @@ import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.mapper.TrainerMapper;
-import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
-import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
+import com.gymcrm.infrastructure.dao.TraineeDao;
+import com.gymcrm.infrastructure.dao.TrainerDao;
+import com.gymcrm.infrastructure.dao.UserDao;
 import com.gymcrm.infrastructure.repository.TrainerRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -59,7 +59,7 @@ class TrainerRepositoryImplTest {
         domainTrainer = new Trainer(new User(1L, "trainer", "pass", "T", "R", true),
                 new TrainingType(10L, TrainingTypeEnum.FITNESS));
 
-        trainerDao = TrainerMapper.toDao(domainTrainer);
+        trainerDao = TrainerDaoMapper.toDao(domainTrainer);
     }
 
     @Test
@@ -67,7 +67,7 @@ class TrainerRepositoryImplTest {
         repository.save(domainTrainer);
         verify(entityManager).persist(argThat((TrainerDao dao) ->
                 dao.getId() == null &&
-                        dao.getSpecialization().getName() == domainTrainer.getSpecialization().name() &&
+                        dao.getSpecialization().getName() == domainTrainer.getSpecialization().typeEnum() &&
                         dao.getUser().getUsername().equals(domainTrainer.getUser().getUsername())
         ));
     }
@@ -78,7 +78,7 @@ class TrainerRepositoryImplTest {
         repository.update(domainTrainer);
         verify(entityManager).merge(argThat((TrainerDao dao) ->
                 dao.getId().equals(domainTrainer.getId()) &&
-                        dao.getSpecialization().getName() == domainTrainer.getSpecialization().name() &&
+                        dao.getSpecialization().getName() == domainTrainer.getSpecialization().typeEnum() &&
                         dao.getUser().getUsername().equals(domainTrainer.getUser().getUsername())
         ));
     }
