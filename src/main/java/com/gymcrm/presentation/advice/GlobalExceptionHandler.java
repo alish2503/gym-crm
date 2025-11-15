@@ -1,4 +1,4 @@
-package com.gymcrm.presentation.exception;
+package com.gymcrm.presentation.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -41,5 +41,4 @@ public class GlobalExceptionHandler {
         response.putAll(fieldErrors);
         return ResponseEntity.badRequest().body(response);
     }
-
 }

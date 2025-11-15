@@ -33,7 +33,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
                               UserProfileRepository userProfileRepository,
                               CredentialService credentialService)
     {
-        super(traineeRepository, userProfileRepository, credentialService, Trainee.class);
+        super(traineeRepository, userProfileRepository, credentialService);
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
     }
@@ -41,7 +41,6 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     @Override
     @Transactional(readOnly = true)
     public Trainee getTraineeByUsername(String username) {
-        log.debug("Fetching trainee by username: {}", username);
         return traineeRepository.findTraineeWithTrainers(username)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Trainee not found with user name: " + username
@@ -59,30 +58,25 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     @Transactional
     public Trainee updateTrainee(UpdateTraineeRequest request) {
         String username = request.getUsername();
-        log.info("Updating trainee with username: {}", username);
         Trainee updated = getTraineeByUsername(username);
         updated.setDateOfBirth(request.getDateOfBirth());
         updated.setAddress(request.getAddress());
         updateUser(updated, request);
-        log.debug("Trainee {} updated", username);
         return updated;
     }
 
     @Override
     @Transactional
     public void deleteTrainee(String username) {
-        log.info("Deleting trainee with username: {}", username);
         Long id = traineeRepository.findIdByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with user name: " + username)
         );
         traineeRepository.deleteById(id);
-        log.debug("Trainee {} deleted", username);
     }
 
     @Override
     @Transactional
     public List<Trainer> updateTrainersForTrainee(String username, List<String> usernames) {
-        log.info("Updating trainers for trainee with username: {}", username);
         Trainee trainee = getTraineeByUsername(username);
         List<Trainer> trainers = trainerRepository.findTrainersByUserNamesIn(usernames);
         if (trainers.size() < usernames.size()) {
@@ -95,14 +89,12 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
         }
         trainee.setTrainers(trainers);
         traineeRepository.update(trainee);
-        log.debug("Trainers for trainee {} updated", username);
         return trainers;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Trainer> getAvailableTrainersForTrainee(String username) {
-        log.debug("Fetching trainers for trainee with username: {}", username);
         List<Long> assignedIds = trainerRepository.findAssignedTrainersIds(username);
         return assignedIds.isEmpty() ? trainerRepository.findAll() :
                 trainerRepository.getAvailableTrainersNotAssigned(assignedIds);

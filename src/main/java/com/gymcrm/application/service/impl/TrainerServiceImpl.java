@@ -26,7 +26,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
                               UserProfileRepository userProfileRepository,
                               CredentialService credentialService)
     {
-        super(trainerRepository, userProfileRepository, credentialService, Trainer.class);
+        super(trainerRepository, userProfileRepository, credentialService);
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
     }
@@ -34,7 +34,6 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     @Override
     @Transactional(readOnly = true)
     public Trainer getTrainerByUsername(String username) {
-        log.debug("Fetching trainer by username: {}", username);
         return trainerRepository.findTrainerWithTrainees(username)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Trainer not found with user name: " + username
@@ -53,10 +52,8 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     @Transactional
     public Trainer updateTrainer(UpdateUserRequest request) {
         String username = request.getUsername();
-        log.info("Updating trainer with username: {}", username);
         Trainer updated = getTrainerByUsername(username);
         updateUser(updated, request);
-        log.debug("Trainer {} updated", username);
         return updated;
     }
 
