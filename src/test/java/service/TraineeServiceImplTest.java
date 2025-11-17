@@ -147,7 +147,7 @@ class TraineeServiceImplTest {
 
         when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
         when(trainerRepository.findTrainersByUserNamesIn(List.of("a","b"))).thenReturn(List.of(t1));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
                 () -> traineeService.updateTrainersForTrainee("John.Doe", List.of("a","b")));
 
         assertTrue(ex.getMessage().contains("b"));
@@ -155,6 +155,7 @@ class TraineeServiceImplTest {
 
     @Test
     void getAvailableTrainersForTrainee_shouldReturnAllIfNoAssigned() {
+        when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of());
         when(trainerRepository.findAll()).thenReturn(List.of(new Trainer(), new Trainer()));
         List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
@@ -163,6 +164,7 @@ class TraineeServiceImplTest {
 
     @Test
     void getAvailableTrainersForTrainee_shouldReturnAvailableNotAssigned() {
+        when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of(1L, 2L));
         when(trainerRepository.getAvailableTrainersNotAssigned(List.of(1L,2L))).thenReturn(List.of(new Trainer()));
         List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");

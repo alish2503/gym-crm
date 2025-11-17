@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  */
 abstract class UserServiceImpl<E extends UserProfile> implements UserService {
     private final CredentialService credentialService;
-    private final UserProfileRepository userProfileRepository;
+    protected final UserProfileRepository userProfileRepository;
     private final UserRepository<E> userRepository;
 
     public UserServiceImpl(UserRepository<E> userRepository, UserProfileRepository userProfileRepository,

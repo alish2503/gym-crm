@@ -1,6 +1,7 @@
 package com.gymcrm.presentation.dto.request;
 
 import com.gymcrm.presentation.dto.FullNameDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
  */
 public class UpdateUserDto extends FullNameDto {
 
+    @Schema(example = "false")
     @NotNull(message = "Activity cannot be null")
     protected Boolean isActive;
 

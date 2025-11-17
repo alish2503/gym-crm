@@ -36,7 +36,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     public Trainer getTrainerByUsername(String username) {
         return trainerRepository.findTrainerWithTrainees(username)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Trainer not found with user name: " + username
+                        "Trainer not found with username: " + username
                 ));
     }
 

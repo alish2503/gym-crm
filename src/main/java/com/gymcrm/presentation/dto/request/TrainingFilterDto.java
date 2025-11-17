@@ -1,13 +1,6 @@
 package com.gymcrm.presentation.dto.request;
 
-import com.gymcrm.domain.model.FullName;
-import com.gymcrm.domain.model.TrainingFilter;
-import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.presentation.dto.FullNameDto;
-import com.gymcrm.presentation.validation.ValidTrainingType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
 
@@ -15,14 +8,12 @@ import java.time.LocalDate;
  * @author Alish
  */
 public class TrainingFilterDto {
+
+    @Schema(description = "Date of the beginning in the format: YYYY-MM-DD")
     private LocalDate from;
+
+    @Schema(description = "Date of the ending in the format: YYYY-MM-DD")
     private LocalDate to;
-
-    @Size(max = 50)
-    private String personName;
-
-    @ValidTrainingType
-    private String type;
 
     public TrainingFilterDto() {}
 
@@ -34,27 +25,11 @@ public class TrainingFilterDto {
         return to;
     }
 
-    public String getPersonName() {
-        return personName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
     public void setFrom(LocalDate from) {
         this.from = from;
     }
 
     public void setTo(LocalDate to) {
         this.to = to;
-    }
-
-    public void setPersonName(String personName) {
-        this.personName = personName;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

@@ -22,7 +22,7 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     public Optional<Trainer> findTrainerWithTrainees(String username) {
-        String jpql = "select distinct t from TrainerDao t left join fetch t.trainees where t.user = :uName";
+        String jpql = "select distinct t from TrainerDao t left join fetch t.trainees where t.user.username = :uName";
         return entityManager.createQuery(jpql, TrainerDao.class).
                 setParameter("uName", username)
                 .getResultStream()

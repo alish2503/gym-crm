@@ -9,8 +9,11 @@ import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.presentation.dto.FullNameDto;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;
-import com.gymcrm.presentation.dto.request.TrainingFilterDto;
+import com.gymcrm.presentation.dto.request.TrainingFilterForTraineeDto;
+import com.gymcrm.presentation.dto.request.TrainingFilterForTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainingDto;
+import com.gymcrm.presentation.dto.response.TrainingForTraineeDto;
+import com.gymcrm.presentation.dto.response.TrainingForTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainingTypeDto;
 
 import java.util.Optional;
@@ -23,25 +26,21 @@ public class TrainingDtoMapper {
     private TrainingDtoMapper() {}
 
     public static CreateTrainingRequest toDomain(CreateTrainingDto dto) {
-        TrainingTypeEnum typeEnum = TrainingTypeEnum.valueOf(dto.getType());
+        TrainingTypeEnum typeEnum = TrainingTypeEnum.valueOf(dto.getTrainingType());
         return new CreateTrainingRequest(dto.getTrainerUsername(), dto.getTraineeUsername(), typeEnum,
                 dto.getTrainingName(), dto.getDate(), dto.getDuration());
     }
 
-    public static TrainingFilter toDomain(TrainingFilterDto dto) {
+    public static TrainingFilter toDomain(TrainingFilterForTrainerDto dto) {
+        FullName fullName = getFullName(dto.getTraineeName());
+        return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, null);
+    }
+
+    public static TrainingFilter toDomain(TrainingFilterForTraineeDto dto) {
+        FullName fullName = getFullName(dto.getTrainerName());
         TrainingTypeEnum typeEnum = Optional.ofNullable(dto.getType())
                 .map(String::toUpperCase)
                 .map(TrainingTypeEnum::valueOf)
-                .orElse(null);
-
-        FullName fullName = Optional.ofNullable(dto.getPersonName())
-                .filter(name -> !name.isBlank())
-                .map(name -> {
-                    String[] parts = name.trim().split("\\s+", 2);
-                    String firstName = parts.length > 0 ? parts[0] : "";
-                    String lastName = parts.length > 1 ? parts[1] : "";
-                    return new FullName(firstName, lastName);
-                })
                 .orElse(null);
 
         return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, typeEnum);
@@ -51,19 +50,31 @@ public class TrainingDtoMapper {
         return new TrainingTypeDto(trainingType.id(), trainingType.typeEnum().name());
     }
 
-    public static TrainingDto toDtoForTrainee(Training training) {
+    public static TrainingForTraineeDto toDtoForTrainee(Training training) {
         String type = training.getType().typeEnum().name();
         User userProfile = training.getTrainer().getUser();
         FullNameDto fullNameDto = new FullNameDto(userProfile.getFirstName(), userProfile.getLastName());
-        return new TrainingDto(training.getName(), training.getDate(), type, training.getDuration(),
+        return new TrainingForTraineeDto(training.getName(), training.getDate(), type, training.getDuration(),
                 fullNameDto);
     }
 
-    public static TrainingDto toDtoForTrainer(Training training) {
+    public static TrainingForTrainerDto toDtoForTrainer(Training training) {
         String type = training.getType().typeEnum().name();
         User userProfile = training.getTrainee().getUser();
         FullNameDto fullNameDto = new FullNameDto(userProfile.getFirstName(), userProfile.getLastName());
-        return new TrainingDto(training.getName(), training.getDate(), type, training.getDuration(),
+        return new TrainingForTrainerDto(training.getName(), training.getDate(), type, training.getDuration(),
                 fullNameDto);
+    }
+
+    private static FullName getFullName(String personName) {
+        return Optional.ofNullable(personName)
+                .filter(name -> !name.isBlank())
+                .map(name -> {
+                    String[] parts = name.trim().split("\\s+", 2);
+                    String firstName = parts.length > 0 ? parts[0] : "";
+                    String lastName = parts.length > 1 ? parts[1] : "";
+                    return new FullName(firstName, lastName);
+                })
+                .orElse(null);
     }
 }

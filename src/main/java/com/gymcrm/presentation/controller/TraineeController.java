@@ -14,11 +14,16 @@ import com.gymcrm.presentation.mapper.TraineeDtoMapper;
 import com.gymcrm.presentation.mapper.TrainerDtoMapper;
 import com.gymcrm.presentation.mapper.UserCredentialsDtoMapper;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +41,10 @@ import java.util.List;
  * @author Alish
  */
 @RestController
-@RequestMapping("/trainees")
-@Api(value = "Trainee Management", tags = "Trainees")
+@RequestMapping(path = "/trainees", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Trainees", description = "Endpoints for managing trainees")
 public class TraineeController extends UserController<TraineeService> {
+
     private final TraineeService traineeService;
 
     public TraineeController(TraineeService traineeService) {
@@ -47,10 +53,12 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @PostMapping("/register")
-    @ApiOperation(value = "Register a new trainee", notes = "Creates a trainee account with generated username and password")
+    @Operation(summary = "Register a new trainee", description = "Creates a trainee account with generated username and password")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Trainee created successfully"),
-            @ApiResponse(code = 400, message = "Invalid request data"),
+            @ApiResponse(responseCode = "201", description = "Trainee created successfully",
+                    content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
     })
     public ResponseEntity<UserCredentialsDto> registerTrainee(@RequestBody @Valid CreateTraineeDto request) {
         UserCredentials credentials = traineeService.createTrainee(TraineeDtoMapper.toDomain(request));
@@ -60,10 +68,11 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @GetMapping("/{username}")
-    @ApiOperation(value = "Get trainee profile", notes = "Fetch trainee info including assigned trainers")
+    @Operation(summary = "Get trainee profile", description = "Fetch trainee info including assigned trainers")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Trainee found"),
-            @ApiResponse(code = 404, message = "Trainee not found")
+            @ApiResponse(responseCode = "200", description = "Trainee found",
+                    content = @Content(schema = @Schema(implementation = TraineeWithTrainersDto.class))),
+            @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     public TraineeWithTrainersDto getTraineeProfile(@PathVariable String username) {
         Trainee trainee = traineeService.getTraineeByUsername(username);
@@ -71,11 +80,12 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @PutMapping("/{username}")
-    @ApiOperation(value = "Update trainee profile", notes = "Update trainee details like name, address, etc.")
+    @Operation(summary = "Update trainee profile", description = "Update trainee details like name, address, etc.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Trainee updated successfully"),
-            @ApiResponse(code = 400, message = "Invalid request data"),
-            @ApiResponse(code = 404, message = "Trainee not found")
+            @ApiResponse(responseCode = "200", description = "Trainee updated successfully",
+                    content = @Content(schema = @Schema(implementation = TraineeWithTrainersDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     public TraineeWithTrainersDto updateTraineeProfile(
             @PathVariable String username,
@@ -86,10 +96,10 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @DeleteMapping("/{username}")
-    @ApiOperation(value = "Delete trainee profile", notes = "Deletes trainee and associated trainings")
+    @Operation(summary = "Delete trainee profile", description = "Deletes trainee and associated trainings")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Trainee deleted successfully"),
-            @ApiResponse(code = 404, message = "Trainee not found")
+            @ApiResponse(responseCode = "204", description = "Trainee deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Trainee not found")
     })
     public ResponseEntity<Void> deleteTraineeProfile(@PathVariable String username) {
         traineeService.deleteTrainee(username);
@@ -97,10 +107,12 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @GetMapping("/{username}/trainers")
-    @ApiOperation(value = "Get available trainers for trainee", notes = "Fetch trainers that can be assigned to the trainee")
+    @Operation(summary = "Get available trainers for trainee", description = "Fetch trainers that can be assigned to the trainee")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "List of available trainers"),
-            @ApiResponse(code = 404, message = "Trainee not found")
+            @ApiResponse(responseCode = "200", description = "List of available trainers",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainerDto.class)))),
+
+            @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     public List<TrainerDto> getAvailableTrainers(@PathVariable String username) {
         List<Trainer> availableTrainers = traineeService.getAvailableTrainersForTrainee(username);
@@ -108,10 +120,11 @@ public class TraineeController extends UserController<TraineeService> {
     }
 
     @PutMapping("/{username}/trainers")
-    @ApiOperation(value = "Update assigned trainers for trainee", notes = "Assign a list of trainers to the trainee")
+    @Operation(summary = "Update assigned trainers for trainee", description = "Assign a list of trainers to the trainee")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Trainers updated successfully"),
-            @ApiResponse(code = 404, message = "Trainee or trainer not found")
+            @ApiResponse(responseCode = "200", description = "Trainers updated successfully",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainerDto.class)))),
+            @ApiResponse(responseCode = "404", description = "Trainee or trainer not found", content = @Content)
     })
     public List<TrainerDto> updateTrainers(
             @PathVariable String username,

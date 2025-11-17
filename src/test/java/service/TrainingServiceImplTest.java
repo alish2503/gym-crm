@@ -10,6 +10,7 @@ import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
+import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,9 @@ class TrainingServiceImplTest {
 
     @Mock
     private TrainingTypeRepository trainingTypeRepository;
+
+    @Mock
+    private UserProfileRepository userProfileRepository;
 
     @InjectMocks
     private TrainingServiceImpl trainingService;
@@ -99,6 +103,7 @@ class TrainingServiceImplTest {
         Training t2 = new Training(yogaType,"Evening Yoga",
                 LocalDate.of(2025,11,15),45,1L,2L);
 
+        when(userProfileRepository.existsByUserName("trainee1")).thenReturn(true);
         when(trainingTypeRepository.existsByName(TrainingTypeEnum.YOGA)).thenReturn(true);
         when(trainingRepository.findTrainingsForTrainee("trainee1", filter)).thenReturn(List.of(t1,t2));
         List<Training> trainings = trainingService.getTrainingsForTrainee("trainee1", filter);
@@ -111,6 +116,7 @@ class TrainingServiceImplTest {
     @Test
     void getTrainingsForTrainee_shouldThrowIfTypeNotFound() {
         TrainingFilter filter = new TrainingFilter(null, null, null,TrainingTypeEnum.FITNESS);
+        when(userProfileRepository.existsByUserName("trainee1")).thenReturn(true);
         when(trainingTypeRepository.existsByName(TrainingTypeEnum.FITNESS)).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> trainingService.getTrainingsForTrainee("trainee1", filter));
     }
@@ -122,6 +128,7 @@ class TrainingServiceImplTest {
         Training t1 = new Training(yogaType,"Morning Yoga",
                 LocalDate.of(2025,11,10),60,1L,2L);
 
+        when(userProfileRepository.existsByUserName("trainer1")).thenReturn(true);
         when(trainingRepository.findTrainingsForTrainer("trainer1", filter)).thenReturn(List.of(t1));
         List<Training> trainings = trainingService.getTrainingsForTrainer("trainer1", filter);
         assertEquals(1, trainings.size());

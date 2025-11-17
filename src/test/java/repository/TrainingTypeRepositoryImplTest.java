@@ -1,7 +1,9 @@
 package repository;
 
+import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
+import com.gymcrm.infrastructure.dao.TrainerDao;
 import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import com.gymcrm.infrastructure.repository.TrainingTypeRepositoryImpl;
 import jakarta.persistence.EntityManager;
@@ -13,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -83,5 +86,14 @@ class TrainingTypeRepositoryImplTest {
         when(longQuery.setParameter(eq("typeName"), eq(TrainingTypeEnum.YOGA))).thenReturn(longQuery);
         when(longQuery.getSingleResult()).thenReturn(0L);
         assertFalse(repository.existsByName(TrainingTypeEnum.YOGA));
+    }
+
+    @Test
+    void findAll_shouldReturnAllTrainingTypes() {
+        when(entityManager.createQuery(anyString(), eq(TrainingTypeDao.class))).thenReturn(trainingTypeQuery);
+        when(trainingTypeQuery.getResultList()).thenReturn(List.of(dao));
+        List<TrainingType> result = repository.findAll();
+        assertEquals(1, result.size());
+        assertEquals(TrainingTypeEnum.FITNESS, result.get(0).typeEnum());
     }
 }

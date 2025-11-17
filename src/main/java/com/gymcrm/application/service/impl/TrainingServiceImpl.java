@@ -71,7 +71,7 @@ public class TrainingServiceImpl implements TrainingService {
     public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter)
     {
         if (!userProfileRepository.existsByUserName(username)) {
-            throw new EntityNotFoundException("No trainee found with user name: " + username);
+            throw new EntityNotFoundException("No trainee found with username: " + username);
         }
         TrainingTypeEnum typeEnum = trainingFilter.type();
         if (typeEnum != null && !trainingTypeRepository.existsByName(typeEnum)) {
@@ -85,7 +85,7 @@ public class TrainingServiceImpl implements TrainingService {
     public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter)
     {
         if (!userProfileRepository.existsByUserName(username)) {
-            throw new EntityNotFoundException("No trainer found with user name: " + username);
+            throw new EntityNotFoundException("No trainer found with username: " + username);
         }
         return trainingRepository.findTrainingsForTrainer(username, trainingFilter);
     }

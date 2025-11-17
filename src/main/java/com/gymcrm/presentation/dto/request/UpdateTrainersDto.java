@@ -1,5 +1,8 @@
 package com.gymcrm.presentation.dto.request;
 
+import com.gymcrm.presentation.dto.response.TraineeDto;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,6 +15,7 @@ import java.util.List;
  */
 public class UpdateTrainersDto {
 
+    @ArraySchema(schema = @Schema(example = "John.Doe"))
     @NotEmpty(message = "Trainer list cannot be empty")
     @Size(max = 50, message = "Cannot have more than 50 trainers")
     @Valid

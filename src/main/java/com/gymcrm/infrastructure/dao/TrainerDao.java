@@ -32,6 +32,7 @@ public class TrainerDao {
     private UserDao user;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name="specialization_id")
     private TrainingTypeDao specialization;
 
     @ManyToMany(mappedBy = "trainers", fetch = FetchType.LAZY)

@@ -2,16 +2,24 @@ package com.gymcrm.presentation.controller;
 
 import com.gymcrm.application.service.TrainingService;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;
-import com.gymcrm.presentation.dto.request.TrainingFilterDto;
-import com.gymcrm.presentation.dto.response.TrainingDto;
+import com.gymcrm.presentation.dto.request.TrainingFilterForTraineeDto;
+import com.gymcrm.presentation.dto.request.TrainingFilterForTrainerDto;
+import com.gymcrm.presentation.dto.response.TrainingForTraineeDto;
+import com.gymcrm.presentation.dto.response.TrainingForTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainingTypeDto;
 import com.gymcrm.presentation.mapper.TrainingDtoMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +37,8 @@ import java.util.Map;
  * @author Alish
  */
 @RestController
-@RequestMapping("/trainings")
-@Api(value = "Training Management", tags = "Trainings")
+@RequestMapping(path = "/trainings", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Trainings", description = "Endpoints for managing trainings")
 public class TrainingController {
 
     private final TrainingService trainingService;
@@ -40,11 +48,11 @@ public class TrainingController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create a new training", notes = "Creates a new training session for a trainee and trainer")
+    @Operation(summary = "Create a new training", description = "Creates a new training session for a trainee and trainer")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Training created successfully"),
-            @ApiResponse(code = 400, message = "Invalid request data or training already exists"),
-            @ApiResponse(code = 404, message = "Trainer or trainee or training type not found")
+            @ApiResponse(responseCode = "201", description = "Training created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request data or training already exists"),
+            @ApiResponse(responseCode = "404", description = "Trainer or trainee or training type not found")
     })
     public ResponseEntity<Void> addTraining(@RequestBody @Valid CreateTrainingDto request) {
         trainingService.createTraining(TrainingDtoMapper.toDomain(request));
@@ -52,47 +60,50 @@ public class TrainingController {
     }
 
     @GetMapping("/trainees/{username}")
-    @ApiOperation(value = "Get trainings for trainee", notes = "Fetch list of trainings for specific trainee using filters")
+    @Operation(summary = "Get trainings for trainee", description = "Fetch list of trainings for specific trainee using filters")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "List of trainings"),
-            @ApiResponse(code = 400, message = "Invalid request data"),
-            @ApiResponse(code = 404, message = "Trainee or training type not found")
+            @ApiResponse(responseCode = "200", description = "List of trainings",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainingForTraineeDto.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Trainee or training type not found", content = @Content)
     })
-    public List<TrainingDto> getTrainingsForTrainee(
+    public List<TrainingForTraineeDto> getTrainingsForTrainee(
             @PathVariable String username,
-            @ModelAttribute @Valid TrainingFilterDto filterDto
+            @ParameterObject @ModelAttribute @Valid TrainingFilterForTraineeDto filterDto
     ) {
-        return trainingService.getTrainingsForTrainee(username, TrainingDtoMapper.toDomain(filterDto)).
-                stream().map(TrainingDtoMapper::toDtoForTrainee).toList();
+        return trainingService.getTrainingsForTrainee(username, TrainingDtoMapper.toDomain(filterDto))
+                .stream().map(TrainingDtoMapper::toDtoForTrainee).toList();
     }
 
     @GetMapping("/trainers/{username}")
-    @ApiOperation(value = "Get trainings for trainer", notes = "Fetch list of trainings for specific trainer using filters")
+    @Operation(summary = "Get trainings for trainer", description = "Fetch list of trainings for specific trainer using filters")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "List of trainings"),
-            @ApiResponse(code = 400, message = "Invalid request data"),
-            @ApiResponse(code = 404, message = "Trainer not found")
+            @ApiResponse(responseCode = "200", description = "List of trainings",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainingForTrainerDto.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
-    public List<TrainingDto> getTrainingsForTrainer(
+    public List<TrainingForTrainerDto> getTrainingsForTrainer(
             @PathVariable String username,
-            @ModelAttribute @Valid TrainingFilterDto filterDto
+            @ParameterObject @ModelAttribute @Valid TrainingFilterForTrainerDto filterDto
     ) {
         return trainingService.getTrainingsForTrainer(username, TrainingDtoMapper.toDomain(filterDto))
                 .stream().map(TrainingDtoMapper::toDtoForTrainer).toList();
     }
 
     @GetMapping("/training-types")
-    @ApiOperation(value = "Get all training types", notes = "Returns list of available training types")
-    @ApiResponse(code = 200, message = "List of training types")
+    @Operation(summary = "Get all training types", description = "Returns list of available training types")
+    @ApiResponse(responseCode = "200", description = "List of training types", content = @Content)
     public List<TrainingTypeDto> getTrainingTypes() {
         return trainingService.getTrainingTypes().stream().map(TrainingDtoMapper::toDto).toList();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
-        Map<String, String> response = Map.of("error", "Illegal argument",
-                "message", ex.getMessage() != null ? ex.getMessage() : "");
-
+        Map<String, String> response = Map.of(
+                "error", "Illegal argument",
+                "message", ex.getMessage() != null ? ex.getMessage() : ""
+        );
         return ResponseEntity.badRequest().body(response);
     }
 }

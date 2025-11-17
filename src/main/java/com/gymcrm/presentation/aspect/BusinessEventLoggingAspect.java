@@ -6,6 +6,7 @@ import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.domain.model.Trainer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,5 +80,13 @@ public class BusinessEventLoggingAspect {
     public void logPasswordChange(JoinPoint joinPoint) {
         String username = (String) joinPoint.getArgs()[0];
         log.info("Password changed for user: {}", username);
+    }
+
+    @AfterThrowing(
+            pointcut = "execution(* com.gymcrm.application.service..*(..))",
+            throwing = "ex"
+    )
+    public void logServiceExceptions(JoinPoint joinPoint, Exception ex) {
+        log.error("[Exception in {}: {}", joinPoint.getSignature(), ex.getMessage());
     }
 }

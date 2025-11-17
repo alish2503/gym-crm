@@ -1,11 +1,11 @@
 package com.gymcrm.presentation.config;
 
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * @author Alish
@@ -14,9 +14,20 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("com.gymcrm.presentation.controller"))
-                .paths(PathSelectors.any()).build();
+    public GlobalOpenApiCustomizer jsonOnlyResponses() {
+        return openApi -> openApi.getPaths().values().forEach(pathItem ->
+                pathItem.readOperations().forEach(operation -> {
+                    ApiResponses responses = operation.getResponses();
+                    if (responses != null) {
+                        responses.forEach((key, apiResponse) -> {
+                            if (apiResponse.getContent() != null) {
+                                apiResponse.setContent(
+                                        new Content().addMediaType("application/json", new MediaType())
+                                );
+                            }
+                        });
+                    }
+                })
+        );
     }
 }

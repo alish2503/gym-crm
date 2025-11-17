@@ -9,11 +9,15 @@ import com.gymcrm.presentation.dto.response.TrainerWithTraineesDto;
 import com.gymcrm.presentation.dto.response.UserCredentialsDto;
 import com.gymcrm.presentation.mapper.TrainerDtoMapper;
 import com.gymcrm.presentation.mapper.UserCredentialsDtoMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +33,8 @@ import java.net.URI;
  * @author Alish
  */
 @RestController
-@RequestMapping("/trainers")
-@Api(value = "Trainer Management", tags = "Trainers")
+@RequestMapping(path = "/trainers", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Trainers", description = "Endpoints for managing trainers")
 public class TrainerController extends UserController<TrainerService> {
 
     private final TrainerService trainerService;
@@ -41,10 +45,12 @@ public class TrainerController extends UserController<TrainerService> {
     }
 
     @PostMapping("/register")
-    @ApiOperation(value = "Register a new trainer", notes = "Creates a trainer account with generated username and password")
+    @Operation(summary = "Register a new trainer", description = "Creates a trainer account with generated username and password")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Trainer created successfully"),
-            @ApiResponse(code = 400, message = "Invalid request data")
+            @ApiResponse(responseCode = "201", description = "Trainer created successfully",
+                    content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))),
+
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
     })
     public ResponseEntity<UserCredentialsDto> registerTrainer(@RequestBody @Valid CreateTrainerDto request) {
         UserCredentials credentials = trainerService.createTrainer(TrainerDtoMapper.toDomain(request));
@@ -54,10 +60,12 @@ public class TrainerController extends UserController<TrainerService> {
     }
 
     @GetMapping("/{username}")
-    @ApiOperation(value = "Get trainer profile", notes = "Fetch trainer information including assigned trainees")
+    @Operation(summary = "Get trainer profile", description = "Fetch trainer information including assigned trainees")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Trainer found"),
-            @ApiResponse(code = 404, message = "Trainer not found")
+            @ApiResponse(responseCode = "200", description = "Trainer found",
+                    content = @Content(schema = @Schema(implementation = TrainerWithTraineesDto.class))),
+
+            @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
     public TrainerWithTraineesDto getTrainerProfile(@PathVariable String username) {
         Trainer trainer = trainerService.getTrainerByUsername(username);
@@ -65,11 +73,12 @@ public class TrainerController extends UserController<TrainerService> {
     }
 
     @PutMapping("/{username}")
-    @ApiOperation(value = "Update trainer profile", notes = "Update trainer details like name, specialization, etc.")
+    @Operation(summary = "Update trainer profile", description = "Update trainer details like name, specialization, etc.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Trainer updated successfully"),
-            @ApiResponse(code = 400, message = "Invalid request data"),
-            @ApiResponse(code = 404, message = "Trainer not found")
+            @ApiResponse(responseCode = "200", description = "Trainer updated successfully",
+                    content = @Content(schema = @Schema(implementation = TrainerWithTraineesDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
     public TrainerWithTraineesDto updateTrainerProfile(
             @PathVariable String username,

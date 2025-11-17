@@ -43,7 +43,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     public Trainee getTraineeByUsername(String username) {
         return traineeRepository.findTraineeWithTrainers(username)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Trainee not found with user name: " + username
+                        "Trainee not found with username: " + username
                 ));
     }
 
@@ -69,7 +69,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     @Transactional
     public void deleteTrainee(String username) {
         Long id = traineeRepository.findIdByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("No trainee found with user name: " + username)
+                () -> new EntityNotFoundException("No trainee found with username: " + username)
         );
         traineeRepository.deleteById(id);
     }
@@ -85,7 +85,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
 
             List<String> notFound = usernames.stream().filter(name -> !found.contains(name)).toList();
             String errorMessage = String.join(", ", notFound);
-            throw new EntityNotFoundException("Trainers with user names: " + errorMessage + " not found");
+            throw new EntityNotFoundException("Trainers with usernames: " + errorMessage + " not found");
         }
         trainee.setTrainers(trainers);
         traineeRepository.update(trainee);
@@ -95,6 +95,9 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     @Override
     @Transactional(readOnly = true)
     public List<Trainer> getAvailableTrainersForTrainee(String username) {
+        if (!userProfileRepository.existsByUserName(username)) {
+            throw new EntityNotFoundException("No trainee found with username: " + username);
+        }
         List<Long> assignedIds = trainerRepository.findAssignedTrainersIds(username);
         return assignedIds.isEmpty() ? trainerRepository.findAll() :
                 trainerRepository.getAvailableTrainersNotAssigned(assignedIds);
