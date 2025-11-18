@@ -49,9 +49,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleParseError(HttpMessageNotReadableException ex) {
+        log.error("Wrong format of data", ex);
         Map<String, String> response = new LinkedHashMap<>();
         response.put("error", "Invalid request body");
         response.put("message", "Wrong format of data");
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleUnexpected(Exception ex) {
+        Map<String, String> response = new LinkedHashMap<>();
+        response.put("error", "Internal Server Error");
+        response.put("message", "An unexpected error occurred");
+        return ResponseEntity.internalServerError().body(response);
     }
 }
