@@ -5,13 +5,11 @@ import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingType;
-import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.presentation.dto.FullNameDto;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;
 import com.gymcrm.presentation.dto.request.TrainingFilterForTraineeDto;
 import com.gymcrm.presentation.dto.request.TrainingFilterForTrainerDto;
-import com.gymcrm.presentation.dto.response.TrainingDto;
 import com.gymcrm.presentation.dto.response.TrainingForTraineeDto;
 import com.gymcrm.presentation.dto.response.TrainingForTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainingTypeDto;
@@ -26,9 +24,8 @@ public class TrainingDtoMapper {
     private TrainingDtoMapper() {}
 
     public static CreateTrainingRequest toDomain(CreateTrainingDto dto) {
-        TrainingTypeEnum typeEnum = TrainingTypeEnum.valueOf(dto.getTrainingType());
-        return new CreateTrainingRequest(dto.getTrainerUsername(), dto.getTraineeUsername(), typeEnum,
-                dto.getTrainingName(), dto.getDate(), dto.getDuration());
+        return new CreateTrainingRequest(dto.getTrainerUsername(), dto.getTraineeUsername(),
+                dto.getTrainingType(), dto.getTrainingName(), dto.getDate(), dto.getDuration());
     }
 
     public static TrainingFilter toDomain(TrainingFilterForTrainerDto dto) {
@@ -38,12 +35,7 @@ public class TrainingDtoMapper {
 
     public static TrainingFilter toDomain(TrainingFilterForTraineeDto dto) {
         FullName fullName = getFullName(dto.getTrainerName());
-        TrainingTypeEnum typeEnum = Optional.ofNullable(dto.getType())
-                .map(String::toUpperCase)
-                .map(TrainingTypeEnum::valueOf)
-                .orElse(null);
-
-        return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, typeEnum);
+        return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, dto.getType());
     }
 
     public static TrainingTypeDto toDto(TrainingType trainingType) {

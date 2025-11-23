@@ -7,7 +7,7 @@ import com.gymcrm.domain.model.TrainingTypeEnum;
  * @author Alish
  */
 public class CreateTrainerRequest extends FullName {
-    private TrainingTypeEnum specialization;
+    private final TrainingTypeEnum specialization;
 
     public CreateTrainerRequest(String firstName, String lastName, TrainingTypeEnum specialization)
     {

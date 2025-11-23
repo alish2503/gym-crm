@@ -1,15 +1,16 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTrainerRequest;
+import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.request.UpdateUserRequest;
-import com.gymcrm.application.service.CredentialService;
+import com.gymcrm.application.service.port.CredentialService;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.application.service.TrainerService;
+import com.gymcrm.application.service.port.TrainerService;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,16 +18,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Alish
  */
 @Service
-public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements TrainerService {
+public class TrainerServiceImpl extends AbstractUserService<Trainer> implements TrainerService {
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
 
     public TrainerServiceImpl(TrainerRepository trainerRepository,
                               TrainingTypeRepository trainingTypeRepository,
                               UserProfileRepository userProfileRepository,
+                              PasswordEncoder encoder,
                               CredentialService credentialService)
     {
-        super(trainerRepository, userProfileRepository, credentialService);
+        super(trainerRepository, userProfileRepository, encoder, credentialService);
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
     }
@@ -36,7 +38,7 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
     public Trainer getTrainerByUsername(String username) {
         return trainerRepository.findTrainerWithTrainees(username)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Trainer not found with username: " + username
+                        "No trainer found with username: " + username
                 ));
     }
 
@@ -50,9 +52,11 @@ public class TrainerServiceImpl extends UserServiceImpl<Trainer> implements Trai
 
     @Override
     @Transactional
-    public Trainer updateTrainer(UpdateUserRequest request) {
+    public Trainer updateTrainer(UpdateTrainerRequest request) {
         String username = request.getUsername();
         Trainer updated = getTrainerByUsername(username);
+        TrainingType specialization = findTypeOrThrow(request.getSpecialization());
+        updated.setSpecialization(specialization);
         updateUser(updated, request);
         return updated;
     }

@@ -1,6 +1,6 @@
 package com.gymcrm.presentation.dto.request;
 
-import com.gymcrm.presentation.validation.ValidTrainingType;
+import com.gymcrm.domain.model.TrainingTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 
@@ -9,12 +9,11 @@ import jakarta.validation.constraints.Size;
  */
 public class TrainingFilterForTraineeDto extends TrainingFilterDto {
 
-    @Schema(example= "John Doe")
+    @Schema(description= "Example: John Doe")
     @Size(max = 50)
     private String trainerName;
 
-    @ValidTrainingType
-    private String type;
+    private TrainingTypeEnum type;
 
     public TrainingFilterForTraineeDto() {}
 
@@ -22,12 +21,12 @@ public class TrainingFilterForTraineeDto extends TrainingFilterDto {
         return trainerName;
     }
 
-    public String getType() {
+    public TrainingTypeEnum getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type.toUpperCase();
+    public void setType(TrainingTypeEnum type) {
+        this.type = type;
     }
 
     public void setTrainerName(String trainerName) {

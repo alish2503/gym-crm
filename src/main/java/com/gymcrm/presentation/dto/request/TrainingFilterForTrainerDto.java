@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
  */
 public class TrainingFilterForTrainerDto extends TrainingFilterDto {
 
-    @Schema(example= "John Doe")
+    @Schema(description = "Example: John Doe")
     @Size(max = 50)
     private String traineeName;
 

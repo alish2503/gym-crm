@@ -3,15 +3,16 @@ package com.gymcrm.application.service.impl;
 import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.CredentialService;
+import com.gymcrm.application.service.port.CredentialService;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.model.Trainee;
-import com.gymcrm.application.service.TraineeService;
+import com.gymcrm.application.service.port.TraineeService;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Alish
  */
 @Service
-public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements TraineeService {
+public class TraineeServiceImpl extends AbstractUserService<Trainee> implements TraineeService {
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
 
@@ -31,9 +32,10 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     public TraineeServiceImpl(TraineeRepository traineeRepository,
                               TrainerRepository trainerRepository,
                               UserProfileRepository userProfileRepository,
+                              PasswordEncoder encoder,
                               CredentialService credentialService)
     {
-        super(traineeRepository, userProfileRepository, credentialService);
+        super(traineeRepository, userProfileRepository, encoder, credentialService);
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
     }
@@ -43,7 +45,7 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
     public Trainee getTraineeByUsername(String username) {
         return traineeRepository.findTraineeWithTrainers(username)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Trainee not found with username: " + username
+                        "No trainee found with username: " + username
                 ));
     }
 
@@ -84,8 +86,8 @@ public class TraineeServiceImpl extends UserServiceImpl<Trainee> implements Trai
                     map(t -> t.getUser().getUsername()).collect(Collectors.toSet());
 
             List<String> notFound = usernames.stream().filter(name -> !found.contains(name)).toList();
-            String errorMessage = String.join(", ", notFound);
-            throw new EntityNotFoundException("Trainers with usernames: " + errorMessage + " not found");
+            String errorUsernames = String.join(", ", notFound);
+            throw new EntityNotFoundException("No trainers found with usernames: " + errorUsernames);
         }
         trainee.setTrainers(trainers);
         traineeRepository.update(trainee);

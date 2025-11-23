@@ -6,8 +6,8 @@ import com.gymcrm.domain.model.FullName;
  * @author Alish
  */
 public class UpdateUserRequest extends FullName {
-    private String username;
-    private boolean isActive;
+    private final String username;
+    private final boolean isActive;
 
     public UpdateUserRequest(String username, String firstName, String lastName, boolean isActive)
     {

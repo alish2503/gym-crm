@@ -1,7 +1,7 @@
 package com.gymcrm.presentation.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gymcrm.presentation.validation.ValidTrainingType;
+import com.gymcrm.domain.model.TrainingTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -27,10 +27,8 @@ public class CreateTrainingDto {
     private String traineeUsername;
 
     @Schema(example = "FITNESS")
-    @NotBlank(message = "Training type cannot be blank")
-    @ValidTrainingType
-    @Size(max = 10)
-    private String trainingType;
+    @NotNull(message = "Training type cannot be blank")
+    private TrainingTypeEnum trainingType;
 
     @Schema(example = "Morning Yoga")
     @NotBlank(message = "Training name cannot be blank")
@@ -57,7 +55,7 @@ public class CreateTrainingDto {
         return traineeUsername;
     }
 
-    public String getTrainingType() {
+    public TrainingTypeEnum getTrainingType() {
         return trainingType;
     }
 
@@ -81,8 +79,8 @@ public class CreateTrainingDto {
         this.traineeUsername = traineeUsername;
     }
 
-    public void setTrainingType(String trainingType) {
-        this.trainingType = trainingType.toUpperCase();
+    public void setTrainingType(TrainingTypeEnum trainingType) {
+        this.trainingType = trainingType;
     }
 
     public void setTrainingName(String trainingName) {

@@ -4,12 +4,13 @@ import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.application.service.TrainingService;
+import com.gymcrm.application.service.port.TrainingService;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +52,7 @@ public class TrainingServiceImpl implements TrainingService {
         TrainingTypeEnum typeEnum = request.type();
         LocalDate trainingDate = request.date();
         if (trainingRepository.existsTraining(trainerUsername, traineeUsername, trainingDate, trainingName)) {
-            throw new IllegalArgumentException("Training already exits");
+            throw new DataIntegrityViolationException("Training already exits");
         }
         Long traineeId = traineeRepository.findIdByUsername(traineeUsername).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with username: " + traineeUsername)
@@ -68,8 +69,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter)
-    {
+    public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter) {
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainee found with username: " + username);
         }
@@ -82,8 +82,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter)
-    {
+    public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter) {
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainer found with username: " + username);
         }

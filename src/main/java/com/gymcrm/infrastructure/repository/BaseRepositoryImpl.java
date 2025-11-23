@@ -12,6 +12,7 @@ abstract class BaseRepositoryImpl<E, D> implements BaseRepository<E> {
     @PersistenceContext
     protected EntityManager entityManager;
 
+    @Override
     public void save(E entity) {
         entityManager.persist(mapToDao(entity));
     }

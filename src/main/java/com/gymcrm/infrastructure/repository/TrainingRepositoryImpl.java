@@ -40,6 +40,7 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
         return query.getResultList().stream().map(TrainingDaoMapper::toDomainForTrainee).toList();
     }
 
+    @Override
     public List<Training> findTrainingsForTrainer(String userName, TrainingFilter trainingFilter) {
         LocalDate from = trainingFilter.from();
         LocalDate to = trainingFilter.to();
@@ -53,6 +54,7 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
         return query.getResultList().stream().map(TrainingDaoMapper::toDomainForTrainer).toList();
     }
 
+    @Override
     public boolean existsTraining(String trainerUsername, String traineeUsername,
                                   LocalDate trainingDate, String trainingName) {
 
@@ -92,8 +94,6 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
         }
         return jpql;
     }
-
-
 
     @Override
     protected TrainingDao mapToDao(Training entity) {
