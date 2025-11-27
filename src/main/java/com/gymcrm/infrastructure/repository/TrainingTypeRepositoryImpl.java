@@ -3,12 +3,13 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingTypeRepository;
-import com.gymcrm.infrastructure.mapper.TrainingTypeMapper;
-import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.mapper.TrainingTypeDaoMapper;
+import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,7 +26,14 @@ public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
         return entityManager.
                 createQuery("from TrainingTypeDao where name = :typeName ", TrainingTypeDao.class).
                 setParameter("typeName", typeEnum).
-                getResultStream().findFirst().map(TrainingTypeMapper::toDomain);
+                getResultStream().findFirst().map(TrainingTypeDaoMapper::toDomain);
+    }
+
+    @Override
+    public List<TrainingType> findAll() {
+        String jpql = "from TrainingTypeDao";
+        return entityManager.createQuery(jpql, TrainingTypeDao.class).
+                getResultList().stream().map(TrainingTypeDaoMapper::toDomain).toList();
     }
 
     @Override

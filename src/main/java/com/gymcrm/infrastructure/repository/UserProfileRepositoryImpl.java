@@ -2,8 +2,8 @@ package com.gymcrm.infrastructure.repository;
 
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.mapper.UserMapper;
-import com.gymcrm.infrastructure.persistence.dao.UserDao;
+import com.gymcrm.infrastructure.mapper.UserDaoMapper;
+import com.gymcrm.infrastructure.dao.UserDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -26,12 +26,12 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
                 .setParameter("username", username)
                 .getResultStream()
                 .findFirst()
-                .map(UserMapper::toDomain);
+                .map(UserDaoMapper::toDomain);
     }
 
     @Override
     public void updateProfile(User userProfile) {
-        entityManager.merge(UserMapper.toDao(userProfile));
+        entityManager.merge(UserDaoMapper.toDao(userProfile));
     }
 
     @Override

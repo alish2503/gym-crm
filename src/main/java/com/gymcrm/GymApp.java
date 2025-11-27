@@ -1,16 +1,14 @@
 package com.gymcrm;
 
-import com.gymcrm.application.facade.GymFacade;
-import com.gymcrm.infrastructure.config.GymAppConfig;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Alish
  */
+@SpringBootApplication
 public class GymApp {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GymAppConfig.class);
-        GymFacade gymFacade = context.getBean(GymFacade.class);
-        context.close();
+        SpringApplication.run(GymApp.class, args);
     }
 }

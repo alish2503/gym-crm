@@ -1,34 +1,62 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.service.AuthService;
-import com.gymcrm.application.service.CredentialService;
-import com.gymcrm.domain.model.User;
-import com.gymcrm.domain.port.UserProfileRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.gymcrm.application.service.port.AuthService;
+import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
+import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
+import com.gymcrm.infrastructure.security.service.port.JwtService;
+import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @author Alish
  */
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final UserProfileRepository userProfileRepository;
-    private final CredentialService credentialService;
+    private final BruteForceProtectionService bruteForceProtectionService;
+    private final TokenBlacklistService tokenBlacklistService;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtService jwtService;
 
     @Autowired
-    public AuthServiceImpl(UserProfileRepository userProfileRepository, CredentialService credentialService) {
-        this.userProfileRepository = userProfileRepository;
-        this.credentialService = credentialService;
+    public AuthServiceImpl(BruteForceProtectionService bruteForceProtectionService, TokenBlacklistService tokenBlacklistService,
+                           CustomUserDetailsService userDetailsService, JwtService jwtService)
+    {
+        this.bruteForceProtectionService = bruteForceProtectionService;
+        this.tokenBlacklistService = tokenBlacklistService;
+        this.userDetailsService = userDetailsService;
+        this.jwtService = jwtService;
     }
 
-    public User authenticate(String username, String rawPassword) {
-        User user = userProfileRepository.findProfileByUserName(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found: " + username));
-
-        if (!credentialService.passwordMatches(rawPassword, user.getPassword())) {
-            throw new SecurityException("Incorrect password");
+    @Override
+    public String login(String username, String rawPassword) {
+        long remaining = bruteForceProtectionService.checkBlocked(username);
+        if (remaining > 0) {
+            throw new LockedException("User blocked for " + remaining + " ms");
         }
-        return user;
+        if (!userDetailsService.isValidPassword(username, rawPassword)) {
+            bruteForceProtectionService.loginFailed(username);
+            throw new BadCredentialsException("Wrong password");
+        }
+        bruteForceProtectionService.loginSucceeded(username);
+        return jwtService.generateToken(username);
+    }
+
+    @Override
+    public void logout(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new InsufficientAuthenticationException("No token provided");
+        }
+        String token = authHeader.substring(7);
+        if (!jwtService.isValidToken(token)) {
+            throw new BadCredentialsException("Invalid token");
+        }
+        Date expiration = jwtService.getExpiration(token);
+        tokenBlacklistService.blacklist(token, expiration);
     }
 }

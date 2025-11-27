@@ -6,12 +6,12 @@ import com.gymcrm.domain.model.TrainingTypeEnum;
  * @author Alish
  */
 public class UpdateTrainerRequest extends UpdateUserRequest {
-    private TrainingTypeEnum specialization;
+    private final TrainingTypeEnum specialization;
 
-    public UpdateTrainerRequest(String username, String password, String firstName, String lastName,
+    public UpdateTrainerRequest(String username, String firstName, String lastName,
                                 boolean isActive, TrainingTypeEnum specialization)
     {
-        super(username, password, firstName, lastName, isActive);
+        super(username, firstName, lastName, isActive);
         this.specialization = specialization;
     }
 

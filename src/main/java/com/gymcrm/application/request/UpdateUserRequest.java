@@ -1,25 +1,26 @@
 package com.gymcrm.application.request;
 
+import com.gymcrm.domain.model.FullName;
+
 /**
  * @author Alish
  */
-public class UpdateUserRequest extends CreateUserRequest {
-    private String username;
-    private String password;
+public class UpdateUserRequest extends FullName {
+    private final String username;
+    private final boolean isActive;
 
-    public UpdateUserRequest(String username, String password, String firstName, String lastName,
-                             boolean isActive)
+    public UpdateUserRequest(String username, String firstName, String lastName, boolean isActive)
     {
-        super(isActive, firstName, lastName);
+        super(firstName, lastName);
         this.username = username;
-        this.password = password;
+        this.isActive = isActive;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getPassword() {
-        return password;
+    public boolean isActive() {
+        return isActive;
     }
 }
