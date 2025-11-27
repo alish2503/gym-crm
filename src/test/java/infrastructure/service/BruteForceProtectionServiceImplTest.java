@@ -1,13 +1,14 @@
 package infrastructure.service;
 
-/**
- * @author Alish
- */
 import com.gymcrm.infrastructure.security.service.impl.BruteForceProtectionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * @author Alish
+ */
 
 class BruteForceProtectionServiceImplTest {
     private TestableBruteForceProtectionService service;

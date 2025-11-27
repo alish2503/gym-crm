@@ -1,9 +1,9 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.service.port.AuthService;
+import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
 import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
 import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.LoginAttemptService;
 import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,16 +18,16 @@ import java.util.Date;
  */
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final LoginAttemptService loginAttemptService;
+    private final BruteForceProtectionService bruteForceProtectionService;
     private final TokenBlacklistService tokenBlacklistService;
     private final CustomUserDetailsService userDetailsService;
     private final JwtService jwtService;
 
     @Autowired
-    public AuthServiceImpl(LoginAttemptService loginAttemptService, TokenBlacklistService tokenBlacklistService,
+    public AuthServiceImpl(BruteForceProtectionService bruteForceProtectionService, TokenBlacklistService tokenBlacklistService,
                            CustomUserDetailsService userDetailsService, JwtService jwtService)
     {
-        this.loginAttemptService = loginAttemptService;
+        this.bruteForceProtectionService = bruteForceProtectionService;
         this.tokenBlacklistService = tokenBlacklistService;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
@@ -35,15 +35,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(String username, String rawPassword) {
-        long remaining = loginAttemptService.checkBlocked(username);
+        long remaining = bruteForceProtectionService.checkBlocked(username);
         if (remaining > 0) {
             throw new LockedException("User blocked for " + remaining + " ms");
         }
         if (!userDetailsService.isValidPassword(username, rawPassword)) {
-            loginAttemptService.loginFailed(username);
+            bruteForceProtectionService.loginFailed(username);
             throw new BadCredentialsException("Wrong password");
         }
-        loginAttemptService.loginSucceeded(username);
+        bruteForceProtectionService.loginSucceeded(username);
         return jwtService.generateToken(username);
     }
 

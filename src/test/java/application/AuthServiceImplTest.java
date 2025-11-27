@@ -1,9 +1,9 @@
 package application;
 
 import com.gymcrm.application.service.impl.AuthServiceImpl;
+import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
 import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
 import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.LoginAttemptService;
 import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class AuthServiceImplTest {
 
     @Mock
-    private LoginAttemptService loginAttemptService;
+    private BruteForceProtectionService bruteForceProtectionService;
 
     @Mock
     private TokenBlacklistService tokenBlacklistService;
@@ -47,7 +47,7 @@ public class AuthServiceImplTest {
 
     @Test
     void login_userIsBlocked_shouldThrowLockedException() {
-        when(loginAttemptService.checkBlocked("user")).thenReturn(5000L);
+        when(bruteForceProtectionService.checkBlocked("user")).thenReturn(5000L);
         assertThrows(LockedException.class, () -> authService.login("user", "pass"));
         verify(userDetailsService, never()).isValidPassword(any(), any());
         verify(jwtService, never()).generateToken(any());
@@ -55,21 +55,21 @@ public class AuthServiceImplTest {
 
     @Test
     void login_wrongPassword_shouldThrowBadCredentials() {
-        when(loginAttemptService.checkBlocked("user")).thenReturn(0L);
+        when(bruteForceProtectionService.checkBlocked("user")).thenReturn(0L);
         when(userDetailsService.isValidPassword("user", "pass")).thenReturn(false);
         assertThrows(BadCredentialsException.class, () -> authService.login("user", "pass"));
-        verify(loginAttemptService).loginFailed("user");
+        verify(bruteForceProtectionService).loginFailed("user");
         verify(jwtService, never()).generateToken(any());
     }
 
     @Test
     void login_success_shouldReturnToken() {
-        when(loginAttemptService.checkBlocked("user")).thenReturn(0L);
+        when(bruteForceProtectionService.checkBlocked("user")).thenReturn(0L);
         when(userDetailsService.isValidPassword("user", "pass")).thenReturn(true);
         when(jwtService.generateToken("user")).thenReturn("TOKEN123");
         String result = authService.login("user", "pass");
         assertEquals("TOKEN123", result);
-        verify(loginAttemptService).loginSucceeded("user");
+        verify(bruteForceProtectionService).loginSucceeded("user");
         verify(jwtService).generateToken("user");
     }
 
