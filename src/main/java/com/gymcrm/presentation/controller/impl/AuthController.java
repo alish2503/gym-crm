@@ -1,17 +1,8 @@
 package com.gymcrm.presentation.controller.impl;
 
-import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.AuthService;
-import com.gymcrm.application.service.port.TraineeService;
-import com.gymcrm.application.service.port.TrainerService;
 import com.gymcrm.presentation.controller.port.AuthControllerApi;
-import com.gymcrm.presentation.dto.request.CreateTraineeDto;
-import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.LoginDto;
-import com.gymcrm.presentation.dto.response.UserCredentialsDto;
-import com.gymcrm.presentation.mapper.TraineeDtoMapper;
-import com.gymcrm.presentation.mapper.TrainerDtoMapper;
-import com.gymcrm.presentation.mapper.UserCredentialsDtoMapper;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.util.Map;
 
 /**
@@ -35,29 +25,12 @@ import java.util.Map;
 @RestController
 public class AuthController implements AuthControllerApi {
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-    private final TraineeService traineeService;
-    private final TrainerService trainerService;
     private final AuthService authService;
 
     @Autowired
-    public AuthController(TraineeService traineeService, TrainerService trainerService,
-                          AuthService authService)
+    public AuthController(AuthService authService)
     {
-        this.traineeService = traineeService;
-        this.trainerService = trainerService;
         this.authService = authService;
-    }
-
-    @PostMapping("/register/trainees")
-    public ResponseEntity<UserCredentialsDto> registerTrainee(@RequestBody @Valid CreateTraineeDto request) {
-        UserCredentials credentials = traineeService.createTrainee(TraineeDtoMapper.toDomain(request));
-        return createUserCredentialsResponse(credentials, "trainees");
-    }
-
-    @PostMapping("/register/trainers")
-    public ResponseEntity<UserCredentialsDto> registerTrainer(@RequestBody @Valid CreateTrainerDto request) {
-        UserCredentials credentials = trainerService.createTrainer(TrainerDtoMapper.toDomain(request));
-        return createUserCredentialsResponse(credentials, "trainers");
     }
 
     @PostMapping("/login")
@@ -72,14 +45,6 @@ public class AuthController implements AuthControllerApi {
     {
         authService.logout(authHeader);
         return ResponseEntity.ok().build();
-    }
-
-    private ResponseEntity<UserCredentialsDto> createUserCredentialsResponse(UserCredentials credentials,
-                                                                             String pathName)
-    {
-        UserCredentialsDto credentialsDto = UserCredentialsDtoMapper.toDto(credentials);
-        URI location = URI.create("/" + pathName + "/" + credentialsDto.username());
-        return ResponseEntity.created(location).body(credentialsDto);
     }
 
     @ExceptionHandler(LockedException.class)

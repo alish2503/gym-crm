@@ -1,20 +1,26 @@
 package infrastructure.controller;
 
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.TrainerService;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.presentation.controller.impl.TrainerController;
+import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainerWithTraineesAfterUpdateDto;
 import com.gymcrm.presentation.dto.response.TrainerWithTraineesDto;
+import com.gymcrm.presentation.dto.response.UserCredentialsDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Alish
+ */
 
 @ExtendWith(MockitoExtension.class)
 class TrainerControllerTest {
@@ -32,6 +41,18 @@ class TrainerControllerTest {
 
     @InjectMocks
     private TrainerController controller;
+
+    @Test
+    void registerTrainer_shouldReturn201AndBody() {
+        CreateTrainerDto dto = new CreateTrainerDto("John", "Doe", TrainingTypeEnum.YOGA);
+        UserCredentials credentials = new UserCredentials("John.Doe", "pass");
+        when(trainerService.createTrainer(any())).thenReturn(credentials);
+        ResponseEntity<UserCredentialsDto> response = controller.registerTrainer(dto);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("John.Doe", response.getBody().username());
+        assertEquals(URI.create("/trainers/John.Doe"), response.getHeaders().getLocation());
+    }
 
     @Test
     void getTrainerProfile_shouldReturnDto() {

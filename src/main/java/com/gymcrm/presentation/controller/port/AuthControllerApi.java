@@ -1,13 +1,9 @@
 package com.gymcrm.presentation.controller.port;
 
-import com.gymcrm.presentation.dto.request.CreateTraineeDto;
-import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.LoginDto;
-import com.gymcrm.presentation.dto.response.UserCredentialsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,28 +19,6 @@ import java.util.Map;
 @Tag(name= "Authentication")
 @RequestMapping(path = "/auth", produces = "application/json")
 public interface AuthControllerApi {
-
-    @Operation(summary = "Register a new trainee",
-            description = "Creates a trainee account with generated username and password"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Trainee created successfully",
-                    content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))
-            ),
-            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
-    })
-    ResponseEntity<UserCredentialsDto> registerTrainee(CreateTraineeDto request);
-
-    @Operation(summary = "Register a new trainer",
-            description = "Creates a trainer account with generated username and password"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Trainer created successfully",
-                    content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))),
-
-            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
-    })
-    ResponseEntity<UserCredentialsDto> registerTrainer(CreateTrainerDto request);
 
     @Operation(summary = "Login and get JWT")
     @ApiResponses(value = {

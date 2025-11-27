@@ -1,9 +1,7 @@
 package infrastructure.repository;
 
-import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.infrastructure.dao.TrainerDao;
 import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import com.gymcrm.infrastructure.repository.TrainingTypeRepositoryImpl;
 import jakarta.persistence.EntityManager;

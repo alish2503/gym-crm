@@ -1,5 +1,6 @@
 package infrastructure.controller;
 
+import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.TraineeService;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
@@ -7,11 +8,13 @@ import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.presentation.controller.impl.TraineeController;
+import com.gymcrm.presentation.dto.request.CreateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainersDto;
 import com.gymcrm.presentation.dto.response.TraineeWithTrainersAfterUpdateDto;
 import com.gymcrm.presentation.dto.response.TraineeWithTrainersDto;
 import com.gymcrm.presentation.dto.response.TrainerDto;
+import com.gymcrm.presentation.dto.response.UserCredentialsDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,10 +23,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,6 +47,25 @@ class TraineeControllerTest {
 
     @InjectMocks
     private TraineeController controller;
+
+    @Test
+    void registerTrainee_shouldReturn201AndBody() {
+        CreateTraineeDto dto = new CreateTraineeDto(
+                "John",
+                "Doe",
+                LocalDate.of(1990, 1, 1),
+                "London"
+        );
+
+        UserCredentials credentials = new UserCredentials("John.Doe", "pass");
+        when(traineeService.createTrainee(any())).thenReturn(credentials);
+        ResponseEntity<UserCredentialsDto> response = controller.registerTrainee(dto);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("John.Doe", response.getBody().username());
+        assertEquals("pass", response.getBody().password());
+        assertEquals(URI.create("/trainees/John.Doe"), response.getHeaders().getLocation());
+    }
 
     @Test
     void getTraineeProfile_shouldReturnDto() {

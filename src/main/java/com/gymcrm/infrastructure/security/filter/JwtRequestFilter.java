@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -41,7 +40,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException
     {
-        if (request.getRequestURI().startsWith("/auth")) {
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/auth") || requestURI.equals("/trainees/register") ||
+                requestURI.equals("/trainers/register"))
+        {
             filterChain.doFilter(request, response);
             return;
         }
@@ -55,7 +57,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             String username = jwtService.getUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, Collections.emptyList());
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
         filterChain.doFilter(request, response);

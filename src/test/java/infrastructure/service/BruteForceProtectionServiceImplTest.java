@@ -14,7 +14,7 @@ class BruteForceProtectionServiceImplTest {
     private TestableBruteForceProtectionService service;
     private long fakeTime;
 
-    static class TestableBruteForceProtectionService extends BruteForceProtectionServiceImpl {
+    private static class TestableBruteForceProtectionService extends BruteForceProtectionServiceImpl {
         private long fixedTime;
 
         public TestableBruteForceProtectionService(int maxAttempts, long blockMinutes) {

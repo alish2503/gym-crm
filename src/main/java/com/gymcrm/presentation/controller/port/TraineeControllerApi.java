@@ -1,10 +1,12 @@
 package com.gymcrm.presentation.controller.port;
 
+import com.gymcrm.presentation.dto.request.CreateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainersDto;
 import com.gymcrm.presentation.dto.response.TraineeWithTrainersAfterUpdateDto;
 import com.gymcrm.presentation.dto.response.TraineeWithTrainersDto;
 import com.gymcrm.presentation.dto.response.TrainerDto;
+import com.gymcrm.presentation.dto.response.UserCredentialsDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,6 +25,17 @@ import java.util.List;
 @Tag(name = "Trainees")
 @RequestMapping(path = "/trainees", produces = "application/json")
 public interface TraineeControllerApi {
+
+    @Operation(summary = "Register a new trainee",
+            description = "Creates a trainee account with generated username and password"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Trainee created successfully",
+                    content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
+    })
+    ResponseEntity<UserCredentialsDto> registerTrainee(CreateTraineeDto request);
 
     @Operation(summary = "Get trainee profile", description = "Fetch trainee info including assigned trainers")
     @ApiResponses(value = {

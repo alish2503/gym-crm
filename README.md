@@ -153,7 +153,7 @@ com.gymcrm
  │   ├─ mapper        # Entity ↔ DAO mappers
  │   ├─ repository    # Repository implementations
  │   ├─ logging       # Filter for transaction logging
- │   └─ security      # JWT, Brute-force protection, filters, custom user details
+ │   └─ security      # JWT, Brute-force protection, filter, custom user details
  └─ presentation
      ├─ controller    # REST controllers
      ├─ dto           # REST request/response DTOs
