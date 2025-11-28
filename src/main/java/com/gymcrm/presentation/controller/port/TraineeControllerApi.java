@@ -62,7 +62,7 @@ public interface TraineeControllerApi {
             @ApiResponse(responseCode = "403", description = "Access denied"),
             @ApiResponse(responseCode = "404", description = "Trainee not found")
     })
-    ResponseEntity<Void> deleteTraineeProfile(String username);
+    void deleteTraineeProfile(String username);
 
     @Operation(summary = "Get available trainers for trainee", description = "Fetch trainers that can be assigned to the trainee")
     @ApiResponses(value = {

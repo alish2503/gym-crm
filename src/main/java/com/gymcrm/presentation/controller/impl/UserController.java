@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -31,10 +32,10 @@ public class UserController implements UserControllerApi {
     }
 
     @PatchMapping("/{username}/active")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#username == authentication.name")
-    public ResponseEntity<Void> changeActivity(@PathVariable String username) {
+    public void changeActivity(@PathVariable String username) {
         userService.toggle(username);
-        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{username}/password")

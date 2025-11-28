@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public interface TrainingControllerApi {
             @ApiResponse(responseCode = "403", description = "Access denied"),
             @ApiResponse(responseCode = "404", description = "Trainer or trainee or training type not found")
     })
-    ResponseEntity<Void> addTraining(CreateTrainingDto request);
+    void addTraining(CreateTrainingDto request);
 
     @Operation(summary = "Get trainings for trainee", description = "Fetch list of trainings for specific trainee using filters")
     @ApiResponses(value = {

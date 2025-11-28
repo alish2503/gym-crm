@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -39,10 +38,8 @@ class UserControllerTest {
 
     @Test
     void changeActivity_shouldToggleAndReturnOk() {
-        ResponseEntity<Void> response = controller.changeActivity("John.Doe");
+        controller.changeActivity("John.Doe");
         verify(userService).toggle("John.Doe");
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNull(response.getBody());
     }
 
     @Test

@@ -101,9 +101,8 @@ class TraineeControllerTest {
 
     @Test
     void deleteTraineeProfile_shouldCallService() {
-        ResponseEntity<Void> response = controller.deleteTraineeProfile("John.Doe");
+        controller.deleteTraineeProfile("John.Doe");
         verify(traineeService).deleteTrainee("John.Doe");
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test

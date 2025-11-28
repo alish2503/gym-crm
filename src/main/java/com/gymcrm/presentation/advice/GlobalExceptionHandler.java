@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.LinkedHashMap;
@@ -37,9 +38,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
-    public ResponseEntity<Void> handleAccessDenied(AuthorizationDeniedException ex) {
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    void handleAccessDenied(AuthorizationDeniedException ex) {
         log.warn("Access denied");
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})
@@ -75,8 +76,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Void> handleUnexpected(Exception ex) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleUnexpected(Exception ex) {
         log.error("Unexpected exception occurred", ex);
-        return ResponseEntity.internalServerError().build();
     }
 }

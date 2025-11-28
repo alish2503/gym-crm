@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fe2d255-b56d-4a78-a67a-51ee2645b225" name="Changes" comment="Restored necessary files">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/advice/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/advice/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/TraineeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/TraineeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/TraineeControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/TraineeControllerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/TrainingControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/TrainingControllerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/UserControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/UserControllerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TraineeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TraineeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TrainingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TrainingControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/controller/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,125 +43,125 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.GymApp.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.handleLocked_shouldReturn429.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.handleLogout_shouldReturn401.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.login_shouldReturnToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.logout_shouldCallServiceAndReturnOk.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.registerTrainee_shouldReturn201AndBody.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthControllerTest.registerTrainer_shouldReturn201AndBody.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.blacklistedToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.filterChainAlwaysCalled.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.invalidToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.noAuthorizationHeader.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.skipAuthEndpoints.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.validToken_setsAuthentication.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.generateToken_ok.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.getExpiration_ok.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.getUsername_expired.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.isValidToken_expired.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtServiceImplTest.isValidToken_invalid.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TokenBlacklistServiceImplTest.blacklist_addsToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TokenBlacklistServiceImplTest.expiredToken_isRemoved.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TokenBlacklistServiceImplTest.notBlacklisted_whenNotAdded.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TokenBlacklistServiceImplTest.notExpired_staysBlacklisted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.deleteTraineeProfile_shouldCallService.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.getAvailableTrainers_shouldReturnTrainerDtos.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.getTraineeProfile_shouldReturnDto.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.getTraineeProfile_shouldReturnDtoWithTrainers.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.updateTraineeProfile_shouldReturnDtoAfterUpdate.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeControllerTest.updateTrainers_shouldReturnUpdatedTrainerDtos.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeServiceImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainerControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainingControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainingControllerTest.handleExistingTraining_shouldReturnBadRequest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainingServiceImplTest.createTraining_shouldThrowIfAlreadyExists.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserControllerTest.setNewPassword_correctOldPassword_shouldChangeAndReturnOk.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserControllerTest.setNewPassword_wrongOldPassword_shouldReturn401.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.java in gym-crm.executor&quot;: &quot;Coverage&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;rest&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/alito/MyProjects/gym-crm/src/main/java/com/gymcrm/presentation/mapper&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GymApp.executor": "Run",
+    "JUnit.AuthControllerTest.executor": "Run",
+    "JUnit.AuthControllerTest.handleLocked_shouldReturn429.executor": "Run",
+    "JUnit.AuthControllerTest.handleLogout_shouldReturn401.executor": "Run",
+    "JUnit.AuthControllerTest.login_shouldReturnToken.executor": "Run",
+    "JUnit.AuthControllerTest.logout_shouldCallServiceAndReturnOk.executor": "Run",
+    "JUnit.AuthControllerTest.registerTrainee_shouldReturn201AndBody.executor": "Run",
+    "JUnit.AuthControllerTest.registerTrainer_shouldReturn201AndBody.executor": "Run",
+    "JUnit.JwtRequestFilterTest.blacklistedToken.executor": "Run",
+    "JUnit.JwtRequestFilterTest.executor": "Run",
+    "JUnit.JwtRequestFilterTest.filterChainAlwaysCalled.executor": "Run",
+    "JUnit.JwtRequestFilterTest.invalidToken.executor": "Run",
+    "JUnit.JwtRequestFilterTest.noAuthorizationHeader.executor": "Run",
+    "JUnit.JwtRequestFilterTest.skipAuthEndpoints.executor": "Run",
+    "JUnit.JwtRequestFilterTest.validToken_setsAuthentication.executor": "Run",
+    "JUnit.JwtServiceImplTest.executor": "Run",
+    "JUnit.JwtServiceImplTest.generateToken_ok.executor": "Run",
+    "JUnit.JwtServiceImplTest.getExpiration_ok.executor": "Run",
+    "JUnit.JwtServiceImplTest.getUsername_expired.executor": "Run",
+    "JUnit.JwtServiceImplTest.isValidToken_expired.executor": "Run",
+    "JUnit.JwtServiceImplTest.isValidToken_invalid.executor": "Run",
+    "JUnit.TokenBlacklistServiceImplTest.blacklist_addsToken.executor": "Run",
+    "JUnit.TokenBlacklistServiceImplTest.expiredToken_isRemoved.executor": "Run",
+    "JUnit.TokenBlacklistServiceImplTest.notBlacklisted_whenNotAdded.executor": "Run",
+    "JUnit.TokenBlacklistServiceImplTest.notExpired_staysBlacklisted.executor": "Run",
+    "JUnit.TraineeControllerTest.deleteTraineeProfile_shouldCallService.executor": "Run",
+    "JUnit.TraineeControllerTest.executor": "Run",
+    "JUnit.TraineeControllerTest.getAvailableTrainers_shouldReturnTrainerDtos.executor": "Run",
+    "JUnit.TraineeControllerTest.getTraineeProfile_shouldReturnDto.executor": "Run",
+    "JUnit.TraineeControllerTest.getTraineeProfile_shouldReturnDtoWithTrainers.executor": "Run",
+    "JUnit.TraineeControllerTest.updateTraineeProfile_shouldReturnDtoAfterUpdate.executor": "Run",
+    "JUnit.TraineeControllerTest.updateTrainers_shouldReturnUpdatedTrainerDtos.executor": "Run",
+    "JUnit.TraineeServiceImplTest.executor": "Run",
+    "JUnit.TrainerControllerTest.executor": "Run",
+    "JUnit.TrainingControllerTest.addTraining_shouldReturnCreated.executor": "Run",
+    "JUnit.TrainingControllerTest.executor": "Run",
+    "JUnit.TrainingControllerTest.handleExistingTraining_shouldReturnBadRequest.executor": "Run",
+    "JUnit.TrainingServiceImplTest.createTraining_shouldThrowIfAlreadyExists.executor": "Run",
+    "JUnit.UserControllerTest.changeActivity_shouldToggleAndReturnOk.executor": "Run",
+    "JUnit.UserControllerTest.executor": "Run",
+    "JUnit.UserControllerTest.setNewPassword_correctOldPassword_shouldChangeAndReturnOk.executor": "Run",
+    "JUnit.UserControllerTest.setNewPassword_wrongOldPassword_shouldReturn401.executor": "Run",
+    "JUnit.UserServiceImplTest.executor": "Run",
+    "JUnit.java in gym-crm.executor": "Coverage",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/alito/MyProjects/gym-crm/src/main/java/com/gymcrm/presentation/mapper",
+    "settings.editor.selected.configurable": "terminal"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\alito\MyProjects\gym-crm\src\main\java\com\gymcrm\presentation\mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.java in gym-crm">
-    <configuration name="JwtRequestFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.TrainingControllerTest.addTraining_shouldReturnCreated">
+    <configuration name="GymApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.GymApp" />
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="infrastructure.filter.*" />
+          <option name="PATTERN" value="com.gymcrm.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.filter.JwtRequestFilterTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtRequestFilterTest.filterChainAlwaysCalled" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TraineeControllerTest.deleteTraineeProfile_shouldCallService" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="infrastructure.filter.*" />
+          <option name="PATTERN" value="infrastructure.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.filter.JwtRequestFilterTest" />
-      <option name="METHOD_NAME" value="filterChainAlwaysCalled" />
+      <option name="PACKAGE_NAME" value="infrastructure.controller" />
+      <option name="MAIN_CLASS_NAME" value="infrastructure.controller.TraineeControllerTest" />
+      <option name="METHOD_NAME" value="deleteTraineeProfile_shouldCallService" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtRequestFilterTest.noAuthorizationHeader" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrainingControllerTest.addTraining_shouldReturnCreated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="infrastructure.filter.*" />
+          <option name="PATTERN" value="infrastructure.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.filter.JwtRequestFilterTest" />
-      <option name="METHOD_NAME" value="noAuthorizationHeader" />
+      <option name="PACKAGE_NAME" value="infrastructure.controller" />
+      <option name="MAIN_CLASS_NAME" value="infrastructure.controller.TrainingControllerTest" />
+      <option name="METHOD_NAME" value="addTraining_shouldReturnCreated" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtRequestFilterTest.validToken_setsAuthentication" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.changeActivity_shouldToggleAndReturnOk" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="infrastructure.filter.*" />
+          <option name="PATTERN" value="infrastructure.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.filter.JwtRequestFilterTest" />
-      <option name="METHOD_NAME" value="validToken_setsAuthentication" />
+      <option name="PACKAGE_NAME" value="infrastructure.controller" />
+      <option name="MAIN_CLASS_NAME" value="infrastructure.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="changeActivity_shouldToggleAndReturnOk" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -167,11 +177,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TrainingControllerTest.addTraining_shouldReturnCreated" />
+        <item itemvalue="JUnit.UserControllerTest.changeActivity_shouldToggleAndReturnOk" />
+        <item itemvalue="JUnit.TraineeControllerTest.deleteTraineeProfile_shouldCallService" />
+        <item itemvalue="Application.GymApp" />
         <item itemvalue="JUnit.java in gym-crm" />
-        <item itemvalue="JUnit.JwtRequestFilterTest" />
-        <item itemvalue="JUnit.JwtRequestFilterTest.filterChainAlwaysCalled" />
-        <item itemvalue="JUnit.JwtRequestFilterTest.validToken_setsAuthentication" />
-        <item itemvalue="JUnit.JwtRequestFilterTest.noAuthorizationHeader" />
       </list>
     </recent_temporary>
   </component>
@@ -226,6 +236,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Restored necessary files" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764166431879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764259497376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>

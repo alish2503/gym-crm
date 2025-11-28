@@ -22,7 +22,7 @@ public interface UserControllerApi {
             @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    ResponseEntity<Void> changeActivity(String username);
+    void changeActivity(String username);
 
     @Operation(summary = "Change user password", description = "Set a new password for the user by username")
     @ApiResponses(value = {

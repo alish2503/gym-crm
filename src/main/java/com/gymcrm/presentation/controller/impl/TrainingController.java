@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -42,13 +43,13 @@ public class TrainingController implements TrainingControllerApi {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize(
             "#request.traineeUsername == authentication.name or " +
             "#request.trainerUsername == authentication.name"
     )
-    public ResponseEntity<Void> addTraining(@RequestBody @Valid CreateTrainingDto request) {
+    public void addTraining(@RequestBody @Valid CreateTrainingDto request) {
         trainingService.createTraining(TrainingDtoMapper.toDomain(request));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/trainees/{username}")

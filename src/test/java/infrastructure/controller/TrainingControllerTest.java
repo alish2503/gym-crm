@@ -51,9 +51,8 @@ class TrainingControllerTest {
         dto.setTrainingName("Morning Yoga");
         dto.setDate(LocalDate.now().plusDays(1));
         dto.setDuration(60);
-        ResponseEntity<Void> response = controller.addTraining(dto);
+        controller.addTraining(dto);
         verify(trainingService).createTraining(any());
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
     @Test
