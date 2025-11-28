@@ -2,10 +2,12 @@ package com.gymcrm.presentation.dto.response;
 
 import com.gymcrm.presentation.dto.FullNameDto;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 /**
  * @author Alish
  */
+@Getter
 public class TrainerDto extends FullNameDto {
 
     @Schema(example = "John.Doe")
@@ -18,13 +20,5 @@ public class TrainerDto extends FullNameDto {
         super(firstName, lastName);
         this.username = username;
         this.specialization = specialization;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getSpecialization() {
-        return specialization;
     }
 }

@@ -1,10 +1,13 @@
 package com.gymcrm.domain.model;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Getter
 public class Training {
     private Long traineeId;
     private Long trainerId;
@@ -49,35 +52,4 @@ public class Training {
         this.duration = duration;
     }
 
-    public Long getTraineeId() {
-        return traineeId;
-    }
-
-    public Long getTrainerId() {
-        return trainerId;
-    }
-
-    public TrainingType getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public Trainer getTrainer() {
-        return trainer;
-    }
-
-    public Trainee getTrainee() {
-        return trainee;
-    }
 }

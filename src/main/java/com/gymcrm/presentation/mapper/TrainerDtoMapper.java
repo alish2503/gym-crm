@@ -25,7 +25,7 @@ public class TrainerDtoMapper {
     }
 
     public static UpdateTrainerRequest toDomain(String username, UpdateTrainerDto dto) {
-        return new UpdateTrainerRequest(username, dto.getFirstName(), dto.getLastName(), dto.isActive(),
+        return new UpdateTrainerRequest(username, dto.getFirstName(), dto.getLastName(), dto.getIsActive(),
                 dto.getSpecialization());
     }
 

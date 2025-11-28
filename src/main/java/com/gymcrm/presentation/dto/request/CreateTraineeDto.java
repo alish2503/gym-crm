@@ -5,12 +5,18 @@ import com.gymcrm.presentation.dto.FullNameDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@NoArgsConstructor
 public class CreateTraineeDto extends FullNameDto {
 
     @Schema(example = "1998-03-15")
@@ -27,24 +33,6 @@ public class CreateTraineeDto extends FullNameDto {
     {
         super(firstName, lastName);
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
-    }
-
-    public CreateTraineeDto() {}
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAddress(String address) {
         this.address = address;
     }
 }

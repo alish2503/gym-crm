@@ -6,8 +6,53 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe2d255-b56d-4a78-a67a-51ee2645b225" name="Changes" comment="Used response status annotation in some cases">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/logging/filter/TransactionIdFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/logging/filter/TransactionIdFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/CreateTraineeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/CreateTraineeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/CreateTrainerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/CreateTrainerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateTraineeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateTraineeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateTrainerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateTrainerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/request/UpdateUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/FullName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/FullName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Trainee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Trainee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Trainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Trainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/Training.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/model/UserProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TraineeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TraineeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainingDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainingDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainingTypeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/TrainingTypeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/AuthControllerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/port/AuthControllerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/FullNameDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/FullNameDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/ChangePasswordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/ChangePasswordDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTraineeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTraineeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTrainerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTrainerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTrainingDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/CreateTrainingDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/LoginDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterForTraineeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterForTraineeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterForTrainerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/TrainingFilterForTrainerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTraineeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTraineeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTrainerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTrainerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTrainersDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/request/UpdateTrainersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeWithTrainersAfterUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeWithTrainersAfterUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeWithTrainersDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TraineeWithTrainersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerWithTraineesAfterUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerWithTraineesAfterUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerWithTraineesDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainerWithTraineesDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingForTraineeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingForTraineeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingForTrainerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/TrainingForTrainerDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/dto/response/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/mapper/TraineeDtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/mapper/TraineeDtoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/mapper/TrainerDtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/mapper/TrainerDtoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/presentation/controller/AuthControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TraineeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/presentation/controller/TraineeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TrainerControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/presentation/controller/TrainerControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/TrainingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/presentation/controller/TrainingControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/controller/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/presentation/controller/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +116,7 @@
     "JUnit.TraineeControllerTest.updateTrainers_shouldReturnUpdatedTrainerDtos.executor": "Run",
     "JUnit.TraineeServiceImplTest.executor": "Run",
     "JUnit.TrainerControllerTest.executor": "Run",
+    "JUnit.TrainerControllerTest.updateTrainerProfile_shouldReturnDtoAfterUpdate.executor": "Run",
     "JUnit.TrainingControllerTest.addTraining_shouldReturnCreated.executor": "Run",
     "JUnit.TrainingControllerTest.executor": "Run",
     "JUnit.TrainingControllerTest.handleExistingTraining_shouldReturnBadRequest.executor": "Run",
@@ -97,7 +143,7 @@
       <recent name="C:\Users\alito\MyProjects\gym-crm\src\main\java\com\gymcrm\presentation\mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.java in gym-crm">
+  <component name="RunManager" selected="Application.GymApp">
     <configuration name="GymApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.gymcrm.GymApp" />
       <module name="gym-crm" />
@@ -111,17 +157,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TraineeControllerTest.deleteTraineeProfile_shouldCallService" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrainerControllerTest.updateTrainerProfile_shouldReturnDtoAfterUpdate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="infrastructure.controller.*" />
+          <option name="PATTERN" value="presentation.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.controller" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.controller.TraineeControllerTest" />
-      <option name="METHOD_NAME" value="deleteTraineeProfile_shouldCallService" />
+      <option name="PACKAGE_NAME" value="presentation.controller" />
+      <option name="MAIN_CLASS_NAME" value="presentation.controller.TrainerControllerTest" />
+      <option name="METHOD_NAME" value="updateTrainerProfile_shouldReturnDtoAfterUpdate" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,11 +215,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="Application.GymApp" />
+        <item itemvalue="JUnit.java in gym-crm" />
+        <item itemvalue="JUnit.TrainerControllerTest.updateTrainerProfile_shouldReturnDtoAfterUpdate" />
         <item itemvalue="JUnit.UserControllerTest.changeActivity_shouldToggleAndReturnOk" />
         <item itemvalue="JUnit.TrainingControllerTest.addTraining_shouldReturnCreated" />
-        <item itemvalue="JUnit.TraineeControllerTest.deleteTraineeProfile_shouldCallService" />
       </list>
     </recent_temporary>
   </component>

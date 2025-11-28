@@ -1,11 +1,18 @@
 package com.gymcrm.domain.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@NoArgsConstructor
 public class Trainer extends UserProfile {
     private TrainingType specialization;
     private List<Trainee> trainees = new ArrayList<>();
@@ -27,23 +34,5 @@ public class Trainer extends UserProfile {
 
     public Trainer(TrainingType specialization) {
         this.specialization = specialization;
-    }
-
-    public Trainer() {}
-
-    public TrainingType getSpecialization() {
-        return specialization;
-    }
-
-    public List<Trainee> getTrainees() {
-        return trainees;
-    }
-
-    public void setSpecialization(TrainingType specialization) {
-        this.specialization = specialization;
-    }
-
-    public void setTrainees(List<Trainee> trainees) {
-        this.trainees = trainees;
     }
 }

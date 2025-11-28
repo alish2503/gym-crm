@@ -37,5 +37,5 @@ public interface AuthControllerApi {
             @ApiResponse(responseCode = "200", description = "Logout succeeded"),
             @ApiResponse(responseCode = "401", description = "Invalid token or not provided"),
     })
-    ResponseEntity<Void> logout(@Parameter(hidden = true) String authHeader);
+    void logout(@Parameter(hidden = true) String authHeader);
 }
