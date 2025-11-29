@@ -131,11 +131,11 @@ class TrainerRepositoryImplTest {
     }
 
     @Test
-    void getAvailableTrainersNotAssigned_shouldReturnTrainers() {
+    void getAvailableTrainersNotAssigned_shouldReturnTrainersAndActive() {
         when(entityManager.createQuery(anyString(), eq(TrainerDao.class))).thenReturn(trainerQuery);
         when(trainerQuery.setParameter(anyString(), anyList())).thenReturn(trainerQuery);
         when(trainerQuery.getResultList()).thenReturn(List.of(trainerDao));
-        List<Trainer> result = repository.getAvailableTrainersNotAssigned(List.of(1L,2L));
+        List<Trainer> result = repository.getAvailableTrainersNotAssignedAndActive(List.of(1L,2L));
         assertEquals(1, result.size());
         assertEquals(domainTrainer.getUser().getUsername(), result.get(0).getUser().getUsername());
         verify(trainerQuery).setParameter("assigned", List.of(1L,2L));
@@ -165,10 +165,10 @@ class TrainerRepositoryImplTest {
     }
 
     @Test
-    void findAll_shouldReturnAllTrainers() {
+    void findAll_shouldReturnAllActiveTrainers() {
         when(entityManager.createQuery(anyString(), eq(TrainerDao.class))).thenReturn(trainerQuery);
         when(trainerQuery.getResultList()).thenReturn(List.of(trainerDao));
-        List<Trainer> result = repository.findAll();
+        List<Trainer> result = repository.findAllActive();
         assertEquals(1, result.size());
         assertEquals("trainer", result.get(0).getUser().getUsername());
     }

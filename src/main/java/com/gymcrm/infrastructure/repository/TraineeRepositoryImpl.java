@@ -46,6 +46,17 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
     }
 
     @Override
+    public Optional<Trainee> findTrainee(String username) {
+        String jpql = "select t from TraineeDao t where t.user.username = :uName";
+
+        return entityManager.createQuery(jpql, TraineeDao.class).
+                setParameter("uName", username)
+                .getResultStream()
+                .findFirst()
+                .map(TraineeDaoMapper::toDomain);
+    }
+
+    @Override
     protected TraineeDao mapToDao(Trainee entity) {
         return TraineeDaoMapper.toDao(entity);
     }

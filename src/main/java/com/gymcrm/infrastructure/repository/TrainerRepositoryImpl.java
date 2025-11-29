@@ -40,7 +40,7 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     @Override
-    public List<Trainer> getAvailableTrainersNotAssigned(List<Long> assignedIds) {
+    public List<Trainer> getAvailableTrainersNotAssignedAndActive(List<Long> assignedIds) {
         String jpql = "select t from TrainerDao t where t.id not in :assigned and t.user.isActive = true";
         return entityManager.createQuery(jpql, TrainerDao.class)
                 .setParameter("assigned", assignedIds)
@@ -64,8 +64,8 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     @Override
-    public List<Trainer> findAll() {
-        String jpql = "from TrainerDao";
+    public List<Trainer> findAllActive() {
+        String jpql = "select t from TrainerDao t where t.user.isActive = true";
         return entityManager.createQuery(jpql, TrainerDao.class).getResultList().stream().
                 map(TrainerDaoMapper::toDomain).toList();
     }

@@ -10,8 +10,8 @@ import java.util.Optional;
  */
 public interface TrainerRepository extends UserRepository<Trainer> {
     Optional<Trainer> findTrainerWithTrainees(String username);
-    List<Trainer> getAvailableTrainersNotAssigned(List<Long> assignedIds);
+    List<Trainer> getAvailableTrainersNotAssignedAndActive(List<Long> assignedIds);
     List<Trainer> findTrainersByUserNamesIn(List<String> usernames);
     List<Long> findAssignedTrainersIds(String traineeUsername);
-    List<Trainer> findAll();
+    List<Trainer> findAllActive();
 }

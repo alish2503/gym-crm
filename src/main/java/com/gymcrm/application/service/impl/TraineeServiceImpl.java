@@ -79,7 +79,9 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     @Override
     @Transactional
     public List<Trainer> updateTrainersForTrainee(String username, List<String> usernames) {
-        Trainee trainee = getTraineeByUsername(username);
+        Trainee trainee = traineeRepository.findTrainee(username).orElseThrow(
+                () -> new EntityNotFoundException("No trainee found with username: " + username)
+        );
         List<Trainer> trainers = trainerRepository.findTrainersByUserNamesIn(usernames);
         if (trainers.size() < usernames.size()) {
             Set<String> found = trainers.stream().
@@ -101,8 +103,8 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
             throw new EntityNotFoundException("No trainee found with username: " + username);
         }
         List<Long> assignedIds = trainerRepository.findAssignedTrainersIds(username);
-        return assignedIds.isEmpty() ? trainerRepository.findAll() :
-                trainerRepository.getAvailableTrainersNotAssigned(assignedIds);
+        return assignedIds.isEmpty() ? trainerRepository.findAllActive() :
+                trainerRepository.getAvailableTrainersNotAssignedAndActive(assignedIds);
     }
 }
 

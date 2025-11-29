@@ -1,6 +1,5 @@
 package com.gymcrm.presentation.advice;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tools.jackson.databind.exc.InvalidFormatException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -65,8 +65,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleInvalidFormat(HttpMessageNotReadableException ex) {
-        if (ex.getCause() instanceof InvalidFormatException invalidFormatEx &&
-                invalidFormatEx.getTargetType().isEnum())
+        if (ex.getCause() instanceof InvalidFormatException invalidFormatEx && invalidFormatEx.getTargetType().isEnum())
         {
             log.warn("Wrong training type of {}", invalidFormatEx.getTargetType().getSimpleName());
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid training type"));

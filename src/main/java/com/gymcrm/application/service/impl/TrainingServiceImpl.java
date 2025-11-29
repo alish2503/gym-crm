@@ -30,11 +30,9 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
-                               TrainerRepository trainerRepository,
-                               TrainingTypeRepository trainingTypeRepository,
+                               TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository,
                                UserProfileRepository userProfileRepository)
     {
-
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
