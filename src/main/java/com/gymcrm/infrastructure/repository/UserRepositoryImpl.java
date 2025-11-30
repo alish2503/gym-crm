@@ -2,6 +2,7 @@ package com.gymcrm.infrastructure.repository;
 
 import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.port.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,11 +17,13 @@ abstract class UserRepositoryImpl<E extends UserProfile, D> extends BaseReposito
     }
 
     @Override
+    @Transactional
     public void update(E user) {
         entityManager.merge(mapToDao(user));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Long> findIdByUsername(String username) {
         String jpql = "select t.id from " + daoClass.getSimpleName() + " t where t.user.username = :uName";
         return entityManager.createQuery(jpql, Long.class).

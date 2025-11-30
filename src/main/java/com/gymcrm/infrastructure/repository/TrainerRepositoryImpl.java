@@ -7,6 +7,7 @@ import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
 import com.gymcrm.infrastructure.dao.TrainerDao;
 import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class TrainerRepositoryImpl extends UserRepositoryImpl<Trainer, TrainerDa
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Trainer> findTrainerWithTrainees(String username) {
         String jpql = "select distinct t from TrainerDao t left join fetch t.trainees where t.user.username = :uName";
         return entityManager.createQuery(jpql, TrainerDao.class).

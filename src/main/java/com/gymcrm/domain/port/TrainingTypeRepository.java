@@ -13,4 +13,5 @@ public interface TrainingTypeRepository {
     Optional<TrainingType> findByName(TrainingTypeEnum typeEnum);
     List<TrainingType> findAll();
     boolean existsByName(TrainingTypeEnum typeEnum);
+    long count();
 }

@@ -3,6 +3,7 @@ package com.gymcrm.infrastructure.repository;
 import com.gymcrm.domain.port.BaseRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Alish
@@ -13,6 +14,7 @@ abstract class BaseRepositoryImpl<E, D> implements BaseRepository<E> {
     protected EntityManager entityManager;
 
     @Override
+    @Transactional
     public void save(E entity) {
         entityManager.persist(mapToDao(entity));
     }

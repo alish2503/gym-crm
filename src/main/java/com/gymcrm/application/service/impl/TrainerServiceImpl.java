@@ -12,7 +12,6 @@ import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Alish
@@ -34,7 +33,6 @@ public class TrainerServiceImpl extends AbstractUserService<Trainer> implements 
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Trainer getTrainerByUsername(String username) {
         return trainerRepository.findTrainerWithTrainees(username)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -43,7 +41,6 @@ public class TrainerServiceImpl extends AbstractUserService<Trainer> implements 
     }
 
     @Override
-    @Transactional
     public UserCredentials createTrainer(CreateTrainerRequest request) {
         TrainingType specialization = findTypeOrThrow(request.getSpecialization());
         Trainer created = new Trainer(specialization);
@@ -51,7 +48,6 @@ public class TrainerServiceImpl extends AbstractUserService<Trainer> implements 
     }
 
     @Override
-    @Transactional
     public Trainer updateTrainer(UpdateTrainerRequest request) {
         String username = request.getUsername();
         Trainer updated = getTrainerByUsername(username);

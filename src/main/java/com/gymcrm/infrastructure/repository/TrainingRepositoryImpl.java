@@ -9,6 +9,7 @@ import com.gymcrm.infrastructure.dao.TrainingDao;
 import com.gymcrm.infrastructure.mapper.TrainingDaoMapper;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.HashMap;

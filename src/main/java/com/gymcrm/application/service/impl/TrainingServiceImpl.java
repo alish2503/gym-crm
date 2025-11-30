@@ -12,7 +12,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +40,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    @Transactional
     public void createTraining(CreateTrainingRequest request) {
         String traineeUsername = request.traineeUsername();
         String trainerUsername = request.trainerUsername();
@@ -66,7 +64,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Training> getTrainingsForTrainee(String username, TrainingFilter trainingFilter) {
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainee found with username: " + username);
@@ -79,7 +76,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Training> getTrainingsForTrainer(String username, TrainingFilter trainingFilter) {
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainer found with username: " + username);
@@ -88,7 +84,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TrainingType> getTrainingTypes() {
         return trainingTypeRepository.findAll();
     }

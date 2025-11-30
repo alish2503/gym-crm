@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/logout",  "/trainees/register",
                                 "/trainers/register", "/v3/api-docs/**", "/swagger-ui/**",
-                                "/swagger-resources/**").permitAll().anyRequest().authenticated()
+                                "/swagger-resources/**", "/actuator/**" ).permitAll().anyRequest().authenticated()
                 )
                 .addFilterAfter(jwtRequestFilter, ExceptionTranslationFilter.class)
                 .addFilterBefore(transactionIdFilter, JwtRequestFilter.class)

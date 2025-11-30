@@ -7,6 +7,7 @@ import com.gymcrm.infrastructure.dao.UserDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
     EntityManager entityManager;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findProfileByUserName(String username) {
         String jpql = "select u from UserDao u where u.username = :username";
         return entityManager.createQuery(jpql, UserDao.class)
@@ -30,6 +32,7 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
     }
 
     @Override
+    @Transactional
     public void updateProfile(User userProfile) {
         entityManager.merge(UserDaoMapper.toDao(userProfile));
     }
@@ -39,5 +42,11 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
         String jpql = "select count(u) from UserDao u where u.username = :uName";
         Long count = entityManager.createQuery(jpql, Long.class).setParameter("uName", username).getSingleResult();
         return count > 0;
+    }
+
+    @Override
+    public long countActiveUsers() {
+        String jpql = "select count(u) from UserDao u where u.isActive=true";
+        return entityManager.createQuery(jpql, Long.class).getSingleResult();
     }
 }

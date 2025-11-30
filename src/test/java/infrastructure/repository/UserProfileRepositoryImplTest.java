@@ -98,4 +98,14 @@ class UserProfileRepositoryImplTest {
         when(countQuery.getSingleResult()).thenReturn(0L);
         assertFalse(repository.existsByUserName("unknown"));
     }
+
+    @Test
+    public void testCountActiveUsers() {
+        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(countQuery);
+        when(countQuery.getSingleResult()).thenReturn(10L);
+        long result = repository.countActiveUsers();
+        assertEquals(10L, result);
+        verify(entityManager).createQuery("select count(u) from UserDao u where u.isActive=true", Long.class);
+        verify(countQuery).getSingleResult();
+    }
 }

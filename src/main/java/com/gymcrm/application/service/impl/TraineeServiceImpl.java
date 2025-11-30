@@ -14,7 +14,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -41,7 +40,6 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Trainee getTraineeByUsername(String username) {
         return traineeRepository.findTraineeWithTrainers(username)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -50,14 +48,12 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     }
 
     @Override
-    @Transactional
     public UserCredentials createTrainee(CreateTraineeRequest request) {
         Trainee created = new Trainee(request.getDateOfBirth(), request.getAddress());
         return createUser(request, created);
     }
 
     @Override
-    @Transactional
     public Trainee updateTrainee(UpdateTraineeRequest request) {
         String username = request.getUsername();
         Trainee updated = getTraineeByUsername(username);
@@ -68,7 +64,6 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     }
 
     @Override
-    @Transactional
     public void deleteTrainee(String username) {
         Long id = traineeRepository.findIdByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with username: " + username)
@@ -77,7 +72,6 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     }
 
     @Override
-    @Transactional
     public List<Trainer> updateTrainersForTrainee(String username, List<String> usernames) {
         Trainee trainee = traineeRepository.findTrainee(username).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with username: " + username)
@@ -97,7 +91,6 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Trainer> getAvailableTrainersForTrainee(String username) {
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainee found with username: " + username);
