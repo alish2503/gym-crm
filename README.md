@@ -1,8 +1,8 @@
-# Gym CRM System (Spring Core + REST API + Security)
+# Gym CRM System 
 
 ## Overview
 
-**Gym CRM System** is a Spring-based CRM module for managing **Trainees**, **Trainers**, and **Training sessions**, with **REST API** and **Spring Security**.
+**Gym CRM System** is a Spring-based CRM module for managing **Trainees**, **Trainers**, and **Training sessions**, with **REST API**, **Spring Security**, and **Micrometer metrics**.
 It demonstrates key concepts such as:
 
 1. Hibernate ORM mapping
@@ -14,6 +14,7 @@ It demonstrates key concepts such as:
 7. Brute-force protection and logout functionality
 8. Unit testing with **JUnit 5**
 9. Logging at transaction and REST call levels using **SLF4J/Logback**
+10. **Health indicators** and **custom metrics** with Prometheus
 
 ---
 
@@ -25,13 +26,19 @@ It demonstrates key concepts such as:
 4. Get, update, activate/deactivate, and delete Trainee/Trainer profiles
 5. Assign/unassign Trainers to Trainees
 6. Manage Training sessions:
-
-    1. Add Training
-    2. Get Trainee/Trainer Trainings with filtering (date range, type, participant)
+    - Add Training
+    - Get Trainee/Trainer Trainings with filtering (date range, type, participant)
 7. Fetch Training types (read-only)
 8. Brute-force attack protection (lock user after 3 failed login attempts)
 9. Logout functionality
-10. Swagger/OpenAPI documentation for all endpoints
+10. **Metrics**:
+    - Count of Trainings created (`custom.trainings.created`)
+    - Active users gauge (`custom.users.active`)
+    - Timing of controller methods (`getTrainingsForTrainee`, `getTrainingsForTrainer`)
+11. **Health checks**:
+    - Database connectivity
+    - Presence of Training Types
+12. Swagger/OpenAPI documentation for all endpoints
 
 > All functions except registration require authentication.
 
@@ -85,7 +92,6 @@ docker-compose up -d
 spring.datasource.url=jdbc:postgresql://localhost:5432/gymdb
 spring.datasource.username=gymuser
 spring.datasource.password=pass
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 ```
 
@@ -104,6 +110,12 @@ security.cors.allowed-origins=http://localhost:3000
 ```bash
 mvn spring-boot:run
 ```
+
+5. **Metrics & Health Endpoints**:
+
+* Prometheus metrics: `http://localhost:8080/actuator/prometheus`
+* Health check: `http://localhost:8080/actuator/health`
+* Exposed via Spring Boot Actuator
 
 ---
 
@@ -136,23 +148,32 @@ Two levels of logging are implemented:
 
 ---
 
+## Environments
+
+The project supports multiple Spring profiles (`local`, `dev`, `stg`, `prod`) for different environments.
+For this project, only the `local` profile is actively used; other profiles are present for demonstration purposes.
+
+---
+
 ## Project Structure
 
 ```
 com.gymcrm
  ├─ application
- │   ├─ request       # DTOs for create/update operations
- │   ├─ response      # DTOs for service responses
+ │   ├─ request       # helpers for create/update operations
+ │   ├─ response      # helpers for service responses
  │   └─ service/port & impl  # Business logic
  ├─ domain
  │   ├─ model         # Entities: User, Trainee, Trainer, Training, TrainingType
  │   └─ port          # Repository interfaces
  ├─ infrastructure
- │   ├─ config        # Hibernate, Swagger, Security
+ │   ├─ config        # Hibernate, Swagger, Security, Profiles
  │   ├─ dao           # DAO classes
  │   ├─ mapper        # Entity ↔ DAO mappers
  │   ├─ repository    # Repository implementations
  │   ├─ logging       # Filter for transaction logging
+ │   ├─ metrics       # Custom metrics service + AOP aspect
+ │   ├─ health        # Custom health indicators
  │   └─ security      # JWT, Brute-force protection, filter, custom user details
  └─ presentation
      ├─ controller    # REST controllers
@@ -181,9 +202,10 @@ mvn test
 3. Spring Security + JWT
 4. Hibernate ORM
 5. PostgreSQL
-6. JUnit 5
-7. SLF4J / Logback
-8. Swagger/OpenAPI
+6. Micrometer / Prometheus
+7. JUnit 5
+8. SLF4J / Logback
+9. Swagger/OpenAPI
 
 ---
 
@@ -196,3 +218,4 @@ mvn test
 5. Training types are constant and read-only.
 6. All endpoints have proper validation and error handling.
 7. Swagger provides interactive API documentation.
+8. Metrics and health endpoints are exposed via Spring Boot Actuator.
