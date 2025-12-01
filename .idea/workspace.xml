@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe2d255-b56d-4a78-a67a-51ee2645b225" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +117,9 @@
   </component>
   <component name="RunManager" selected="Application.GymApp">
     <configuration name="GymApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="spring.profiles.active" value="local" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="com.gymcrm.GymApp" />
       <module name="gym-crm" />
       <extension name="coverage">
@@ -182,6 +185,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.GymApp" />
+      <item itemvalue="JUnit.java in gym-crm" />
+      <item itemvalue="JUnit.JwtRequestFilterTest" />
+      <item itemvalue="JUnit.TrainingTypesHealthIndicatorTest" />
+      <item itemvalue="JUnit.TransactionIdFilterTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GymApp" />
@@ -248,17 +258,25 @@
       <option name="project" value="LOCAL" />
       <updated>1764354278253</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Updated README.md">
+      <option name="closed" value="true" />
+      <created>1764515420670</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1764515420670</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moved methods for password update and activity change to separate non-abstract class and changed corresponding controller, removed interceptor and transferred its content to the TransactionIdFilter due to the need for bodies logging, added exception handle to the training controller for existing trainings, added invalid training types handle, configuration for CORS set up" />
     <MESSAGE value="Added unit tests for controllers" />
-    <MESSAGE value="Updated README.md" />
     <MESSAGE value="Restored necessary files" />
     <MESSAGE value="Used response status annotation in some cases" />
     <MESSAGE value="Added and used Lombok" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added and used Lombok" />
+    <MESSAGE value="Updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764510861454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
