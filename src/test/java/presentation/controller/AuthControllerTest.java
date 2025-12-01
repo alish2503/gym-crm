@@ -1,4 +1,4 @@
-package infrastructure.controller;
+package presentation.controller;
 
 import com.gymcrm.application.service.port.AuthService;
 import com.gymcrm.presentation.controller.impl.AuthController;
@@ -43,10 +43,9 @@ class AuthControllerTest {
     }
 
     @Test
-    void logout_shouldCallServiceAndReturnOk() {
-        ResponseEntity<Void> response = controller.logout("Bearer abc");
+    void logout_shouldCallService() {
+        controller.logout("Bearer abc");
         verify(authService).logout("Bearer abc");
-        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test

@@ -28,7 +28,7 @@ public class TransactionIdFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        var wrappedRequest = new ContentCachingRequestWrapper(request);
+        var wrappedRequest = new ContentCachingRequestWrapper(request, 8192);
         var wrappedResponse = new ContentCachingResponseWrapper(response);
         String transactionId = UUID.randomUUID().toString();
         MDC.put(TX_ID, transactionId);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -40,11 +41,11 @@ public class AuthController implements AuthControllerApi {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false)
+    @ResponseStatus(HttpStatus.OK)
+    public void logout(@RequestHeader(value = "Authorization", required = false)
                                            String authHeader)
     {
         authService.logout(authHeader);
-        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(LockedException.class)

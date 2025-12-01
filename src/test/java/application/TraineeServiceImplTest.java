@@ -133,7 +133,7 @@ class TraineeServiceImplTest {
 
         Trainer t2 = new Trainer(); t2.setUser(new User("b","pass","B",
                 "C",true));
-        when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
+        when(traineeRepository.findTrainee("John.Doe")).thenReturn(Optional.of(trainee));
         when(trainerRepository.findTrainersByUserNamesIn(List.of("a","b"))).thenReturn(List.of(t1,t2));
         List<Trainer> updated = traineeService.updateTrainersForTrainee("John.Doe", List.of("a","b"));
         assertEquals(2, updated.size());
@@ -147,7 +147,7 @@ class TraineeServiceImplTest {
         Trainer t1 = new Trainer(); t1.setUser(new User("a","pass","A",
                 "B",true));
 
-        when(traineeRepository.findTraineeWithTrainers("John.Doe")).thenReturn(Optional.of(trainee));
+        when(traineeRepository.findTrainee("John.Doe")).thenReturn(Optional.of(trainee));
         when(trainerRepository.findTrainersByUserNamesIn(List.of("a","b"))).thenReturn(List.of(t1));
         EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
                 () -> traineeService.updateTrainersForTrainee("John.Doe", List.of("a","b")));
@@ -159,7 +159,7 @@ class TraineeServiceImplTest {
     void getAvailableTrainersForTrainee_shouldReturnAllIfNoAssigned() {
         when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of());
-        when(trainerRepository.findAll()).thenReturn(List.of(new Trainer(), new Trainer()));
+        when(trainerRepository.findAllActive()).thenReturn(List.of(new Trainer(), new Trainer()));
         List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
         assertEquals(2, result.size());
     }
@@ -168,7 +168,7 @@ class TraineeServiceImplTest {
     void getAvailableTrainersForTrainee_shouldReturnAvailableNotAssigned() {
         when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
         when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of(1L, 2L));
-        when(trainerRepository.getAvailableTrainersNotAssigned(List.of(1L,2L))).thenReturn(List.of(new Trainer()));
+        when(trainerRepository.getAvailableTrainersNotAssignedAndActive(List.of(1L,2L))).thenReturn(List.of(new Trainer()));
         List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
         assertEquals(1, result.size());
     }

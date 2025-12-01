@@ -1,13 +1,14 @@
 package com.gymcrm.presentation.dto.response;
 
 import com.gymcrm.presentation.dto.FullNameDto;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Getter
 public class TrainingForTrainerDto extends TrainingDto {
 
     private final FullNameDto traineeName;
@@ -17,9 +18,5 @@ public class TrainingForTrainerDto extends TrainingDto {
     {
         super(trainingName, date, type, duration);
         this.traineeName = traineeName;
-    }
-
-    public FullNameDto getTraineeName() {
-        return traineeName;
     }
 }

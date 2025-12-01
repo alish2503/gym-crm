@@ -1,10 +1,12 @@
 package com.gymcrm.application.request;
 
 import com.gymcrm.domain.model.FullName;
+import lombok.Getter;
 
 /**
  * @author Alish
  */
+@Getter
 public class UpdateUserRequest extends FullName {
     private final String username;
     private final boolean isActive;
@@ -16,11 +18,4 @@ public class UpdateUserRequest extends FullName {
         this.isActive = isActive;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
 }

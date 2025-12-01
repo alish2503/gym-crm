@@ -8,6 +8,7 @@ import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +20,10 @@ import java.util.Optional;
 public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<TrainingType> findByName(TrainingTypeEnum typeEnum) {
         return entityManager.
                 createQuery("from TrainingTypeDao where name = :typeName ", TrainingTypeDao.class).
@@ -43,4 +45,9 @@ public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
         return count > 0;
     }
 
+    @Override
+    public long count() {
+        String jpql = "select count(t) from TrainingTypeDao t";
+        return entityManager.createQuery(jpql, Long.class).getSingleResult();
+    }
 }

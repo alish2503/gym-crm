@@ -94,4 +94,14 @@ class TrainingTypeRepositoryImplTest {
         assertEquals(1, result.size());
         assertEquals(TrainingTypeEnum.FITNESS, result.get(0).typeEnum());
     }
+
+    @Test
+    public void testCountActiveUsers() {
+        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(longQuery);
+        when(longQuery.getSingleResult()).thenReturn(5L);
+        long result = repository.count();
+        assertEquals(5L, result);
+        verify(entityManager).createQuery("select count(t) from TrainingTypeDao t", Long.class);
+        verify(longQuery).getSingleResult();
+    }
 }

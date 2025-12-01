@@ -141,4 +141,17 @@ class TraineeRepositoryImplTest {
         Optional<Trainee> result = repository.findTraineeWithTrainers("nobody");
         assertFalse(result.isPresent());
     }
+
+    @Test
+    void findTrainee_shouldReturnMappedDomainObject() {
+        when(entityManager.createQuery(anyString(), eq(TraineeDao.class))).thenReturn(traineeQuery);
+        when(traineeQuery.setParameter(anyString(), anyString())).thenReturn(traineeQuery);
+        when(traineeQuery.getResultStream()).thenReturn(Stream.of(traineeDao));
+        Optional<Trainee> result = repository.findTrainee("john");
+        assertTrue(result.isPresent());
+        Trainee trainee = result.get();
+        assertEquals("Address", trainee.getAddress());
+        assertEquals(0, trainee.getTrainers().size());
+        verify(traineeQuery).setParameter("uName", "john");
+    }
 }

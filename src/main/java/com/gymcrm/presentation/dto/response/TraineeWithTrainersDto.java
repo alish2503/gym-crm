@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * @author Alish
  */
+@Getter
 @JsonPropertyOrder({
         "firstName",
         "lastName",
@@ -40,15 +42,4 @@ public class TraineeWithTrainersDto extends UserDto {
         this.trainerDtos = trainerDtos;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public List<TrainerDto> getTrainerDtos() {
-        return trainerDtos;
-    }
 }

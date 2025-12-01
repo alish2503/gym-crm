@@ -4,10 +4,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class FullNameDto {
 
     @Schema(example = "John")
@@ -21,27 +29,4 @@ public class FullNameDto {
     @Pattern(regexp = "^[A-Za-z]+$")
     @Size(max = 50)
     private String lastName;
-
-    public FullNameDto(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public FullNameDto() {}
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }

@@ -3,10 +3,16 @@ package com.gymcrm.presentation.dto.request;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@NoArgsConstructor
 public class TrainingFilterForTraineeDto extends TrainingFilterDto {
 
     @Schema(description= "Example: John Doe")
@@ -14,22 +20,4 @@ public class TrainingFilterForTraineeDto extends TrainingFilterDto {
     private String trainerName;
 
     private TrainingTypeEnum type;
-
-    public TrainingFilterForTraineeDto() {}
-
-    public String getTrainerName() {
-        return trainerName;
-    }
-
-    public TrainingTypeEnum getType() {
-        return type;
-    }
-
-    public void setType(TrainingTypeEnum type) {
-        this.type = type;
-    }
-
-    public void setTrainerName(String trainerName) {
-        this.trainerName = trainerName;
-    }
 }

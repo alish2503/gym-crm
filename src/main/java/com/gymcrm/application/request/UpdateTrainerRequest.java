@@ -1,10 +1,12 @@
 package com.gymcrm.application.request;
 
 import com.gymcrm.domain.model.TrainingTypeEnum;
+import lombok.Getter;
 
 /**
  * @author Alish
  */
+@Getter
 public class UpdateTrainerRequest extends UpdateUserRequest {
     private final TrainingTypeEnum specialization;
 
@@ -15,7 +17,4 @@ public class UpdateTrainerRequest extends UpdateUserRequest {
         this.specialization = specialization;
     }
 
-    public TrainingTypeEnum getSpecialization() {
-        return specialization;
-    }
 }

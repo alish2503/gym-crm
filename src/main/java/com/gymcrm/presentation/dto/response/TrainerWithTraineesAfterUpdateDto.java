@@ -2,6 +2,7 @@ package com.gymcrm.presentation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @author Alish
  */
 
+@Getter
 @JsonPropertyOrder({
         "username",
         "firstName",
@@ -28,9 +30,5 @@ public class TrainerWithTraineesAfterUpdateDto extends TrainerWithTraineesDto {
     {
         super(isActive, firstName, lastName, specialization, traineeDtos);
         this.username = username;
-    }
-
-    public String getUsername() {
-        return username;
     }
 }

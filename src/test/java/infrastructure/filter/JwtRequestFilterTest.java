@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,34 +54,18 @@ class JwtRequestFilterTest {
     @Mock
     private FilterChain filterChain;
 
-    private TestableJwtRequestFilter filter;
-
-    private static class TestableJwtRequestFilter extends JwtRequestFilter {
-        public TestableJwtRequestFilter(JwtServiceImpl jwtService,
-                                        UserDetailsService userDetailsService,
-                                        TokenBlacklistServiceImpl tokenBlacklistService)
-        {
-            super(jwtService, userDetailsService, tokenBlacklistService);
-        }
-
-        @Override
-        public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                     FilterChain filterChain) throws ServletException, IOException
-        {
-            super.doFilterInternal(request, response, filterChain);
-        }
-    }
+    @InjectMocks
+    private JwtRequestFilter filter;
 
     @BeforeEach
     void setUp() {
         SecurityContextHolder.clearContext();
-        filter = new TestableJwtRequestFilter(jwtService, userDetailsService, tokenBlacklistService);
     }
 
     @Test
     void skipAuthEndpoints() throws ServletException, IOException {
         when(request.getRequestURI()).thenReturn("/auth/login");
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         verify(filterChain).doFilter(request, response);
         verifyNoInteractions(jwtService);
     }
@@ -89,7 +74,7 @@ class JwtRequestFilterTest {
     void noAuthorizationHeader() throws Exception {
         when(request.getRequestURI()).thenReturn("/for-authenticated");
         when(request.getHeader("Authorization")).thenReturn(null);
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
@@ -99,7 +84,7 @@ class JwtRequestFilterTest {
         when(request.getRequestURI()).thenReturn("/for-authenticated");
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(tokenBlacklistService.isBlacklisted(token)).thenReturn(true);
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
@@ -110,7 +95,7 @@ class JwtRequestFilterTest {
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(tokenBlacklistService.isBlacklisted(token)).thenReturn(false);
         when(jwtService.isValidToken(token)).thenReturn(false);
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
@@ -125,7 +110,7 @@ class JwtRequestFilterTest {
         when(jwtService.getUsername(token)).thenReturn(username);
         UserDetails user = new User(username, "", Collections.emptyList());
         when(userDetailsService.loadUserByUsername(username)).thenReturn(user);
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         assertNotNull(SecurityContextHolder.getContext().getAuthentication());
         assertEquals(username, SecurityContextHolder.getContext().getAuthentication().getName());
     }
@@ -133,7 +118,7 @@ class JwtRequestFilterTest {
     @Test
     void filterChainAlwaysCalled() throws Exception {
         when(request.getRequestURI()).thenReturn("/for-authenticated");
-        filter.doFilterInternal(request, response, filterChain);
+        filter.doFilter(request, response, filterChain);
         verify(filterChain).doFilter(request, response);
     }
 }

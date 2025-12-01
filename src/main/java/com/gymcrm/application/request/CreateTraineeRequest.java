@@ -1,12 +1,14 @@
 package com.gymcrm.application.request;
 
 import com.gymcrm.domain.model.FullName;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Getter
 public class CreateTraineeRequest extends FullName {
     private final LocalDate dateOfBirth;
     private final String address;
@@ -18,11 +20,4 @@ public class CreateTraineeRequest extends FullName {
         this.address = address;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
 }

@@ -1,4 +1,4 @@
-package infrastructure.controller;
+package presentation.controller;
 
 import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.TrainerService;
@@ -71,21 +71,21 @@ class TrainerControllerTest {
 
     @Test
     void updateTrainerProfile_shouldReturnDtoAfterUpdate() {
-        UpdateTrainerDto request = new UpdateTrainerDto();
-        request.setFirstName("Michael");
-        request.setLastName("Black");
-        request.setActive(true);
-        User user = new User("Mike.Black", "pass", "Michael", "Black",
+        UpdateTrainerDto request = new UpdateTrainerDto("Mike", "Black", true,
+                TrainingTypeEnum.FITNESS);
+
+        User user = new User("Mike.Black", "pass", "Mike", "Black",
                 true);
 
         Trainer trainer = new Trainer(user, new TrainingType(1L, TrainingTypeEnum.FITNESS));
         when(trainerService.updateTrainer(any())).thenReturn(trainer);
         TrainerWithTraineesAfterUpdateDto dto = controller.updateTrainerProfile("Mike.Black", request);
         assertNotNull(dto);
-        assertEquals("Michael", dto.getFirstName());
+        assertEquals("Mike", dto.getFirstName());
         assertEquals("Black", dto.getLastName());
         assertTrue(dto.isActive());
         assertEquals("Mike.Black", dto.getUsername());
+        assertEquals(TrainingTypeEnum.FITNESS.name(), dto.getSpecialization());
         assertEquals(Collections.emptyList(), dto.getTraineeDtos());
     }
 }

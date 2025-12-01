@@ -7,6 +7,7 @@ import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
 import com.gymcrm.infrastructure.dao.TraineeDao;
 import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +23,14 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         TraineeDao dao = entityManager.find(TraineeDao.class, id);
         entityManager.remove(dao);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Trainee> findTraineeWithTrainers(String username) {
         String jpql = "select distinct t from TraineeDao t left join fetch t.trainers where t.user.username = :uName";
 
@@ -43,6 +46,18 @@ public class TraineeRepositoryImpl extends UserRepositoryImpl<Trainee, TraineeDa
                     trainee.setTrainers(trainers);
                     return trainee;
                 });
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Trainee> findTrainee(String username) {
+        String jpql = "select t from TraineeDao t where t.user.username = :uName";
+
+        return entityManager.createQuery(jpql, TraineeDao.class).
+                setParameter("uName", username)
+                .getResultStream()
+                .findFirst()
+                .map(TraineeDaoMapper::toDomain);
     }
 
     @Override

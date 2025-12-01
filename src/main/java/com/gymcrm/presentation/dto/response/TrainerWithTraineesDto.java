@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.util.List;
 
 /**
  * @author Alish
  */
+@Getter
 @JsonPropertyOrder({
         "firstName",
         "lastName",
@@ -32,13 +34,5 @@ public class TrainerWithTraineesDto extends UserDto {
         super(isActive, firstName, lastName);
         this.specialization = specialization;
         this.traineeDtos = traineeDtos;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public List<TraineeDto> getTraineeDtos() {
-        return traineeDtos;
     }
 }

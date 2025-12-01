@@ -10,12 +10,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "training",
         uniqueConstraints = @UniqueConstraint(
@@ -48,8 +52,6 @@ public class TrainingDao {
     @JoinColumn(name="training_type_id", nullable = false)
     TrainingTypeDao type;
 
-    public TrainingDao() {}
-
     public TrainingDao(String name, LocalDate date, Integer duration, TraineeDao trainee,
                        TrainerDao trainer, TrainingTypeDao type) {
 
@@ -59,34 +61,5 @@ public class TrainingDao {
         this.trainee = trainee;
         this.trainer = trainer;
         this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public TraineeDao getTrainee() {
-        return trainee;
-    }
-
-    public TrainerDao getTrainer() {
-        return trainer;
-    }
-
-    public TrainingTypeDao getType() {
-        return type;
     }
 }

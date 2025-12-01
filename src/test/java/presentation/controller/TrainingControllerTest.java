@@ -1,4 +1,4 @@
-package infrastructure.controller;
+package presentation.controller;
 
 import com.gymcrm.application.service.port.TrainingService;
 import com.gymcrm.domain.model.*;

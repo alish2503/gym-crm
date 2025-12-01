@@ -19,10 +19,8 @@ public class TraineeDaoMapper {
                 trainee.getDateOfBirth(), trainee.getAddress());
 
         List<Trainer> trainers = trainee.getTrainers();
-        if (!trainers.isEmpty()) {
-            List<TrainerDao> trainerDaos = trainers.stream().map(TrainerDaoMapper::toDao).toList();
-            dao.setTrainers(trainerDaos);
-        }
+        List<TrainerDao> trainerDaos = trainers.stream().map(TrainerDaoMapper::toDao).toList();
+        dao.setTrainers(trainerDaos);
         return dao;
     }
 

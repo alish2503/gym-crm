@@ -4,10 +4,16 @@ import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.presentation.dto.FullNameDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@NoArgsConstructor
 public class CreateTrainerDto extends FullNameDto {
 
     @Schema(example = "FITNESS")
@@ -17,16 +23,6 @@ public class CreateTrainerDto extends FullNameDto {
     public CreateTrainerDto(String firstName, String lastName, TrainingTypeEnum specialization)
     {
         super(firstName, lastName);
-        this.specialization = specialization;
-    }
-
-    public CreateTrainerDto() {}
-
-    public TrainingTypeEnum getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(TrainingTypeEnum specialization) {
         this.specialization = specialization;
     }
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Consumer;
 
@@ -27,14 +26,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void changePassword(String username, String newPassword) {
         String hashed = encoder.encode(newPassword);
         updateUserProfile(username, profile -> profile.setPassword(hashed));
     }
 
     @Override
-    @Transactional
     public void toggle(String username) {
         updateUserProfile(username, profile -> profile.setActive(!profile.isActive()));
     }

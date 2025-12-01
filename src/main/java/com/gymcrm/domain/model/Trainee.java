@@ -1,5 +1,8 @@
 package com.gymcrm.domain.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 /**
  * @author Alish
  */
+@Setter
+@Getter
 public class Trainee extends UserProfile {
     private LocalDate dateOfBirth;
     private String address;
@@ -37,27 +42,4 @@ public class Trainee extends UserProfile {
 
     public Trainee() {}
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public List<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setTrainers(List<Trainer> trainers) {
-        this.trainers = trainers;
-    }
 }

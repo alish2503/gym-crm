@@ -1,4 +1,4 @@
-package infrastructure.controller;
+package presentation.controller;
 
 import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.TraineeService;

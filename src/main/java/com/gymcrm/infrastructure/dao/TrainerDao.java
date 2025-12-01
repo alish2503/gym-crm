@@ -12,6 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,10 @@ import java.util.List;
 /**
  * @author Alish
  */
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "trainer")
 public class TrainerDao {
@@ -41,8 +48,6 @@ public class TrainerDao {
     @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
     List<TrainingDao> trainings = new ArrayList<>();
 
-    public TrainerDao() {}
-
     public TrainerDao(Long id, UserDao user, TrainingTypeDao specialization) {
         this.id = id;
         this.user = user;
@@ -51,25 +56,5 @@ public class TrainerDao {
 
     public TrainerDao(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserDao getUser() {
-        return user;
-    }
-
-    public TrainingTypeDao getSpecialization() {
-        return specialization;
-    }
-
-    public List<TraineeDao> getTrainees() {
-        return trainees;
-    }
-
-    public void setUser(UserDao user) {
-        this.user = user;
     }
 }

@@ -8,12 +8,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Setter
+@Getter
+@NoArgsConstructor
 public class CreateTrainingDto {
 
     @Schema(example = "Mike.Black")
@@ -44,54 +50,4 @@ public class CreateTrainingDto {
     @Schema(example = "80")
     @Positive(message = "Duration must be positive")
     private int duration;
-
-    public CreateTrainingDto() {}
-
-    public String getTrainerUsername() {
-        return trainerUsername;
-    }
-
-    public String getTraineeUsername() {
-        return traineeUsername;
-    }
-
-    public TrainingTypeEnum getTrainingType() {
-        return trainingType;
-    }
-
-    public String getTrainingName() {
-        return trainingName;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setTrainerUsername(String trainerUsername) {
-        this.trainerUsername = trainerUsername;
-    }
-
-    public void setTraineeUsername(String traineeUsername) {
-        this.traineeUsername = traineeUsername;
-    }
-
-    public void setTrainingType(TrainingTypeEnum trainingType) {
-        this.trainingType = trainingType;
-    }
-
-    public void setTrainingName(String trainingName) {
-        this.trainingName = trainingName;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 }

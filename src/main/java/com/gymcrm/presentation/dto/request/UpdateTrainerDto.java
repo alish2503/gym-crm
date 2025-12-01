@@ -4,10 +4,16 @@ import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.presentation.dto.FullNameDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Alish
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class UpdateTrainerDto extends FullNameDto {
 
     @Schema(example = "false")
@@ -23,24 +29,6 @@ public class UpdateTrainerDto extends FullNameDto {
     {
         super(firstName, lastName);
         this.isActive = isActive;
-        this.specialization = specialization;
-    }
-
-    public UpdateTrainerDto() {}
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public TrainingTypeEnum getSpecialization() {
-        return specialization;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public void setSpecialization(TrainingTypeEnum specialization) {
         this.specialization = specialization;
     }
 }

@@ -1,4 +1,4 @@
-package infrastructure.controller;
+package presentation.controller;
 
 import com.gymcrm.application.service.port.UserService;
 import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;

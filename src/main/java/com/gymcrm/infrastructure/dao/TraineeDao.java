@@ -13,6 +13,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +24,10 @@ import java.util.List;
 /**
  * @author Alish
  */
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "trainee")
 public class TraineeDao {
@@ -48,8 +55,6 @@ public class TraineeDao {
     @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<TrainingDao> trainings = new ArrayList<>();
 
-    public TraineeDao() {}
-
     public TraineeDao(Long id, UserDao user, LocalDate dateOfBirth, String address) {
         this.id = id;
         this.user = user;
@@ -59,33 +64,5 @@ public class TraineeDao {
 
     public TraineeDao(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public UserDao getUser() {
-        return user;
-    }
-
-    public void setUser(UserDao user) {
-        this.user = user;
-    }
-
-    public List<TrainerDao> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(List<TrainerDao> trainers) {
-        this.trainers = trainers;
     }
 }

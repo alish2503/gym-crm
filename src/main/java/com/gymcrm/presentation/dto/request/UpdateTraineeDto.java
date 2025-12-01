@@ -6,12 +6,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 /**
  * @author Alish
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class UpdateTraineeDto extends FullNameDto {
 
     @Schema(example = "false")
@@ -34,31 +40,5 @@ public class UpdateTraineeDto extends FullNameDto {
         this.isActive = isActive;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-    }
-
-    public UpdateTraineeDto() {}
-
-    public Boolean isActive() {
-        return isActive;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 }

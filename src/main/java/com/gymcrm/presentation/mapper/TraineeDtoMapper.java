@@ -27,7 +27,7 @@ public class TraineeDtoMapper {
     }
 
     public static UpdateTraineeRequest toDomain(String username, UpdateTraineeDto dto) {
-        return new UpdateTraineeRequest(username, dto.getFirstName(), dto.getLastName(), dto.isActive(),
+        return new UpdateTraineeRequest(username, dto.getFirstName(), dto.getLastName(), dto.getIsActive(),
                 dto.getDateOfBirth(), dto.getAddress()
         );
     }

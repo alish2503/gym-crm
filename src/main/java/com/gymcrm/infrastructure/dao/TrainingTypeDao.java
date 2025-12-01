@@ -9,10 +9,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Alish
  */
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "training_type")
 public class TrainingTypeDao {
@@ -24,19 +30,4 @@ public class TrainingTypeDao {
     @Enumerated(EnumType.STRING)
     @Column(nullable=false, unique=true)
     private TrainingTypeEnum name;
-
-    public TrainingTypeDao() {}
-
-    public TrainingTypeDao(Long id, TrainingTypeEnum name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public TrainingTypeEnum getName() {
-        return name;
-    }
 }
