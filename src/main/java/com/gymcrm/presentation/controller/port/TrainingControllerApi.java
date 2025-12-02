@@ -29,7 +29,7 @@ public interface TrainingControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Training created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request data or training already exists"),
-            @ApiResponse(responseCode = "403", description = "Access denied"),
+            @ApiResponse(responseCode = "401", description = "Invalid token"),
             @ApiResponse(responseCode = "404", description = "Trainer or trainee or training type not found")
     })
     void addTraining(CreateTrainingDto request);
@@ -39,7 +39,7 @@ public interface TrainingControllerApi {
             @ApiResponse(responseCode = "200", description = "List of trainings",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainingForTraineeDto.class)))),
             @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee or training type not found", content = @Content)
     })
     List<TrainingForTraineeDto> getTrainingsForTrainee(
@@ -52,7 +52,7 @@ public interface TrainingControllerApi {
             @ApiResponse(responseCode = "200", description = "List of trainings",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainingForTrainerDto.class)))),
             @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
     List<TrainingForTrainerDto> getTrainingsForTrainer(
@@ -61,6 +61,9 @@ public interface TrainingControllerApi {
     );
 
     @Operation(summary = "Get all training types", description = "Returns list of available training types")
-    @ApiResponse(responseCode = "200", description = "List of training types", content = @Content)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of training types", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content)
+    })
     List<TrainingTypeDto> getTrainingTypes();
 }

@@ -27,7 +27,8 @@ public interface AuthControllerApi {
                             value = "{ \"accessToken\": \"f47ac10b-58cc-4372-a567-0e02b2c3d479\"}"
                     )
             )),
-            @ApiResponse(responseCode = "401", description = "Wrong username or password", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong username or password or invalid token",
+                    content = @Content),
             @ApiResponse(responseCode = "429", description = "User blocked temporary", content = @Content)
     })
     ResponseEntity<Map<String, String>> login(LoginDto loginDto);

@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.security;
+package com.gymcrm.infrastructure.security.details;
 
 import com.gymcrm.domain.model.User;
 import org.springframework.security.core.GrantedAuthority;

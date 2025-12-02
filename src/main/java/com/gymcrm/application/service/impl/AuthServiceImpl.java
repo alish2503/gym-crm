@@ -16,6 +16,11 @@ import java.util.Date;
 /**
  * @author Alish
  */
+
+/**
+ * @author Alish
+ */
+
 @Service
 public class AuthServiceImpl implements AuthService {
     private final BruteForceProtectionService bruteForceProtectionService;
@@ -53,9 +58,6 @@ public class AuthServiceImpl implements AuthService {
             throw new InsufficientAuthenticationException("No token provided");
         }
         String token = authHeader.substring(7);
-        if (!jwtService.isValidToken(token)) {
-            throw new BadCredentialsException("Invalid token");
-        }
         Date expiration = jwtService.getExpiration(token);
         tokenBlacklistService.blacklist(token, expiration);
     }

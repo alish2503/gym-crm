@@ -174,7 +174,7 @@ com.gymcrm
  │   ├─ logging       # Filter for transaction logging
  │   ├─ metrics       # Custom metrics service + AOP aspect
  │   ├─ health        # Custom health indicators
- │   └─ security      # JWT, Brute-force protection, filter, custom user details
+ │   └─ security      # JWT, Brute-force protection, filter, custom user details, authprovider
  └─ presentation
      ├─ controller    # REST controllers
      ├─ dto           # REST request/response DTOs

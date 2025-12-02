@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthorizationDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    void handleAccessDenied(AuthorizationDeniedException ex) {
+    public void handleAccessDenied(AuthorizationDeniedException ex) {
         log.warn("Access denied");
     }
 
@@ -65,7 +65,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleInvalidFormat(HttpMessageNotReadableException ex) {
-        if (ex.getCause() instanceof InvalidFormatException invalidFormatEx && invalidFormatEx.getTargetType().isEnum())
+        if (ex.getCause() instanceof InvalidFormatException invalidFormatEx &&
+                invalidFormatEx.getTargetType().isEnum())
         {
             log.warn("Wrong training type of {}", invalidFormatEx.getTargetType().getSimpleName());
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid training type"));

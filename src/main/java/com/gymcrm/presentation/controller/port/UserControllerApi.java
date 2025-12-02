@@ -19,16 +19,17 @@ public interface UserControllerApi {
     @Operation(summary = "Change user active status", description = "Enable or disable a user account by username")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User activity updated successfully"),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     void changeActivity(String username);
 
     @Operation(summary = "Change user password", description = "Set a new password for the user by username")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Password changed successfully", content = @Content),
-            @ApiResponse(responseCode = "401", description = "Wrong password", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Password changed successfully",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong password or invalid token",
+                    content = @Content)
     })
     ResponseEntity<?> setNewPassword(String username, ChangePasswordDto dto);
 }

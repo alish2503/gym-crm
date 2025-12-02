@@ -2,7 +2,7 @@ package infrastructure.service;
 
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.security.CustomUserDetails;
+import com.gymcrm.infrastructure.security.details.CustomUserDetails;
 import com.gymcrm.infrastructure.security.service.impl.CustomUserDetailsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

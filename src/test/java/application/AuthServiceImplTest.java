@@ -84,15 +84,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    void logout_invalidToken_shouldThrowBadCredentials() {
-        when(jwtService.isValidToken("ABC")).thenReturn(false);
-        assertThrows(BadCredentialsException.class, () -> authService.logout("Bearer ABC"));
-        verify(tokenBlacklistService, never()).blacklist(any(), any());
-    }
-
-    @Test
-    void logout_validToken_shouldBlacklist() {
-        when(jwtService.isValidToken("ABC")).thenReturn(true);
+    void logout_shouldBlacklist() {
         Date exp = new Date();
         when(jwtService.getExpiration("ABC")).thenReturn(exp);
         authService.logout("Bearer ABC");

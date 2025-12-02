@@ -1,31 +1,25 @@
 package infrastructure.filter;
 
 import com.gymcrm.infrastructure.security.filter.JwtRequestFilter;
-import com.gymcrm.infrastructure.security.service.impl.JwtServiceImpl;
-import com.gymcrm.infrastructure.security.service.impl.TokenBlacklistServiceImpl;
+import com.gymcrm.infrastructure.security.token.JwtAuthenticationToken;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.io.IOException;
-import java.util.Collections;
-
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 
@@ -37,89 +31,55 @@ import static org.mockito.Mockito.when;
 class JwtRequestFilterTest {
 
     @Mock
-    private JwtServiceImpl jwtService;
+    AuthenticationManager authenticationManager;
 
     @Mock
-    private UserDetailsService userDetailsService;
+    FilterChain filterChain;
 
     @Mock
-    private TokenBlacklistServiceImpl tokenBlacklistService;
+    HttpServletRequest request;
 
     @Mock
-    private HttpServletRequest request;
+    HttpServletResponse response;
 
     @Mock
-    private HttpServletResponse response;
-
-    @Mock
-    private FilterChain filterChain;
+    Authentication authentication;
 
     @InjectMocks
-    private JwtRequestFilter filter;
+    JwtRequestFilter jwtRequestFilter;
 
-    @BeforeEach
-    void setUp() {
-        SecurityContextHolder.clearContext();
-    }
 
     @Test
-    void skipAuthEndpoints() throws ServletException, IOException {
-        when(request.getRequestURI()).thenReturn("/auth/login");
-        filter.doFilter(request, response, filterChain);
+    void shouldAuthenticateValidToken() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Bearer VALID_TOKEN");
+        when(authenticationManager.authenticate(any(JwtAuthenticationToken.class))).thenReturn(authentication);
+        jwtRequestFilter.doFilter(request, response, filterChain);
+        verify(authenticationManager).authenticate(any(JwtAuthenticationToken.class));
         verify(filterChain).doFilter(request, response);
-        verifyNoInteractions(jwtService);
+        assertEquals(authentication, SecurityContextHolder.getContext().getAuthentication());
     }
 
     @Test
-    void noAuthorizationHeader() throws Exception {
-        when(request.getRequestURI()).thenReturn("/for-authenticated");
+    void shouldReturn401ForInvalidToken() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Bearer INVALID");
+        when(authenticationManager.authenticate(any(JwtAuthenticationToken.class))).thenThrow(
+                new BadCredentialsException("Invalid token")
+        );
+        PrintWriter writer = new PrintWriter(new StringWriter());
+        when(response.getWriter()).thenReturn(writer);
+        jwtRequestFilter.doFilter(request, response, filterChain);
+        verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        verify(filterChain, never()).doFilter(request, response);
+    }
+
+
+    @Test
+    void shouldSkipAuthenticationWhenNoHeader() throws Exception {
         when(request.getHeader("Authorization")).thenReturn(null);
-        filter.doFilter(request, response, filterChain);
-        assertNull(SecurityContextHolder.getContext().getAuthentication());
-    }
-
-    @Test
-    void blacklistedToken() throws Exception {
-        String token = "token123";
-        when(request.getRequestURI()).thenReturn("/for-authenticated");
-        when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
-        when(tokenBlacklistService.isBlacklisted(token)).thenReturn(true);
-        filter.doFilter(request, response, filterChain);
-        assertNull(SecurityContextHolder.getContext().getAuthentication());
-    }
-
-    @Test
-    void invalidToken() throws Exception {
-        String token = "badtoken";
-        when(request.getRequestURI()).thenReturn("/for-authenticated");
-        when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
-        when(tokenBlacklistService.isBlacklisted(token)).thenReturn(false);
-        when(jwtService.isValidToken(token)).thenReturn(false);
-        filter.doFilter(request, response, filterChain);
-        assertNull(SecurityContextHolder.getContext().getAuthentication());
-    }
-
-    @Test
-    void validToken_setsAuthentication() throws Exception {
-        String token = "goodtoken";
-        String username = "John.Doe";
-        when(request.getRequestURI()).thenReturn("/for-authenticated");
-        when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
-        when(tokenBlacklistService.isBlacklisted(token)).thenReturn(false);
-        when(jwtService.isValidToken(token)).thenReturn(true);
-        when(jwtService.getUsername(token)).thenReturn(username);
-        UserDetails user = new User(username, "", Collections.emptyList());
-        when(userDetailsService.loadUserByUsername(username)).thenReturn(user);
-        filter.doFilter(request, response, filterChain);
-        assertNotNull(SecurityContextHolder.getContext().getAuthentication());
-        assertEquals(username, SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-
-    @Test
-    void filterChainAlwaysCalled() throws Exception {
-        when(request.getRequestURI()).thenReturn("/for-authenticated");
-        filter.doFilter(request, response, filterChain);
+        jwtRequestFilter.doFilter(request, response, filterChain);
+        verify(authenticationManager, never()).authenticate(any());
         verify(filterChain).doFilter(request, response);
     }
 }
+
 

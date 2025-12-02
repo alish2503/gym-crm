@@ -2,7 +2,7 @@ package com.gymcrm.infrastructure.security.service.impl;
 
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.security.CustomUserDetails;
+import com.gymcrm.infrastructure.security.details.CustomUserDetails;
 import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

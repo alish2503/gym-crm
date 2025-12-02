@@ -33,7 +33,8 @@ public interface TraineeControllerApi {
             @ApiResponse(responseCode = "201", description = "Trainee created successfully",
                     content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))
             ),
-            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content)
     })
     ResponseEntity<UserCredentialsDto> registerTrainee(CreateTraineeDto request);
 
@@ -41,7 +42,7 @@ public interface TraineeControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trainee found",
                     content = @Content(schema = @Schema(implementation = TraineeWithTrainersDto.class))),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     TraineeWithTrainersDto getTraineeProfile(String username);
@@ -51,7 +52,7 @@ public interface TraineeControllerApi {
             @ApiResponse(responseCode = "200", description = "Trainee updated successfully",
                     content = @Content(schema = @Schema(implementation = TraineeWithTrainersAfterUpdateDto.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     TraineeWithTrainersAfterUpdateDto updateTraineeProfile(String username, UpdateTraineeDto request);
@@ -59,7 +60,7 @@ public interface TraineeControllerApi {
     @Operation(summary = "Delete trainee profile", description = "Deletes trainee and associated trainings")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Trainee deleted successfully"),
-            @ApiResponse(responseCode = "403", description = "Access denied"),
+            @ApiResponse(responseCode = "401", description = "Invalid token"),
             @ApiResponse(responseCode = "404", description = "Trainee not found")
     })
     void deleteTraineeProfile(String username);
@@ -68,7 +69,7 @@ public interface TraineeControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of available trainers",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainerDto.class)))),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee not found", content = @Content)
     })
     List<TrainerDto> getAvailableTrainers(String username);
@@ -77,7 +78,7 @@ public interface TraineeControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trainers updated successfully",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainerDto.class)))),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee or trainer not found", content = @Content)
     })
     List<TrainerDto> updateTrainers(String username, UpdateTrainersDto updateTrainersDto);

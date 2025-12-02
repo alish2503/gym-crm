@@ -42,8 +42,7 @@ public class AuthController implements AuthControllerApi {
 
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
-    public void logout(@RequestHeader(value = "Authorization", required = false)
-                                           String authHeader)
+    public void logout(@RequestHeader(value = "Authorization", required = false) String authHeader)
     {
         authService.logout(authHeader);
     }

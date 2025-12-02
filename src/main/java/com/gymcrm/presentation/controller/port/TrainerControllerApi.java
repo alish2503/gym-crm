@@ -28,7 +28,8 @@ public interface TrainerControllerApi {
             @ApiResponse(responseCode = "201", description = "Trainer created successfully",
                     content = @Content(schema = @Schema(implementation = UserCredentialsDto.class))),
 
-            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content)
     })
     ResponseEntity<UserCredentialsDto> registerTrainer(CreateTrainerDto request);
 
@@ -36,7 +37,7 @@ public interface TrainerControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trainer found",
                     content = @Content(schema = @Schema(implementation = TrainerWithTraineesDto.class))),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
     TrainerWithTraineesDto getTrainerProfile(String username);
@@ -46,7 +47,7 @@ public interface TrainerControllerApi {
             @ApiResponse(responseCode = "200", description = "Trainer updated successfully",
                     content = @Content(schema = @Schema(implementation = TrainerWithTraineesAfterUpdateDto.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content)
     })
     TrainerWithTraineesAfterUpdateDto updateTrainerProfile(String username, UpdateTrainerDto request);
