@@ -1,27 +1,21 @@
 package infrastructure.repository;
 
 import com.gymcrm.domain.model.User;
+import com.gymcrm.infrastructure.jpa.UserProfileJpaRepository;
 import com.gymcrm.infrastructure.mapper.UserDaoMapper;
 import com.gymcrm.infrastructure.dao.UserDao;
-import com.gymcrm.infrastructure.repository.UserProfileRepositoryImpl;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.gymcrm.infrastructure.adapter.UserProfileRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,13 +26,7 @@ import static org.mockito.Mockito.when;
 class UserProfileRepositoryImplTest {
 
     @Mock
-    EntityManager entityManager;
-
-    @Mock
-    TypedQuery<UserDao> userQuery;
-
-    @Mock
-    TypedQuery<Long> countQuery;
+    UserProfileJpaRepository userProfileJpaRepository;
 
     @InjectMocks
     UserProfileRepositoryImpl repository;
@@ -54,28 +42,24 @@ class UserProfileRepositoryImplTest {
 
     @Test
     void findProfileByUserName_shouldReturnDomainUser() {
-        when(entityManager.createQuery(anyString(), eq(UserDao.class))).thenReturn(userQuery);
-        when(userQuery.setParameter(anyString(), anyString())).thenReturn(userQuery);
-        when(userQuery.getResultStream()).thenReturn(Stream.of(userDao));
-        Optional<User> result = repository.findProfileByUserName("john");
+        when(userProfileJpaRepository.findByUsername("john")).thenReturn(Optional.of(userDao));
+        Optional<User> result = repository.findProfileByUsername("john");
         assertTrue(result.isPresent());
         assertEquals("john", result.get().getUsername());
-        verify(userQuery).setParameter("username", "john");
+        verify(userProfileJpaRepository).findByUsername("john");
     }
 
     @Test
-    void findProfileByUserName_shouldReturnEmptyIfNotFound() {
-        when(entityManager.createQuery(anyString(), eq(UserDao.class))).thenReturn(userQuery);
-        when(userQuery.setParameter(anyString(), anyString())).thenReturn(userQuery);
-        when(userQuery.getResultStream()).thenReturn(Stream.empty());
-        Optional<User> result = repository.findProfileByUserName("unknown");
+    void findProfileByUsername_shouldReturnEmptyIfNotFound() {
+        when(userProfileJpaRepository.findByUsername("unknown")).thenReturn(Optional.empty());
+        Optional<User> result = repository.findProfileByUsername("unknown");
         assertFalse(result.isPresent());
     }
 
     @Test
     void updateProfile_shouldMergeDao() {
-        repository.updateProfile(domainUser);
-        verify(entityManager).merge(argThat((UserDao dao) ->
+        repository.saveOrUpdate(domainUser);
+        verify(userProfileJpaRepository).save(argThat((UserDao dao) ->
                 dao.getId().equals(domainUser.getId()) &&
                         dao.getUsername().equals(domainUser.getUsername()) &&
                         dao.getFirstName().equals(domainUser.getFirstName())
@@ -84,28 +68,22 @@ class UserProfileRepositoryImplTest {
 
     @Test
     void existsByUserName_shouldReturnTrue() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(countQuery);
-        when(countQuery.setParameter(anyString(), anyString())).thenReturn(countQuery);
-        when(countQuery.getSingleResult()).thenReturn(1L);
+        when(userProfileJpaRepository.existsByUsername("john")).thenReturn(true);
         assertTrue(repository.existsByUserName("john"));
-        verify(countQuery).setParameter("uName", "john");
+        verify(userProfileJpaRepository).existsByUsername("john");
     }
 
     @Test
     void existsByUserName_shouldReturnFalse() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(countQuery);
-        when(countQuery.setParameter(anyString(), anyString())).thenReturn(countQuery);
-        when(countQuery.getSingleResult()).thenReturn(0L);
+        when(userProfileJpaRepository.existsByUsername("unknown")).thenReturn(false);
         assertFalse(repository.existsByUserName("unknown"));
     }
 
     @Test
     public void testCountActiveUsers() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(countQuery);
-        when(countQuery.getSingleResult()).thenReturn(10L);
+        when(userProfileJpaRepository.countByIsActiveTrue()).thenReturn(10L);
         long result = repository.countActiveUsers();
         assertEquals(10L, result);
-        verify(entityManager).createQuery("select count(u) from UserDao u where u.isActive=true", Long.class);
-        verify(countQuery).getSingleResult();
+        verify(userProfileJpaRepository).countByIsActiveTrue();
     }
 }

@@ -4,32 +4,27 @@ import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
+import com.gymcrm.infrastructure.jpa.TraineeJpaRepository;
 import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
 import com.gymcrm.infrastructure.dao.TraineeDao;
 import com.gymcrm.infrastructure.dao.TrainerDao;
 import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import com.gymcrm.infrastructure.dao.UserDao;
-import com.gymcrm.infrastructure.repository.TraineeRepositoryImpl;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.gymcrm.infrastructure.adapter.TraineeRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,13 +35,7 @@ import static org.mockito.Mockito.when;
 class TraineeRepositoryImplTest {
 
     @Mock
-    EntityManager entityManager;
-
-    @Mock
-    TypedQuery<Long> longQuery;
-
-    @Mock
-    TypedQuery<TraineeDao> traineeQuery;
+    TraineeJpaRepository traineeJpaRepository;
 
     @InjectMocks
     TraineeRepositoryImpl repository;
@@ -65,8 +54,8 @@ class TraineeRepositoryImplTest {
 
     @Test
     void save_shouldPersistDao_withArgThat() {
-        repository.save(domainTrainee);
-        verify(entityManager).persist(argThat((TraineeDao dao) ->
+        repository.saveOrUpdate(domainTrainee);
+        verify(traineeJpaRepository).save(argThat((TraineeDao dao) ->
                 dao.getId() == null &&
                         dao.getAddress().equals(domainTrainee.getAddress()) &&
                         dao.getDateOfBirth().equals(domainTrainee.getDateOfBirth()) &&
@@ -77,8 +66,8 @@ class TraineeRepositoryImplTest {
     @Test
     void update_shouldMergeDao_withArgThat() {
         domainTrainee.setId(1L);
-        repository.update(domainTrainee);
-        verify(entityManager).merge(argThat((TraineeDao dao) ->
+        repository.saveOrUpdate(domainTrainee);
+        verify(traineeJpaRepository).save(argThat((TraineeDao dao) ->
                 dao.getId().equals(domainTrainee.getId()) &&
                         dao.getAddress().equals(domainTrainee.getAddress()) &&
                         dao.getDateOfBirth().equals(domainTrainee.getDateOfBirth()) &&
@@ -88,29 +77,26 @@ class TraineeRepositoryImplTest {
 
     @Test
     void findIdByUsername_shouldReturnId() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(longQuery);
-        when(longQuery.setParameter(anyString(), anyString())).thenReturn(longQuery);
-        when(longQuery.getResultStream()).thenReturn(Stream.of(10L));
-        Optional<Long> result = repository.findIdByUsername("john");
+        when(traineeJpaRepository.findIdByUsername(anyString())).thenReturn(Optional.of(10L));
+        Optional<Long> result = repository.findTraineeId("john");
         assertTrue(result.isPresent());
         assertEquals(10L, result.get());
-        verify(longQuery).setParameter("uName", "john");
+        verify(traineeJpaRepository).findIdByUsername("john");
     }
 
     @Test
     void findIdByUsername_shouldReturnEmptyIfNotFound() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(longQuery);
-        when(longQuery.setParameter(anyString(), anyString())).thenReturn(longQuery);
-        when(longQuery.getResultStream()).thenReturn(Stream.empty());
-        Optional<Long> result = repository.findIdByUsername("unknown");
+        when(traineeJpaRepository.findIdByUsername(anyString())).thenReturn(Optional.empty());
+        Optional<Long> result = repository.findTraineeId("unknown");
         assertFalse(result.isPresent());
     }
 
     @Test
-    void deleteById_shouldRemoveEntity() {
-        when(entityManager.find(TraineeDao.class, 1L)).thenReturn(traineeDao);
-        repository.deleteById(1L);
-        verify(entityManager).remove(traineeDao);
+    void delete_shouldRemoveEntity() {
+        repository.deleteTrainee(domainTrainee);
+        verify(traineeJpaRepository).delete(
+                argThat(dao -> dao.getUser().getUsername().equals("john"))
+        );
     }
 
     @Test
@@ -120,9 +106,7 @@ class TraineeRepositoryImplTest {
                 new TrainingTypeDao(5L, TrainingTypeEnum.FITNESS)
         );
         traineeDao.setTrainers(List.of(trainerDao));
-        when(entityManager.createQuery(anyString(), eq(TraineeDao.class))).thenReturn(traineeQuery);
-        when(traineeQuery.setParameter(anyString(), anyString())).thenReturn(traineeQuery);
-        when(traineeQuery.getResultStream()).thenReturn(Stream.of(traineeDao));
+        when(traineeJpaRepository.findWithTrainers(anyString())).thenReturn(Optional.of(traineeDao));
         Optional<Trainee> result = repository.findTraineeWithTrainers("john");
         assertTrue(result.isPresent());
         Trainee trainee = result.get();
@@ -130,28 +114,24 @@ class TraineeRepositoryImplTest {
         assertEquals(1, trainee.getTrainers().size());
         Trainer trainer = trainee.getTrainers().get(0);
         assertEquals(TrainingTypeEnum.FITNESS, trainer.getSpecialization().typeEnum());
-        verify(traineeQuery).setParameter("uName", "john");
+        verify(traineeJpaRepository).findWithTrainers("john");
     }
 
     @Test
     void findTraineeWithTrainers_shouldReturnEmptyIfNotFound() {
-        when(entityManager.createQuery(anyString(), eq(TraineeDao.class))).thenReturn(traineeQuery);
-        when(traineeQuery.setParameter(anyString(), anyString())).thenReturn(traineeQuery);
-        when(traineeQuery.getResultStream()).thenReturn(Stream.empty());
+        when(traineeJpaRepository.findWithTrainers(anyString())).thenReturn(Optional.empty());
         Optional<Trainee> result = repository.findTraineeWithTrainers("nobody");
         assertFalse(result.isPresent());
     }
 
     @Test
     void findTrainee_shouldReturnMappedDomainObject() {
-        when(entityManager.createQuery(anyString(), eq(TraineeDao.class))).thenReturn(traineeQuery);
-        when(traineeQuery.setParameter(anyString(), anyString())).thenReturn(traineeQuery);
-        when(traineeQuery.getResultStream()).thenReturn(Stream.of(traineeDao));
+        when(traineeJpaRepository.findByUserUsername(anyString())).thenReturn(Optional.of(traineeDao));
         Optional<Trainee> result = repository.findTrainee("john");
         assertTrue(result.isPresent());
         Trainee trainee = result.get();
         assertEquals("Address", trainee.getAddress());
         assertEquals(0, trainee.getTrainers().size());
-        verify(traineeQuery).setParameter("uName", "john");
+        verify(traineeJpaRepository).findByUserUsername("john");
     }
 }

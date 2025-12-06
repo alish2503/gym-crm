@@ -37,11 +37,11 @@ public class UserServiceImpl implements UserService {
     }
 
     protected void updateUserProfile(String username, Consumer<User> updater) {
-        User userProfile = userProfileRepository.findProfileByUserName(username)
+        User userProfile = userProfileRepository.findProfileByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + username));
 
         updater.accept(userProfile);
-        userProfileRepository.updateProfile(userProfile);
+        userProfileRepository.saveOrUpdate(userProfile);
     }
 }
 

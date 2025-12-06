@@ -6,8 +6,8 @@ import com.gymcrm.application.service.port.CredentialService;
 import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.model.User;
+import com.gymcrm.domain.port.BaseRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.domain.port.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -18,13 +18,13 @@ abstract class AbstractUserService<E extends UserProfile> {
     private final CredentialService credentialService;
     private final PasswordEncoder encoder;
     protected final UserProfileRepository userProfileRepository;
-    private final UserRepository<E> userRepository;
+    private final BaseRepository<E> baseRepository;
 
-    protected AbstractUserService(UserRepository<E> userRepository,
+    protected AbstractUserService(BaseRepository<E> baseRepository,
                                   UserProfileRepository userProfileRepository,
                                   PasswordEncoder encoder, CredentialService credentialService)
     {
-        this.userRepository = userRepository;
+        this.baseRepository = baseRepository;
         this.userProfileRepository = userProfileRepository;
         this.encoder = encoder;
         this.credentialService = credentialService;
@@ -38,7 +38,7 @@ abstract class AbstractUserService<E extends UserProfile> {
         String hashed = encoder.encode(password);
         User userProfile = new User(username, hashed, firstName, lastName);
         created.setUser(userProfile);
-        userRepository.save(created);
+        baseRepository.saveOrUpdate(created);
         return new UserCredentials(username, password);
     }
 
@@ -47,7 +47,7 @@ abstract class AbstractUserService<E extends UserProfile> {
         userProfile.setFirstName(request.getFirstName());
         userProfile.setLastName(request.getLastName());
         userProfile.setActive(request.isActive());
-        userRepository.update(user);
+        baseRepository.saveOrUpdate(user);
     }
 }
 

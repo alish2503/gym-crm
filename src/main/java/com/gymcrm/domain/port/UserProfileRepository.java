@@ -7,9 +7,8 @@ import java.util.Optional;
 /**
  * @author Alish
  */
-public interface UserProfileRepository {
-    Optional<User> findProfileByUserName(String username);
-    void updateProfile(User userProfile);
+public interface UserProfileRepository extends BaseRepository<User> {
+    Optional<User> findProfileByUsername(String username);
     boolean existsByUserName(String username);
     long countActiveUsers();
 }

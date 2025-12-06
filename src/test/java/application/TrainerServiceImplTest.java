@@ -82,7 +82,7 @@ class TrainerServiceImplTest {
         assertEquals("John.Doe", credentials.username());
         assertEquals("pass", credentials.password());
         ArgumentCaptor<Trainer> captor = ArgumentCaptor.forClass(Trainer.class);
-        verify(trainerRepository).save(captor.capture());
+        verify(trainerRepository).saveOrUpdate(captor.capture());
         Trainer saved = captor.getValue();
         assertEquals(specialization, saved.getSpecialization());
         assertNotNull(saved.getUser());
@@ -101,6 +101,6 @@ class TrainerServiceImplTest {
         Trainer result = trainerService.updateTrainer(req);
         assertEquals(specialization, result.getSpecialization());
         assertEquals(user, result.getUser());
-        verify(trainerRepository).update(trainer);
+        verify(trainerRepository).saveOrUpdate(trainer);
     }
 }

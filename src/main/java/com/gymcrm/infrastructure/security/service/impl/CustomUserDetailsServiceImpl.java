@@ -26,7 +26,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User userProfile = userProfileRepository.findProfileByUserName(username).orElseThrow(
+        User userProfile = userProfileRepository.findProfileByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Wrong username"));
 
         return new CustomUserDetails(userProfile);

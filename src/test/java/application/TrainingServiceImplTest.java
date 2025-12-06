@@ -71,11 +71,11 @@ class TrainingServiceImplTest {
         when(trainingRepository.existsTraining("trainer1","trainee1",
                 LocalDate.of(2025,11,10),"Morning Yoga")).thenReturn(false);
 
-        when(traineeRepository.findIdByUsername("trainee1")).thenReturn(Optional.of(2L));
-        when(trainerRepository.findIdByUsername("trainer1")).thenReturn(Optional.of(1L));
+        when(traineeRepository.findTraineeId("trainee1")).thenReturn(Optional.of(2L));
+        when(trainerRepository.findTrainerId("trainer1")).thenReturn(Optional.of(1L));
         when(trainingTypeRepository.findByName(TrainingTypeEnum.YOGA)).thenReturn(Optional.of(yogaType));
         trainingService.createTraining(request);
-        verify(trainingRepository).save(argThat(training ->
+        verify(trainingRepository).saveOrUpdate(argThat(training ->
                 training.getName().equals("Morning Yoga") &&
                         training.getDuration() == 60 &&
                         training.getType() == yogaType &&

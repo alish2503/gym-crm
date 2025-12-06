@@ -9,15 +9,15 @@ import com.gymcrm.infrastructure.dao.TrainerDao;
 import com.gymcrm.infrastructure.dao.TrainingDao;
 import com.gymcrm.infrastructure.dao.TrainingTypeDao;
 import com.gymcrm.infrastructure.dao.UserDao;
-import com.gymcrm.infrastructure.repository.TrainingRepositoryImpl;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.gymcrm.infrastructure.adapter.TrainingRepositoryImpl;
+import com.gymcrm.infrastructure.jpa.TrainingJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,13 +40,7 @@ import static org.mockito.Mockito.when;
 class TrainingRepositoryImplTest {
 
     @Mock
-    EntityManager entityManager;
-
-    @Mock
-    TypedQuery<TrainingDao> trainingQuery;
-
-    @Mock
-    TypedQuery<Long> longQuery;
+    TrainingJpaRepository trainingJpaRepository;
 
     @InjectMocks
     TrainingRepositoryImpl repository;
@@ -71,14 +65,12 @@ class TrainingRepositoryImplTest {
     }
 
     @Test
-    void findTrainingsForTrainee_withAllFilters_shouldReturnMappedTraining() {
-        when(entityManager.createQuery(anyString(), eq(TrainingDao.class))).thenReturn(trainingQuery);
-        when(trainingQuery.setParameter(anyString(), any())).thenReturn(trainingQuery);
-        when(trainingQuery.getResultList()).thenReturn(List.of(trainingDao));
+    void findTrainingsForTrainee_withFilters_shouldReturnMappedTraining() {
         TrainingFilter filter = new TrainingFilter(LocalDate.of(2025, 5, 1),
                 LocalDate.of(2025, 5, 31), new FullName("T", "R"),
-                TrainingTypeEnum.YOGA
-        );
+                TrainingTypeEnum.YOGA);
+
+        when(trainingJpaRepository.findAll(any(Specification.class))).thenReturn(List.of(trainingDao));
         List<Training> trainings = repository.findTrainingsForTrainee("traineeUser", filter);
         assertEquals(1, trainings.size());
         Training t = trainings.get(0);
@@ -87,72 +79,58 @@ class TrainingRepositoryImplTest {
         assertNotNull(t.getTrainer());
         assertEquals("T", t.getTrainer().getUser().getFirstName());
         assertEquals(TrainingTypeEnum.YOGA, t.getTrainer().getSpecialization().typeEnum());
-        verify(trainingQuery).setParameter("uname", "traineeUser");
-        verify(trainingQuery).setParameter("from", filter.from());
-        verify(trainingQuery).setParameter("to", filter.to());
-        verify(trainingQuery).setParameter("fName", "T");
-        verify(trainingQuery).setParameter("lName", "R");
-        verify(trainingQuery).setParameter("tType", TrainingTypeEnum.YOGA);
+        verify(trainingJpaRepository).findAll(any(Specification.class));
     }
 
     @Test
     void findTrainingsForTrainee_withoutFilters_shouldReturnMappedTraining() {
-        when(entityManager.createQuery(anyString(), eq(TrainingDao.class))).thenReturn(trainingQuery);
-        when(trainingQuery.setParameter(anyString(), any())).thenReturn(trainingQuery);
-        when(trainingQuery.getResultList()).thenReturn(List.of(trainingDao));
         TrainingFilter filter = new TrainingFilter(null, null, null, null);
+        when(trainingJpaRepository.findAll(any(Specification.class))).thenReturn(List.of(trainingDao));
         List<Training> trainings = repository.findTrainingsForTrainee("traineeUser", filter);
         assertEquals(1, trainings.size());
         Training t = trainings.get(0);
         assertEquals("Morning Yoga", t.getName());
-        verify(trainingQuery).setParameter("uname", "traineeUser");
-        verify(trainingQuery, never()).setParameter(eq("from"), any());
-        verify(trainingQuery, never()).setParameter(eq("to"), any());
-        verify(trainingQuery, never()).setParameter(eq("fName"), any());
-        verify(trainingQuery, never()).setParameter(eq("lName"), any());
-        verify(trainingQuery, never()).setParameter(eq("tType"), any());
+        verify(trainingJpaRepository).findAll(any(Specification.class));
     }
 
     @Test
     void findTrainingsForTrainer_withFilters_shouldReturnMappedTraining() {
-        when(entityManager.createQuery(anyString(), eq(TrainingDao.class))).thenReturn(trainingQuery);
-        when(trainingQuery.setParameter(anyString(), any())).thenReturn(trainingQuery);
-        when(trainingQuery.getResultList()).thenReturn(List.of(trainingDao));
         TrainingFilter filter = new TrainingFilter(LocalDate.of(2025, 5, 1),
                 LocalDate.of(2025, 5, 31), new FullName("A", "B"), null);
 
+        when(trainingJpaRepository.findAll(any(Specification.class))).thenReturn(List.of(trainingDao));
         List<Training> trainings = repository.findTrainingsForTrainer("trainerUser", filter);
         assertEquals(1, trainings.size());
         Training t = trainings.get(0);
         assertEquals("Morning Yoga", t.getName());
         assertNotNull(t.getTrainee());
         assertEquals("A", t.getTrainee().getUser().getFirstName());
-        verify(trainingQuery).setParameter("uname", "trainerUser");
-        verify(trainingQuery).setParameter("from", filter.from());
-        verify(trainingQuery).setParameter("to", filter.to());
-        verify(trainingQuery).setParameter("fName", "A");
-        verify(trainingQuery).setParameter("lName", "B");
+        verify(trainingJpaRepository).findAll(any(Specification.class));
     }
 
     @Test
     void existsTraining_shouldReturnTrueIfExists() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(longQuery);
-        when(longQuery.setParameter(anyString(), any())).thenReturn(longQuery);
-        when(longQuery.getSingleResult()).thenReturn(1L);
+        when(trainingJpaRepository.existsByTrainerUserUsernameAndTraineeUserUsernameAndDateAndName(
+                anyString(), anyString(), any(), anyString())).thenReturn(true);
+
         boolean exists = repository.existsTraining("trainerUser", "traineeUser",
                 LocalDate.of(2025, 5, 5), "Morning Yoga");
 
         assertTrue(exists);
+        verify(trainingJpaRepository).existsByTrainerUserUsernameAndTraineeUserUsernameAndDateAndName(
+                anyString(), anyString(), any(), anyString());
     }
 
     @Test
     void existsTraining_shouldReturnFalseIfNotExists() {
-        when(entityManager.createQuery(anyString(), eq(Long.class))).thenReturn(longQuery);
-        when(longQuery.setParameter(anyString(), any())).thenReturn(longQuery);
-        when(longQuery.getSingleResult()).thenReturn(0L);
+        when(trainingJpaRepository.existsByTrainerUserUsernameAndTraineeUserUsernameAndDateAndName(
+                anyString(), anyString(), any(), anyString())).thenReturn(false);
+
         boolean exists = repository.existsTraining("trainerUser", "traineeUser",
                 LocalDate.of(2025, 5, 5), "Morning Yoga");
 
         assertFalse(exists);
+        verify(trainingJpaRepository).existsByTrainerUserUsernameAndTraineeUserUsernameAndDateAndName(
+                anyString(), anyString(), any(), anyString());
     }
 }

@@ -44,7 +44,7 @@ class CustomUserDetailsServiceImplTest {
 
     @Test
     void loadUserByUsername_userExists_returnsCustomUserDetails() {
-        when(userProfileRepository.findProfileByUserName("test")).thenReturn(Optional.of(user));
+        when(userProfileRepository.findProfileByUsername("test")).thenReturn(Optional.of(user));
         UserDetails result = service.loadUserByUsername("test");
         assertNotNull(result);
         assertEquals("test", result.getUsername());
@@ -53,13 +53,13 @@ class CustomUserDetailsServiceImplTest {
 
     @Test
     void loadUserByUsername_userNotFound_throwsException() {
-        when(userProfileRepository.findProfileByUserName("unknown")).thenReturn(Optional.empty());
+        when(userProfileRepository.findProfileByUsername("unknown")).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername("unknown"));
     }
 
     @Test
     void isValidPassword_correctPassword_returnsTrue() {
-        when(userProfileRepository.findProfileByUserName("test")).thenReturn(Optional.of(user));
+        when(userProfileRepository.findProfileByUsername("test")).thenReturn(Optional.of(user));
         when(encoder.matches("rawPassword", "hashedPassword")).thenReturn(true);
         boolean result = service.isValidPassword("test", "rawPassword");
         assertTrue(result);
@@ -67,7 +67,7 @@ class CustomUserDetailsServiceImplTest {
 
     @Test
     void isValidPassword_incorrectPassword_returnsFalse() {
-        when(userProfileRepository.findProfileByUserName("test")).thenReturn(Optional.of(user));
+        when(userProfileRepository.findProfileByUsername("test")).thenReturn(Optional.of(user));
         when(encoder.matches("wrongPassword", "hashedPassword")).thenReturn(false);
         boolean result = service.isValidPassword("test", "wrongPassword");
         assertFalse(result);

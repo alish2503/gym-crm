@@ -12,7 +12,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,17 +49,17 @@ public class TrainingServiceImpl implements TrainingService {
         if (trainingRepository.existsTraining(trainerUsername, traineeUsername, trainingDate, trainingName)) {
             throw new DataIntegrityViolationException("Training already exits");
         }
-        Long traineeId = traineeRepository.findIdByUsername(traineeUsername).orElseThrow(
+        Long traineeId = traineeRepository.findTraineeId(traineeUsername).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with username: " + traineeUsername)
         );
-        Long trainerId = trainerRepository.findIdByUsername(trainerUsername).orElseThrow(
+        Long trainerId = trainerRepository.findTrainerId(trainerUsername).orElseThrow(
                 () -> new EntityNotFoundException("No trainer found with username: " + trainerUsername)
         );
         TrainingType type = trainingTypeRepository.findByName(typeEnum).orElseThrow(
                 () -> new EntityNotFoundException("No training type: " + typeEnum + " found")
         );
         Training created = new Training(type, trainingName, trainingDate, duration, trainerId, traineeId);
-        trainingRepository.save(created);
+        trainingRepository.saveOrUpdate(created);
     }
 
     @Override

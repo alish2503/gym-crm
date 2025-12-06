@@ -41,17 +41,17 @@ class UserServiceImplTest {
     @Test
     void changePassword_shouldEncodeAndUpdateProfile() {
         when(encoder.encode("newPass")).thenReturn("newHash");
-        when(userProfileRepository.findProfileByUserName("John.Doe")).thenReturn(Optional.of(user));
+        when(userProfileRepository.findProfileByUsername("John.Doe")).thenReturn(Optional.of(user));
         userService.changePassword("John.Doe", "newPass");
-        verify(userProfileRepository).updateProfile(user);
+        verify(userProfileRepository).saveOrUpdate(user);
         assertEquals("newHash", user.getPassword());
     }
 
     @Test
     void toggle_shouldChangeActiveValue() {
-        when(userProfileRepository.findProfileByUserName("John.Doe")).thenReturn(Optional.of(user));
+        when(userProfileRepository.findProfileByUsername("John.Doe")).thenReturn(Optional.of(user));
         userService.toggle("John.Doe");
-        verify(userProfileRepository).updateProfile(user);
+        verify(userProfileRepository).saveOrUpdate(user);
         assertFalse(user.isActive());
     }
 }

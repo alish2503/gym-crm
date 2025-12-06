@@ -65,10 +65,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
 
     @Override
     public void deleteTrainee(String username) {
-        Long id = traineeRepository.findIdByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("No trainee found with username: " + username)
-        );
-        traineeRepository.deleteById(id);
+        traineeRepository.findTrainee(username).ifPresent(traineeRepository::deleteTrainee);
     }
 
     @Override
@@ -86,7 +83,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
             throw new EntityNotFoundException("No trainers found with usernames: " + errorUsernames);
         }
         trainee.setTrainers(trainers);
-        traineeRepository.update(trainee);
+        traineeRepository.saveOrUpdate(trainee);
         return trainers;
     }
 
@@ -95,9 +92,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
         if (!userProfileRepository.existsByUserName(username)) {
             throw new EntityNotFoundException("No trainee found with username: " + username);
         }
-        List<Long> assignedIds = trainerRepository.findAssignedTrainersIds(username);
-        return assignedIds.isEmpty() ? trainerRepository.findAllActive() :
-                trainerRepository.getAvailableTrainersNotAssignedAndActive(assignedIds);
+        return trainerRepository.findAvailableTrainersNotAssignedAndActive(username);
     }
 }
 

@@ -60,8 +60,7 @@ public interface TraineeControllerApi {
     @Operation(summary = "Delete trainee profile", description = "Deletes trainee and associated trainings")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Trainee deleted successfully"),
-            @ApiResponse(responseCode = "401", description = "Invalid token"),
-            @ApiResponse(responseCode = "404", description = "Trainee not found")
+            @ApiResponse(responseCode = "401", description = "Invalid token")
     })
     void deleteTraineeProfile(String username);
 

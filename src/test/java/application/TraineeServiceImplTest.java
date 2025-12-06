@@ -29,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -92,7 +94,7 @@ class TraineeServiceImplTest {
         assertEquals("John.Doe", credentials.username());
         assertEquals("pass", credentials.password());
         ArgumentCaptor<Trainee> captor = ArgumentCaptor.forClass(Trainee.class);
-        verify(traineeRepository).save(captor.capture());
+        verify(traineeRepository).saveOrUpdate(captor.capture());
         Trainee saved = captor.getValue();
         assertEquals("addr", saved.getAddress());
         assertEquals(LocalDate.of(2000, 1, 1), saved.getDateOfBirth());
@@ -111,19 +113,21 @@ class TraineeServiceImplTest {
         Trainee result = traineeService.updateTrainee(req);
         assertEquals("newAddr", result.getAddress());
         assertEquals(LocalDate.of(2000,1,1), result.getDateOfBirth());
-        verify(traineeRepository).update(trainee);
+        verify(traineeRepository).saveOrUpdate(trainee);
     }
 
     @Test
-    void deleteTrainee_shouldDeleteById() {
-        when(traineeRepository.findIdByUsername("John.Doe")).thenReturn(Optional.of(42L));
+    void deleteTrainee_existingTrainee_callsDelete() {
+        when(traineeRepository.findTrainee("John.Doe")).thenReturn(Optional.of(trainee));
         traineeService.deleteTrainee("John.Doe");
-        verify(traineeRepository).deleteById(42L);
+        verify(traineeRepository).deleteTrainee(trainee);
     }
 
     @Test
-    void deleteTrainee_shouldThrowIfIdNotFound() {
-        assertThrows(EntityNotFoundException.class, () -> traineeService.deleteTrainee("John.Doe"));
+    void deleteTrainee_nonExistingTrainee_doesNotCallDelete() {
+        when(traineeRepository.findTrainee("unknown")).thenReturn(Optional.empty());
+        traineeService.deleteTrainee("unknown");
+        verify(traineeRepository, never()).deleteTrainee(any());
     }
 
     @Test
@@ -139,7 +143,7 @@ class TraineeServiceImplTest {
         assertEquals(2, updated.size());
         assertTrue(trainee.getTrainers().containsAll(updated));
         assertEquals(user, trainee.getUser());
-        verify(traineeRepository).update(trainee);
+        verify(traineeRepository).saveOrUpdate(trainee);
     }
 
     @Test
@@ -156,19 +160,11 @@ class TraineeServiceImplTest {
     }
 
     @Test
-    void getAvailableTrainersForTrainee_shouldReturnAllIfNoAssigned() {
-        when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
-        when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of());
-        when(trainerRepository.findAllActive()).thenReturn(List.of(new Trainer(), new Trainer()));
-        List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
-        assertEquals(2, result.size());
-    }
-
-    @Test
     void getAvailableTrainersForTrainee_shouldReturnAvailableNotAssigned() {
         when(userProfileRepository.existsByUserName("John.Doe")).thenReturn(true);
-        when(trainerRepository.findAssignedTrainersIds("John.Doe")).thenReturn(List.of(1L, 2L));
-        when(trainerRepository.getAvailableTrainersNotAssignedAndActive(List.of(1L,2L))).thenReturn(List.of(new Trainer()));
+        when(trainerRepository.findAvailableTrainersNotAssignedAndActive("John.Doe")).
+                thenReturn(List.of(new Trainer()));
+
         List<Trainer> result = traineeService.getAvailableTrainersForTrainee("John.Doe");
         assertEquals(1, result.size());
     }
