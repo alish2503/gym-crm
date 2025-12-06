@@ -167,10 +167,11 @@ com.gymcrm
  │   ├─ model         # Entities: User, Trainee, Trainer, Training, TrainingType
  │   └─ port          # Repository interfaces
  ├─ infrastructure
+ │   ├─ adapter       # Adapters for reposiories
  │   ├─ config        # Hibernate, Swagger, Security, Profiles
  │   ├─ dao           # DAO classes
  │   ├─ mapper        # Entity ↔ DAO mappers
- │   ├─ repository    # Repository implementations
+ │   ├─ jpa           # JPARepositories
  │   ├─ logging       # Filter for transaction logging
  │   ├─ metrics       # Custom metrics service + AOP aspect
  │   ├─ health        # Custom health indicators

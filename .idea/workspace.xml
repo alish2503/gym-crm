@@ -5,43 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/BaseRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/jpa/TraineeJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/jpa/TrainerJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/jpa/TrainingJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/jpa/TrainingTypeJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/jpa/UserProfileJpaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/AbstractUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/AbstractUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/BaseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/BaseRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TraineeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TraineeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TrainerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TrainerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TrainingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/TrainingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/UserProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/UserProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/domain/port/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/BaseRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/TraineeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/TraineeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/TrainerRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/TrainerRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/TrainingRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/TrainingRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/TrainingTypeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/TrainingTypeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/UserProfileRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/adapter/UserProfileRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/repository/UserRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/CustomUserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/CustomUserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/JwtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/JwtServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/application/TraineeServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/application/TraineeServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/application/TrainerServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/application/TrainerServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/application/TrainingServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/application/TrainingServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/application/UserServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/application/UserServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TraineeRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TraineeRepositoryImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainerRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainerRepositoryImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainingRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainingRepositoryImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainingTypeRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/repository/TrainingTypeRepositoryImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/repository/UserProfileRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/repository/UserProfileRepositoryImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/infrastructure/service/CustomUserDetailsServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/infrastructure/service/CustomUserDetailsServiceImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,45 +35,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GymApp.executor": "Run",
-    "JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleAccessDenied.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleBadCredentials.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleEntityNotFound.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidEnumValue.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidJsonFormat.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleUnexpectedException.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleUsernameNotFound.executor": "Run",
-    "JUnit.GlobalExceptionHandlerTest.shouldHandleValidationErrors.executor": "Run",
-    "JUnit.JwtAuthenticationProviderTest.shouldAuthenticateValidToken.executor": "Run",
-    "JUnit.JwtAuthenticationProviderTest.shouldThrowIfTokenInvalidOrBlacklisted.executor": "Run",
-    "JUnit.JwtAuthenticationProviderTest.supportsJwtAuthenticationToken.executor": "Run",
-    "JUnit.JwtRequestFilterTest.executor": "Run",
-    "JUnit.JwtRequestFilterTest.shouldAuthenticateValidToken.executor": "Run",
-    "JUnit.JwtRequestFilterTest.shouldReturn401ForInvalidToken.executor": "Run",
-    "JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader.executor": "Run",
-    "JUnit.TraineeRepositoryImplTest.delete_shouldRemoveEntity.executor": "Run",
-    "JUnit.TraineeRepositoryImplTest.executor": "Run",
-    "JUnit.TrainerRepositoryImplTest.executor": "Run",
-    "JUnit.TrainerRepositoryImplTest.findTrainersByUserNamesIn_shouldReturnTrainers.executor": "Run",
-    "JUnit.TrainingRepositoryImplTest.executor": "Run",
-    "JUnit.TrainingTypeRepositoryImplTest.executor": "Run",
-    "JUnit.UserProfileRepositoryImplTest.executor": "Run",
-    "JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor": "Run",
-    "JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor": "Run",
-    "JUnit.application in gym-crm.executor": "Run",
-    "JUnit.java in gym-crm.executor": "Run",
-    "JUnit.repository in gym-crm.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GymApp.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleAccessDenied.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleBadCredentials.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleEntityNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidEnumValue.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidJsonFormat.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleUnexpectedException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleUsernameNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleValidationErrors.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtAuthenticationProviderTest.shouldAuthenticateValidToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtAuthenticationProviderTest.shouldThrowIfTokenInvalidOrBlacklisted.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtAuthenticationProviderTest.supportsJwtAuthenticationToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtRequestFilterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtRequestFilterTest.shouldAuthenticateValidToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtRequestFilterTest.shouldReturn401ForInvalidToken.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TraineeRepositoryImplTest.delete_shouldRemoveEntity.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TraineeRepositoryImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TrainerRepositoryImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TrainerRepositoryImplTest.findTrainersByUserNamesIn_shouldReturnTrainers.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TrainingRepositoryImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TrainingTypeRepositoryImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserProfileRepositoryImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.application in gym-crm.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.java in gym-crm.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.repository in gym-crm.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.GymApp">
     <configuration name="GymApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
@@ -191,7 +155,20 @@
       <option name="presentableId" value="Default" />
       <updated>1764662716472</updated>
     </task>
+    <task id="LOCAL-00001" summary="Replaced repositories implementations with entityManager by JPARepositories">
+      <option name="closed" value="true" />
+      <created>1765025552516</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1765025552516</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Replaced repositories implementations with entityManager by JPARepositories" />
+    <option name="LAST_COMMIT_MESSAGE" value="Replaced repositories implementations with entityManager by JPARepositories" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764666989277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
