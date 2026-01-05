@@ -15,8 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -37,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter,
-                                           TransactionIdFilter transactionIdFilter) throws Exception
+                                           TransactionIdFilter transactionIdFilter)
     {
         return http.cors(withDefaults()).csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
@@ -45,7 +43,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/logout",  "/trainees/register",
                                 "/trainers/register", "/v3/api-docs/**", "/swagger-ui/**",
-                                "/swagger-resources/**", "/actuator/**" ).permitAll().anyRequest().authenticated()
+                                "/swagger-resources/**", "/actuator/**" ).permitAll().anyRequest().
+                        authenticated()
                 )
                 .addFilterBefore(jwtRequestFilter, LogoutFilter.class)
                 .addFilterBefore(transactionIdFilter, SecurityContextHolderFilter.class)

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +72,8 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.customization.CustomizationConfigurable&quot;
   }
 }</component>
   <component name="RunManager" selected="Application.GymApp">
@@ -134,8 +136,8 @@
       <item itemvalue="Application.GymApp" />
       <item itemvalue="JUnit.TrainingTypeRepositoryImplTest" />
       <item itemvalue="JUnit.application in gym-crm" />
-      <item itemvalue="JUnit.repository in gym-crm" />
       <item itemvalue="JUnit.java in gym-crm" />
+      <item itemvalue="JUnit.repository in gym-crm" />
     </list>
     <recent_temporary>
       <list>
@@ -146,6 +148,13 @@
         <item itemvalue="JUnit.TrainingTypeRepositoryImplTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -163,14 +172,35 @@
       <option name="project" value="LOCAL" />
       <updated>1765025552516</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updated README.md">
+      <option name="closed" value="true" />
+      <created>1765025969911</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765025969911</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Replaced repositories implementations with entityManager by JPARepositories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Replaced repositories implementations with entityManager by JPARepositories" />
+    <MESSAGE value="Updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764666989277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
