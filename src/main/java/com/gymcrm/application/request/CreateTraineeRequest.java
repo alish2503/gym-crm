@@ -19,5 +19,4 @@ public class CreateTraineeRequest extends FullName {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
-
 }

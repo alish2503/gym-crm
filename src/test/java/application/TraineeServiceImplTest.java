@@ -7,10 +7,16 @@ import com.gymcrm.application.service.port.CredentialService;
 import com.gymcrm.application.service.impl.TraineeServiceImpl;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
+import com.gymcrm.domain.model.TrainingType;
+import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
+import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
+import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,10 +56,16 @@ class TraineeServiceImplTest {
     private UserProfileRepository userProfileRepository;
 
     @Mock
+    private TrainingRepository trainingRepository;
+
+    @Mock
     private CredentialService credentialService;
 
     @Mock
     private PasswordEncoder encoder;
+
+    @Mock
+    private TrainerWorkloadClient workloadClient;
 
     @InjectMocks
     private TraineeServiceImpl traineeService;
@@ -118,7 +130,16 @@ class TraineeServiceImplTest {
 
     @Test
     void deleteTrainee_existingTrainee_callsDelete() {
+        Training training = new Training(new TrainingType(1L, TrainingTypeEnum.YOGA),
+                "Morning Yoga", LocalDate.of(2025,11,10),60,
+                new Trainer(new User("trainer1","pass","T","R",
+                        true), null));
+
         when(traineeRepository.findTrainee("John.Doe")).thenReturn(Optional.of(trainee));
+        when(trainingRepository.findTrainingsForTrainee("John.Doe",
+                new TrainingFilter(null, null, null, null)))
+                .thenReturn(List.of(training));
+
         traineeService.deleteTrainee("John.Doe");
         verify(traineeRepository).deleteTrainee(trainee);
     }

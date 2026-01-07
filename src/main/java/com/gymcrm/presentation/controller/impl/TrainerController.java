@@ -37,7 +37,7 @@ public class TrainerController extends AbstractUserController  implements Traine
 
     @PostMapping("/register")
     public ResponseEntity<UserCredentialsDto> registerTrainer(@RequestBody @Valid CreateTrainerDto request) {
-        UserCredentials credentials = trainerService.createTrainer(TrainerDtoMapper.toDomain(request));
+        UserCredentials credentials = trainerService.createTrainer(TrainerDtoMapper.toCommand(request));
         return createUserCredentialsResponse(credentials, "trainers");
     }
 
@@ -54,7 +54,7 @@ public class TrainerController extends AbstractUserController  implements Traine
             @PathVariable String username,
             @RequestBody @Valid UpdateTrainerDto request
     ) {
-        Trainer trainer = trainerService.updateTrainer(TrainerDtoMapper.toDomain(username, request));
+        Trainer trainer = trainerService.updateTrainer(TrainerDtoMapper.toCommand(username, request));
         return TrainerDtoMapper.toDtoWithTraineesForUpdate(trainer);
     }
 }

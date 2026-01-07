@@ -44,8 +44,8 @@ class TrainerRepositoryImplTest {
 
     @BeforeEach
     void init() {
-        domainTrainer = new Trainer(new User(1L, "trainer", "pass", "T", "R", true),
-                new TrainingType(10L, TrainingTypeEnum.FITNESS));
+        domainTrainer = new Trainer(new User(1L, "trainer", "pass", "T",
+                "R", true), new TrainingType(10L, TrainingTypeEnum.FITNESS));
 
         trainerDao = TrainerDaoMapper.toDao(domainTrainer);
     }
@@ -72,12 +72,14 @@ class TrainerRepositoryImplTest {
     }
 
     @Test
-    void findIdByUsername_shouldReturnId() {
-        when(trainerJpaRepository.findIdByUsername(anyString())).thenReturn(Optional.of(10L));
-        Optional<Long> result = repository.findTrainerId("trainer");
+    void findTrainer_shouldReturnMappedDomainObject() {
+        when(trainerJpaRepository.findByUserUsername(anyString())).thenReturn(Optional.of(trainerDao));
+        Optional<Trainer> result = repository.findTrainer("trainer");
         assertTrue(result.isPresent());
-        assertEquals(10L, result.get());
-        verify(trainerJpaRepository).findIdByUsername("trainer");
+        Trainer trainer = result.get();
+        assertEquals(TrainingTypeEnum.FITNESS, trainer.getSpecialization().typeEnum());
+        assertEquals(0, trainer.getTrainees().size());
+        verify(trainerJpaRepository).findByUserUsername("trainer");
     }
 
     @Test

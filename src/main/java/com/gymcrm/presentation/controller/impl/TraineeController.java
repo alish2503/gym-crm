@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class TraineeController extends AbstractUserController implements Trainee
 
     @PostMapping("/register")
     public ResponseEntity<UserCredentialsDto> registerTrainee(@RequestBody @Valid CreateTraineeDto request) {
-        UserCredentials credentials = traineeService.createTrainee(TraineeDtoMapper.toDomain(request));
+        UserCredentials credentials = traineeService.createTrainee(TraineeDtoMapper.toCommand(request));
         return createUserCredentialsResponse(credentials, "trainees");
     }
 
@@ -62,7 +63,7 @@ public class TraineeController extends AbstractUserController implements Trainee
             @PathVariable String username,
             @RequestBody @Valid UpdateTraineeDto request
     ) {
-        Trainee trainee = traineeService.updateTrainee(TraineeDtoMapper.toDomain(username, request));
+        Trainee trainee = traineeService.updateTrainee(TraineeDtoMapper.toCommand(username, request));
         return TraineeDtoMapper.toDtoWithTrainersForUpdate(trainee);
     }
 

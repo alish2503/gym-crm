@@ -23,17 +23,17 @@ public class TrainingDtoMapper {
 
     private TrainingDtoMapper() {}
 
-    public static CreateTrainingRequest toDomain(CreateTrainingDto dto) {
+    public static CreateTrainingRequest toCommand(CreateTrainingDto dto) {
         return new CreateTrainingRequest(dto.getTrainerUsername(), dto.getTraineeUsername(),
                 dto.getTrainingType(), dto.getTrainingName(), dto.getDate(), dto.getDuration());
     }
 
-    public static TrainingFilter toDomain(TrainingFilterForTrainerDto dto) {
+    public static TrainingFilter toCommand(TrainingFilterForTrainerDto dto) {
         FullName fullName = getFullName(dto.getTraineeName());
         return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, null);
     }
 
-    public static TrainingFilter toDomain(TrainingFilterForTraineeDto dto) {
+    public static TrainingFilter toCommand(TrainingFilterForTraineeDto dto) {
         FullName fullName = getFullName(dto.getTrainerName());
         return new TrainingFilter(dto.getFrom(), dto.getTo(), fullName, dto.getType());
     }

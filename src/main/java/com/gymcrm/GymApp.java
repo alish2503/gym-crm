@@ -10,6 +10,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 public class GymApp {
+
     public static void main(String[] args) {
         SpringApplication.run(GymApp.class, args);
     }

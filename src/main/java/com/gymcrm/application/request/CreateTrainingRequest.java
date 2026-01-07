@@ -8,4 +8,5 @@ import java.time.LocalDate;
  * @author Alish
  */
 public record CreateTrainingRequest(
-        String trainerUsername, String traineeUsername, TrainingTypeEnum type, String trainingName, LocalDate date, int duration) {}
+        String trainerUsername, String traineeUsername, TrainingTypeEnum type, String trainingName,
+        LocalDate date, int duration) {}

@@ -20,11 +20,11 @@ public class TrainerDtoMapper {
 
     private TrainerDtoMapper() {}
 
-    public static CreateTrainerRequest toDomain(CreateTrainerDto dto) {
+    public static CreateTrainerRequest toCommand(CreateTrainerDto dto) {
         return new CreateTrainerRequest(dto.getFirstName(), dto.getLastName(), dto.getSpecialization());
     }
 
-    public static UpdateTrainerRequest toDomain(String username, UpdateTrainerDto dto) {
+    public static UpdateTrainerRequest toCommand(String username, UpdateTrainerDto dto) {
         return new UpdateTrainerRequest(username, dto.getFirstName(), dto.getLastName(), dto.getIsActive(),
                 dto.getSpecialization());
     }

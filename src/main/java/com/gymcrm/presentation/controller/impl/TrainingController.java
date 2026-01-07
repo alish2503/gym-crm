@@ -49,7 +49,7 @@ public class TrainingController implements TrainingControllerApi {
             "#request.trainerUsername == authentication.name"
     )
     public void addTraining(@RequestBody @Valid CreateTrainingDto request) {
-        trainingService.createTraining(TrainingDtoMapper.toDomain(request));
+        trainingService.createTraining(TrainingDtoMapper.toCommand(request));
     }
 
     @GetMapping("/trainees/{username}")
@@ -57,7 +57,7 @@ public class TrainingController implements TrainingControllerApi {
     public List<TrainingForTraineeDto> getTrainingsForTrainee(
             @PathVariable String username, @ModelAttribute @Valid TrainingFilterForTraineeDto filterDto
     ) {
-        return trainingService.getTrainingsForTrainee(username, TrainingDtoMapper.toDomain(filterDto))
+        return trainingService.getTrainingsForTrainee(username, TrainingDtoMapper.toCommand(filterDto))
                 .stream().map(TrainingDtoMapper::toDtoForTrainee).toList();
     }
 
@@ -66,7 +66,7 @@ public class TrainingController implements TrainingControllerApi {
     public List<TrainingForTrainerDto> getTrainingsForTrainer(
             @PathVariable String username, @ModelAttribute @Valid TrainingFilterForTrainerDto filterDto
     ) {
-        return trainingService.getTrainingsForTrainer(username, TrainingDtoMapper.toDomain(filterDto))
+        return trainingService.getTrainingsForTrainer(username, TrainingDtoMapper.toCommand(filterDto))
                 .stream().map(TrainingDtoMapper::toDtoForTrainer).toList();
     }
 

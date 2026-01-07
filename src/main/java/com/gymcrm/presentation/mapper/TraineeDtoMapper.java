@@ -21,12 +21,12 @@ public class TraineeDtoMapper {
 
     private TraineeDtoMapper() {}
 
-    public static CreateTraineeRequest toDomain(CreateTraineeDto dto) {
+    public static CreateTraineeRequest toCommand(CreateTraineeDto dto) {
         return new CreateTraineeRequest(dto.getFirstName(), dto.getLastName(), dto.getDateOfBirth(),
                 dto.getAddress());
     }
 
-    public static UpdateTraineeRequest toDomain(String username, UpdateTraineeDto dto) {
+    public static UpdateTraineeRequest toCommand(String username, UpdateTraineeDto dto) {
         return new UpdateTraineeRequest(username, dto.getFirstName(), dto.getLastName(), dto.getIsActive(),
                 dto.getDateOfBirth(), dto.getAddress()
         );

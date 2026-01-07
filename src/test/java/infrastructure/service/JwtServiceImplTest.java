@@ -16,54 +16,90 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 
 class JwtServiceImplTest {
-    private static final String SECRET = "0123456789abcdef0123456789abcdef"; // 32 bytes
+
+    private static final String SECRET = "0123456789abcdef0123456789abcdef";
+    private static final String USERNAME = "John.Doe";
+
+    private static final long USER_TOKEN_EXP_MS = 60_000;
+    private static final long SERVICE_TOKEN_EXP_MS = 120_000;
+
     private JwtService jwt;
 
     @BeforeEach
     void setUp() {
-        jwt = new JwtServiceImpl(SECRET, 1000L * 60);
+        jwt = new JwtServiceImpl(SECRET, USER_TOKEN_EXP_MS, SERVICE_TOKEN_EXP_MS);
     }
 
     @Test
-    void generateToken_ok() {
-        String username = "John.Doe";
-        String token = jwt.generateToken(username);
+    void generateTokenForUser_ok() {
+        String token = jwt.generateTokenForUser(USERNAME);
         assertTrue(jwt.isValidToken(token));
-        assertEquals(username, jwt.getUsername(token));
+        assertEquals(USERNAME, jwt.getUsername(token));
+    }
+
+    @Test
+    void generateTokenForService_ok() {
+        String token = jwt.generateTokenForService();
+        assertTrue(jwt.isValidToken(token));
     }
 
     @Test
     void isValidToken_invalid() {
         String invalid = "broken.token";
-        boolean valid = jwt.isValidToken(invalid);
-        assertFalse(valid);
+        assertFalse(jwt.isValidToken(invalid));
     }
 
     @Test
-    void getExpiration_ok() {
+    void getExpiration_userToken() {
         long before = System.currentTimeMillis();
-        String token = jwt.generateToken("user");
+        String token = jwt.generateTokenForUser(USERNAME);
         long after = System.currentTimeMillis();
         Date exp = jwt.getExpiration(token);
         assertTrue(exp.getTime() > before);
-        assertTrue(exp.getTime() < after + 60_000);
+        assertTrue(exp.getTime() <= after + USER_TOKEN_EXP_MS);
     }
 
     @Test
-    void isValidToken_expired() throws InterruptedException {
-        JwtService shortJwt = new JwtServiceImpl(SECRET, 50);
-        String token = shortJwt.generateToken("user");
+    void getExpiration_serviceToken() {
+        long before = System.currentTimeMillis();
+        String token = jwt.generateTokenForService();
+        long after = System.currentTimeMillis();
+        Date exp = jwt.getExpiration(token);
+        assertTrue(exp.getTime() > before);
+        assertTrue(exp.getTime() <= after + SERVICE_TOKEN_EXP_MS);
+    }
+
+    @Test
+    void isValidToken_expired_userToken() throws InterruptedException {
+        JwtService shortJwt = new JwtServiceImpl(SECRET, 50, SERVICE_TOKEN_EXP_MS);
+        String token = shortJwt.generateTokenForUser(USERNAME);
         Thread.sleep(70);
-        boolean valid = shortJwt.isValidToken(token);
-        assertFalse(valid);
+        assertFalse(shortJwt.isValidToken(token));
     }
 
     @Test
-    void getUsername_expired() throws InterruptedException {
-        JwtService shortJwt = new JwtServiceImpl(SECRET, 50);
-        String token = shortJwt.generateToken("user");
+    void getUsername_expired_userToken() throws InterruptedException {
+        JwtService shortJwt = new JwtServiceImpl(SECRET, 50, SERVICE_TOKEN_EXP_MS);
+        String token = shortJwt.generateTokenForUser(USERNAME);
+        Thread.sleep(70);
+        assertThrows(ExpiredJwtException.class, () -> shortJwt.getUsername(token));
+    }
+
+    @Test
+    void isValidToken_expired_serviceToken() throws InterruptedException {
+        JwtService shortJwt = new JwtServiceImpl(SECRET, USER_TOKEN_EXP_MS, 50);
+        String token = shortJwt.generateTokenForService();
+        Thread.sleep(70);
+        assertFalse(shortJwt.isValidToken(token));
+    }
+
+    @Test
+    void getUsername_expired_serviceToken() throws InterruptedException {
+        JwtService shortJwt = new JwtServiceImpl(SECRET, USER_TOKEN_EXP_MS, 50);
+        String token = shortJwt.generateTokenForService();
         Thread.sleep(70);
         assertThrows(ExpiredJwtException.class, () -> shortJwt.getUsername(token));
     }
 }
+
 

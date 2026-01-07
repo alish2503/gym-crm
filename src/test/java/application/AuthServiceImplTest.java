@@ -50,7 +50,7 @@ public class AuthServiceImplTest {
         when(bruteForceProtectionService.checkBlocked("user")).thenReturn(5000L);
         assertThrows(LockedException.class, () -> authService.login("user", "pass"));
         verify(userDetailsService, never()).isValidPassword(any(), any());
-        verify(jwtService, never()).generateToken(any());
+        verify(jwtService, never()).generateTokenForUser("user");
     }
 
     @Test
@@ -59,18 +59,18 @@ public class AuthServiceImplTest {
         when(userDetailsService.isValidPassword("user", "pass")).thenReturn(false);
         assertThrows(BadCredentialsException.class, () -> authService.login("user", "pass"));
         verify(bruteForceProtectionService).loginFailed("user");
-        verify(jwtService, never()).generateToken(any());
+        verify(jwtService, never()).generateTokenForUser("user");
     }
 
     @Test
     void login_success_shouldReturnToken() {
         when(bruteForceProtectionService.checkBlocked("user")).thenReturn(0L);
         when(userDetailsService.isValidPassword("user", "pass")).thenReturn(true);
-        when(jwtService.generateToken("user")).thenReturn("TOKEN123");
+        when(jwtService.generateTokenForUser("user")).thenReturn("TOKEN123");
         String result = authService.login("user", "pass");
         assertEquals("TOKEN123", result);
         verify(bruteForceProtectionService).loginSucceeded("user");
-        verify(jwtService).generateToken("user");
+        verify(jwtService).generateTokenForUser("user");
     }
 
     @Test

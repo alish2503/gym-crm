@@ -2,15 +2,19 @@ package application;
 
 import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.application.service.impl.TrainingServiceImpl;
+import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
+import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
+import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
+import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +30,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,6 +55,9 @@ class TrainingServiceImplTest {
     @Mock
     private UserProfileRepository userProfileRepository;
 
+    @Mock
+    private TrainerWorkloadClient workloadClient;
+
     @InjectMocks
     private TrainingServiceImpl trainingService;
 
@@ -68,11 +76,14 @@ class TrainingServiceImplTest {
 
     @Test
     void createTraining_shouldSaveTraining() {
+        Trainer trainer = new Trainer(1L, new User("trainer1", "pass", "T",
+                "R", true), new TrainingType(10L, TrainingTypeEnum.FITNESS));
+
         when(trainingRepository.existsTraining("trainer1","trainee1",
                 LocalDate.of(2025,11,10),"Morning Yoga")).thenReturn(false);
 
         when(traineeRepository.findTraineeId("trainee1")).thenReturn(Optional.of(2L));
-        when(trainerRepository.findTrainerId("trainer1")).thenReturn(Optional.of(1L));
+        when(trainerRepository.findTrainer("trainer1")).thenReturn(Optional.of(trainer));
         when(trainingTypeRepository.findByName(TrainingTypeEnum.YOGA)).thenReturn(Optional.of(yogaType));
         trainingService.createTraining(request);
         verify(trainingRepository).saveOrUpdate(argThat(training ->
