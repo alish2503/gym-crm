@@ -1,0 +1,44 @@
+spring:
+  jpa:
+    open-in-view: false
+
+logging:
+  pattern:
+    console: "[%X{transactionId}] %d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
+
+security:
+  jwt:
+    user:
+      expiration-ms: 3600000
+    service:
+      expiration-ms: 300000
+  login:
+    max-attempts: 3
+    block-minutes: 5
+
+service-name:
+  trainer-workload: "trainer-workload-service"
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      trainer-workload-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+feign:
+  client:
+    config:
+      trainer-workload-service:
+        connectTimeout: 3000
+        readTimeout: 8000
+

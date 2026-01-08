@@ -26,7 +26,7 @@ public class JwtServiceImpl implements JwtService {
     private final JwtParser parser;
 
     public JwtServiceImpl(@Value("${security.jwt.secret}") String secret,
-                          @Value("${security.jwt.expiration-ms}") long expirationMs,
+                          @Value("${security.jwt.user.expiration-ms}") long expirationMs,
                           @Value("${security.jwt.service.expiration-ms}") long serviceExpirationMs) {
 
         this.key = Keys.hmacShaKeyFor(secret.getBytes());

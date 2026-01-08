@@ -8,4 +8,3 @@ INSERT INTO training_type (id, name) VALUES (4, 'STRETCHING');
 INSERT INTO training_type (id, name) VALUES (5, 'RESISTANCE');
 
 
-
