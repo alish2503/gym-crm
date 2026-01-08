@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Updated README.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/health/DatabaseTablesHealthIndicator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/health/DatabaseTablesHealthIndicator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/health/DatabaseTablesHealthIndicatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/health/DatabaseTablesHealthIndicatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +96,7 @@
     "settings.editor.selected.configurable": "com.github.copilot.settings.customization.CustomizationConfigurable"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.TrainingServiceImplTest">
+  <component name="RunManager" selected="Spring Boot.GymApp">
     <configuration name="DatabaseTablesHealthIndicatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
@@ -128,22 +127,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="gym-crm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.gymcrm.infrastructure.filter.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.filter.JwtRequestFilterTest" />
-      <option name="METHOD_NAME" value="shouldSkipAuthenticationWhenNoHeader" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TrainingServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
@@ -167,20 +150,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GymApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+      <module name="gym-crm" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gymcrm.GymApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
       <item itemvalue="JUnit.JwtRequestFilterTest" />
-      <item itemvalue="JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader" />
       <item itemvalue="JUnit.TrainingServiceImplTest" />
       <item itemvalue="JUnit.java in gym-crm" />
+      <item itemvalue="Spring Boot.GymApp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.GymApp" />
         <item itemvalue="JUnit.TrainingServiceImplTest" />
         <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
         <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="JUnit.JwtRequestFilterTest" />
-        <item itemvalue="JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader" />
       </list>
     </recent_temporary>
   </component>
@@ -239,16 +237,48 @@
       <option name="project" value="LOCAL" />
       <updated>1767881862040</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882300825</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882300825</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882394247</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882394247</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882481922</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882481922</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updated README.md">
+      <option name="closed" value="true" />
+      <created>1767895236733</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1767895236733</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Replaced repositories implementations with entityManager by JPARepositories" />
-    <MESSAGE value="Updated README.md" />
     <MESSAGE value="Refactored SecurityConfig" />
     <MESSAGE value="Added protected request creation to another trainer-workload microservice with TrainerWorkloadEventDto" />
     <MESSAGE value="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties" />
+    <MESSAGE value="Updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
