@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public interface TrainerRepository extends BaseRepository<Trainer> {
     Optional<Trainer> findTrainerWithTrainees(String username);
-    Optional<Long> findTrainerId(String username);
+    Optional<Trainer> findTrainer(String username);
     List<Trainer> findAvailableTrainersNotAssignedAndActive(String traineeUsername);
     List<Trainer> findTrainersByUserNamesIn(List<String> usernames);
 }

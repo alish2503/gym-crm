@@ -18,9 +18,6 @@ public interface TrainerJpaRepository extends JpaRepository<TrainerDao, Long> {
     @Query("select distinct t from TrainerDao t left join fetch t.trainees where t.user.username = :username")
     Optional<TrainerDao> findWithTrainees(@Param("username") String username);
 
-    @Query("select t.id from TrainerDao t where t.user.username = :username")
-    Optional<Long> findIdByUsername(@Param("username") String username);
-
     @Query("""
         select t from TrainerDao t where t.user.isActive = true and not exists (
            select tr
@@ -30,4 +27,5 @@ public interface TrainerJpaRepository extends JpaRepository<TrainerDao, Long> {
     """)
     List<TrainerDao> findAvailableTrainersForTrainee(@Param("username") String username);
     List<TrainerDao> findByUserUsernameIn(List<String> usernames);
+    Optional<TrainerDao> findByUserUsername(String username);
 }

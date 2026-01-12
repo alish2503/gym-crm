@@ -19,7 +19,7 @@ public class DatabaseTablesHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            em.createQuery("select 1").getSingleResult();
+            em.createNativeQuery("select 1").getSingleResult();
             return Health.up().withDetail("dbQuery", "OK").build();
         } catch (Exception e) {
             return Health.down().withDetail("error", "Database query failed").

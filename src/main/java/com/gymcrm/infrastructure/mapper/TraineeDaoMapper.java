@@ -11,7 +11,6 @@ import java.util.List;
  * @author Alish
  */
 public class TraineeDaoMapper {
-
     private TraineeDaoMapper(){}
 
     public static TraineeDao toDao(Trainee trainee) {

@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Wrong password");
         }
         bruteForceProtectionService.loginSucceeded(username);
-        return jwtService.generateToken(username);
+        return jwtService.generateTokenForUser(username);
     }
 
     @Override

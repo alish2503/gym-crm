@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="">
+    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Time units of training duration clarified">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +16,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -23,10 +24,16 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Spring-security" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JvmLoggingSettingsStorage">
+    <option name="loggerId" value="Lombok Slf4j" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -36,82 +43,101 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.GymApp.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleAccessDenied.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleBadCredentials.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleEntityNotFound.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidEnumValue.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidJsonFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleUnexpectedException.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleUsernameNotFound.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GlobalExceptionHandlerTest.shouldHandleValidationErrors.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtAuthenticationProviderTest.shouldAuthenticateValidToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtAuthenticationProviderTest.shouldThrowIfTokenInvalidOrBlacklisted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtAuthenticationProviderTest.supportsJwtAuthenticationToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.shouldAuthenticateValidToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.shouldReturn401ForInvalidToken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeRepositoryImplTest.delete_shouldRemoveEntity.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TraineeRepositoryImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainerRepositoryImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainerRepositoryImplTest.findTrainersByUserNamesIn_shouldReturnTrainers.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainingRepositoryImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TrainingTypeRepositoryImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserProfileRepositoryImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.application in gym-crm.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.java in gym-crm.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.repository in gym-crm.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.customization.CustomizationConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GymApp.executor": "Run",
+    "JUnit.AuthServiceImplTest.executor": "Run",
+    "JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor": "Run",
+    "JUnit.DatabaseTablesHealthIndicatorTest.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleAccessDenied.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleBadCredentials.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleEntityNotFound.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidEnumValue.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleInvalidJsonFormat.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleUnexpectedException.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleUsernameNotFound.executor": "Run",
+    "JUnit.GlobalExceptionHandlerTest.shouldHandleValidationErrors.executor": "Run",
+    "JUnit.JwtAuthenticationProviderTest.shouldAuthenticateValidToken.executor": "Run",
+    "JUnit.JwtAuthenticationProviderTest.shouldThrowIfTokenInvalidOrBlacklisted.executor": "Run",
+    "JUnit.JwtAuthenticationProviderTest.supportsJwtAuthenticationToken.executor": "Run",
+    "JUnit.JwtRequestFilterTest.executor": "Run",
+    "JUnit.JwtRequestFilterTest.shouldAuthenticateValidToken.executor": "Run",
+    "JUnit.JwtRequestFilterTest.shouldReturn401ForInvalidToken.executor": "Run",
+    "JUnit.JwtRequestFilterTest.shouldSkipAuthenticationWhenNoHeader.executor": "Run",
+    "JUnit.JwtServiceImplTest.executor": "Run",
+    "JUnit.TraineeRepositoryImplTest.delete_shouldRemoveEntity.executor": "Run",
+    "JUnit.TraineeRepositoryImplTest.executor": "Run",
+    "JUnit.TraineeServiceImplTest.deleteTrainee_existingTrainee_callsDelete.executor": "Run",
+    "JUnit.TrainerRepositoryImplTest.executor": "Run",
+    "JUnit.TrainerRepositoryImplTest.findTrainer_shouldReturnMappedDomainObject.executor": "Run",
+    "JUnit.TrainerRepositoryImplTest.findTrainersByUserNamesIn_shouldReturnTrainers.executor": "Run",
+    "JUnit.TrainerWorkloadClientImplTest.sendEvent_callsFeignClientSuccessfully.executor": "Run",
+    "JUnit.TrainingRepositoryImplTest.executor": "Run",
+    "JUnit.TrainingServiceImplTest.createTraining_shouldSaveTraining.executor": "Run",
+    "JUnit.TrainingServiceImplTest.executor": "Run",
+    "JUnit.TrainingTypeRepositoryImplTest.executor": "Run",
+    "JUnit.TransactionIdFilterTest.shouldHandleRequestWithQueryString.executor": "Run",
+    "JUnit.UserProfileRepositoryImplTest.executor": "Run",
+    "JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor": "Run",
+    "JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor": "Run",
+    "JUnit.application in gym-crm.executor": "Run",
+    "JUnit.java in gym-crm.executor": "Run",
+    "JUnit.repository in gym-crm.executor": "Run",
+    "JUnit.service in gym-crm.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.GymApp.executor": "Run",
+    "git-widget-placeholder": "main-microservice",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/alito/MyProjects/gym-crm/pom.xml",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.customization.CustomizationConfigurable"
   }
-}</component>
-  <component name="RunManager" selected="Application.GymApp">
-    <configuration name="GymApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="spring.profiles.active" value="local" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.gymcrm.GymApp" />
+}]]></component>
+  <component name="RunManager" selected="JUnit.java in gym-crm">
+    <configuration name="DatabaseTablesHealthIndicatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.gymcrm.*" />
+          <option name="PATTERN" value="com.gymcrm.infrastructure.health.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrainingTypeRepositoryImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="gym-crm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="infrastructure.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="infrastructure.repository" />
-      <option name="MAIN_CLASS_NAME" value="infrastructure.repository.TrainingTypeRepositoryImplTest" />
+      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.health" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.health.DatabaseTablesHealthIndicatorTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="application in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="JwtRequestFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.infrastructure.filter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.filter" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.filter.JwtRequestFilterTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrainingServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gym-crm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.application" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.application.TrainingServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -124,28 +150,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="repository in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GymApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
       <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/infrastructure/repository" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gymcrm.GymApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.GymApp" />
-      <item itemvalue="JUnit.TrainingTypeRepositoryImplTest" />
-      <item itemvalue="JUnit.application in gym-crm" />
+      <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
+      <item itemvalue="JUnit.JwtRequestFilterTest" />
+      <item itemvalue="JUnit.TrainingServiceImplTest" />
       <item itemvalue="JUnit.java in gym-crm" />
-      <item itemvalue="JUnit.repository in gym-crm" />
+      <item itemvalue="Spring Boot.GymApp" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GymApp" />
         <item itemvalue="JUnit.java in gym-crm" />
-        <item itemvalue="JUnit.repository in gym-crm" />
-        <item itemvalue="JUnit.application in gym-crm" />
-        <item itemvalue="JUnit.TrainingTypeRepositoryImplTest" />
+        <item itemvalue="Spring Boot.GymApp" />
+        <item itemvalue="JUnit.TrainingServiceImplTest" />
+        <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
+        <item itemvalue="JUnit.JwtRequestFilterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -180,20 +213,97 @@
       <option name="project" value="LOCAL" />
       <updated>1765025969911</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refactored SecurityConfig">
+      <option name="closed" value="true" />
+      <created>1767603659951</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1767603659952</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added protected request creation to another trainer-workload microservice with TrainerWorkloadEventDto">
+      <option name="closed" value="true" />
+      <created>1767780731216</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780731216</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767881862040</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1767881862040</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882300825</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882300825</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882394247</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882394247</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties">
+      <option name="closed" value="true" />
+      <created>1767882481922</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1767882481922</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updated README.md">
+      <option name="closed" value="true" />
+      <created>1767895236733</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1767895236733</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fallback method hidden in implementation only">
+      <option name="closed" value="true" />
+      <created>1768203645099</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768203645099</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Time units of training duration clarified">
+      <option name="closed" value="true" />
+      <created>1768206535958</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768206535958</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Replaced repositories implementations with entityManager by JPARepositories" />
+    <MESSAGE value="Refactored SecurityConfig" />
+    <MESSAGE value="Added protected request creation to another trainer-workload microservice with TrainerWorkloadEventDto" />
+    <MESSAGE value="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties" />
     <MESSAGE value="Updated README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md" />
+    <MESSAGE value="fallback method hidden in implementation only" />
+    <MESSAGE value="Time units of training duration clarified" />
+    <option name="LAST_COMMIT_MESSAGE" value="Time units of training duration clarified" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1764666989277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1767881271953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

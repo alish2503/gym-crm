@@ -8,6 +8,9 @@ import com.gymcrm.application.service.port.TrainingService;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
+import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
+import com.gymcrm.presentation.dto.request.ActionType;
+import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,17 +28,20 @@ public class TrainingServiceImpl implements TrainingService {
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
     private final UserProfileRepository userProfileRepository;
+    private final TrainerWorkloadClient workloadClient;
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
                                TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository,
-                               UserProfileRepository userProfileRepository)
+                               UserProfileRepository userProfileRepository,
+                               TrainerWorkloadClient workloadClient)
     {
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.userProfileRepository = userProfileRepository;
+        this.workloadClient = workloadClient;
     }
 
     @Override
@@ -43,7 +49,7 @@ public class TrainingServiceImpl implements TrainingService {
         String traineeUsername = request.traineeUsername();
         String trainerUsername = request.trainerUsername();
         String trainingName = request.trainingName();
-        int duration = request.duration();
+        int durationInHours = request.durationInHours();
         TrainingTypeEnum typeEnum = request.type();
         LocalDate trainingDate = request.date();
         if (trainingRepository.existsTraining(trainerUsername, traineeUsername, trainingDate, trainingName)) {
@@ -52,14 +58,23 @@ public class TrainingServiceImpl implements TrainingService {
         Long traineeId = traineeRepository.findTraineeId(traineeUsername).orElseThrow(
                 () -> new EntityNotFoundException("No trainee found with username: " + traineeUsername)
         );
-        Long trainerId = trainerRepository.findTrainerId(trainerUsername).orElseThrow(
+        Trainer trainer = trainerRepository.findTrainer(trainerUsername).orElseThrow(
                 () -> new EntityNotFoundException("No trainer found with username: " + trainerUsername)
         );
         TrainingType type = trainingTypeRepository.findByName(typeEnum).orElseThrow(
                 () -> new EntityNotFoundException("No training type: " + typeEnum + " found")
         );
-        Training created = new Training(type, trainingName, trainingDate, duration, trainerId, traineeId);
+        Training created = new Training(type, trainingName, trainingDate, durationInHours, trainer.getId(), traineeId);
         trainingRepository.saveOrUpdate(created);
+        workloadClient.sendEvent(new TrainerWorkloadEventDto(
+                trainerUsername,
+                trainer.getUser().getFirstName(),
+                trainer.getUser().getLastName(),
+                trainer.getUser().isActive(),
+                trainingDate,
+                durationInHours,
+                ActionType.ADD
+        ));
     }
 
     @Override

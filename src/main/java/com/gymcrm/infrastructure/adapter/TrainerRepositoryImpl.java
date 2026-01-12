@@ -37,8 +37,8 @@ private final TrainerJpaRepository trainerJpaRepository;
     }
 
     @Override
-    public Optional<Long> findTrainerId(String username) {
-        return trainerJpaRepository.findIdByUsername(username);
+    public Optional<Trainer> findTrainer(String username) {
+        return trainerJpaRepository.findByUserUsername(username).map(this::mapToDomain);
     }
 
     @Override

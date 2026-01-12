@@ -5,11 +5,17 @@ import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.port.CredentialService;
 import com.gymcrm.domain.model.Trainer;
+import com.gymcrm.domain.model.Training;
+import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.application.service.port.TraineeService;
 import com.gymcrm.domain.port.TrainerRepository;
+import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
+import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
+import com.gymcrm.presentation.dto.request.ActionType;
+import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,10 +32,14 @@ import java.util.stream.Collectors;
 public class TraineeServiceImpl extends AbstractUserService<Trainee> implements TraineeService {
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
+    private final TrainingRepository trainingRepository;
+    private final TrainerWorkloadClient workloadClient;
 
     @Autowired
     public TraineeServiceImpl(TraineeRepository traineeRepository,
                               TrainerRepository trainerRepository,
+                              TrainingRepository trainingRepository,
+                              TrainerWorkloadClient workloadClient,
                               UserProfileRepository userProfileRepository,
                               PasswordEncoder encoder,
                               CredentialService credentialService)
@@ -37,6 +47,8 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
         super(traineeRepository, userProfileRepository, encoder, credentialService);
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
+        this.trainingRepository = trainingRepository;
+        this.workloadClient = workloadClient;
     }
 
     @Override
@@ -65,7 +77,25 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
 
     @Override
     public void deleteTrainee(String username) {
-        traineeRepository.findTrainee(username).ifPresent(traineeRepository::deleteTrainee);
+        traineeRepository.findTrainee(username).ifPresent(trainee -> {
+            TrainingFilter filter = new TrainingFilter(null, null, null, null);
+            List<Training> trainings = trainingRepository.findTrainingsForTrainee(username, filter);
+            trainings.forEach(t -> {
+                Trainer trainer = t.getTrainer();
+                TrainerWorkloadEventDto event = new TrainerWorkloadEventDto(
+                        trainer.getUser().getUsername(),
+                        trainer.getUser().getFirstName(),
+                        trainer.getUser().getLastName(),
+                        trainer.getUser().isActive(),
+                        t.getDate(),
+                        t.getDurationInHours(),
+                        ActionType.DELETE
+                );
+                workloadClient.sendEvent(event);
+            });
+            traineeRepository.deleteTrainee(trainee);
+        });
+
     }
 
     @Override

@@ -2,45 +2,67 @@
 
 ## Overview
 
-**Gym CRM System** is a Spring-based CRM module for managing **Trainees**, **Trainers**, and **Training sessions**, with **REST API**, **Spring Security**, and **Micrometer metrics**.
-It demonstrates key concepts such as:
+**Gym CRM Core Service** is the central microservice of the Gym CRM system responsible for managing
+users, trainees, trainers, and training sessions.
 
-1. Hibernate ORM mapping
-2. Many-to-Many, One-to-One, One-to-Many, Many-to-One relationships
-3. Transaction management
-4. Custom repository implementations
-5. REST API with Swagger/OpenAPI documentation
-6. Authentication and password management using Spring Security and JWT
-7. Brute-force protection and logout functionality
-8. Unit testing with **JUnit 5**
-9. Logging at transaction and REST call levels using **SLF4J/Logback**
-10. **Health indicators** and **custom metrics** with Prometheus
+The service exposes a secured REST API, handles authentication and authorization,
+manages core business logic, and communicates with an external microservice responsible
+for trainer workload aggregation.
+
+The application is built with **Spring Boot** and follows **Onion Architecture** principles.
 
 ---
 
-## Features
+## Responsibilities
 
-1. Trainee and Trainer registration (automatic username/password generation)
-2. Authentication and JWT-based authorization
-3. Change password functionality
-4. Get, update, activate/deactivate, and delete Trainee/Trainer profiles
-5. Assign/unassign Trainers to Trainees
-6. Manage Training sessions:
-    - Add Training
-    - Get Trainee/Trainer Trainings with filtering (date range, type, participant)
-7. Fetch Training types (read-only)
-8. Brute-force attack protection (lock user after 3 failed login attempts)
-9. Logout functionality
-10. **Metrics**:
-    - Count of Trainings created (`custom.trainings.created`)
-    - Active users gauge (`custom.users.active`)
-    - Timing of controller methods (`getTrainingsForTrainee`, `getTrainingsForTrainer`)
-11. **Health checks**:
-    - Database connectivity
-    - Presence of Training Types
-12. Swagger/OpenAPI documentation for all endpoints
+This service is responsible for:
+
+- Managing Trainees and Trainers
+- Authentication and JWT-based authorization
+- Training session lifecycle management
+- Trainer–Trainee assignments
+- Publishing trainer workload events
+- Metrics, logging, and health monitoring
+
+Trainer workload aggregation and analytics are delegated to a separate microservice.
+
+---
+
+## Key Features
+
+- Trainee and Trainer registration with auto-generated credentials
+- JWT-based authentication and authorization
+- Change password functionality
+- Activate / deactivate Trainee and Trainer accounts
+- Update Trainee and Trainer profiles
+- Assign and unassign Trainers to Trainees
+- Training management:
+    - Create training
+    - Delete training
+    - Retrieve trainings with filters
+- Read-only access to training types
+- Brute-force protection for login attempts
+- Logout functionality
+- Publishing trainer workload events to an external service
+- Metrics and health monitoring
+
+---
 
 > All functions except registration require authentication.
+
+---
+
+## Architecture
+
+The service follows **Onion Architecture**:
+
+- **Domain layer** – core business entities and repository interfaces
+- **Application layer** – business use cases
+- **Infrastructure layer** – persistence, security, integrations
+- **Presentation layer** – REST controllers and DTOs
+
+Inter-service communication is implemented using **Spring Cloud OpenFeign**
+with **Netflix Eureka** service discovery.
 
 ---
 
@@ -86,32 +108,69 @@ INSERT INTO training_type (id, name) VALUES (5, 'RESISTANCE');
 docker-compose up -d
 ```
 
-2. **Configure Hibernate (`application.properties`)**:
+2. **Configure Hibernate (`application.yml`)**:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/gymdb
-spring.datasource.username=gymuser
-spring.datasource.password=pass
-spring.jpa.hibernate.ddl-auto=update
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/gymdb
+        username: gymuser
+        password: pass
+    jpa:
+        hibernate:
+            ddl-auto: update
 ```
 
-3. **Configure Security (`application.properties`)**:
+3. **Configure Security (`application.yml`)**:
 
 ```properties
-security.jwt.secret=8r7u6y5t4r3e2w1q0p9o8i7u6y5t4r3e
-security.jwt.expiration-ms=3600000
-security.login.max-attempts=3
-security.login.block-minutes=5
-security.cors.allowed-origins=http://localhost:3000
+security:
+    jwt:
+        user:
+            expiration-ms: 3600000
+        service:
+            expiration-ms: 300000
+    login:
+        max-attempts: 3
+        block-minutes: 5
 ```
 
-4. **Run the application**:
+4. **Configure external service (`application.yml`)**:
+
+```properties
+service-name:
+    trainer-workload: "trainer-workload-service"
+```
+
+5. **Configure Eureka (`application.yml`)**:
+
+```properties
+eureka:
+    client:
+        register-with-eureka: false
+        service-url:
+            defaultZone: http://localhost:8761/eureka/
+```
+
+6. **Configure Feign Client (`application.yml`)**:
+
+```properties
+feign:
+    client:
+        config:
+            trainer-workload-service:
+                connectTimeout: 3000
+                readTimeout: 8000
+```
+
+
+7. **Run the application**:
 
 ```bash
 mvn spring-boot:run
 ```
 
-5. **Metrics & Health Endpoints**:
+8. **Metrics & Health Endpoints**:
 
 * Prometheus metrics: `http://localhost:8080/actuator/prometheus`
 * Health check: `http://localhost:8080/actuator/health`
@@ -148,6 +207,24 @@ Two levels of logging are implemented:
 
 ---
 
+## Inter-Service Communication
+
+1. Trainer workload events are sent to the **Trainer Workload Service**
+2. Communication is performed via **Feign Client**
+3. Service discovery is handled by **Eureka**
+4. No hardcoded host or port configuration
+5. Outgoing calls are protected with **Resilience4j Circuit Breaker**
+
+---
+
+## Inter-Service Security
+
+1. Communication between microservices is secured.
+2. Service-to-service requests are authenticated using JWT tokens issued specifically for inter-service communication.
+3. Each outgoing request includes a service token, which is validated by the receiving microservice before processing the request.
+
+---
+
 ## Environments
 
 The project supports multiple Spring profiles (`local`, `dev`, `stg`, `prod`) for different environments.
@@ -167,9 +244,10 @@ com.gymcrm
  │   ├─ model         # Entities: User, Trainee, Trainer, Training, TrainingType
  │   └─ port          # Repository interfaces
  ├─ infrastructure
- │   ├─ adapter       # Adapters for reposiories
- │   ├─ config        # Hibernate, Swagger, Security, Profiles
+ │   ├─ adapter       # Adapters 
+ │   ├─ config        # Feign, Swagger, Security
  │   ├─ dao           # DAO classes
+ │   ├─ feign         # Feign clients 
  │   ├─ mapper        # Entity ↔ DAO mappers
  │   ├─ jpa           # JPARepositories
  │   ├─ logging       # Filter for transaction logging
@@ -207,6 +285,15 @@ mvn test
 7. JUnit 5
 8. SLF4J / Logback
 9. Swagger/OpenAPI
+10. Spring Data JPA
+11. Spring Web / Spring MVC 
+12. Spring Cloud OpenFeign 
+13. Spring Cloud Netflix Eureka Client 
+14. Resilience4j – для Circuit Breaker 
+15. Jakarta Validation 
+16. Lombok 
+17. Spring Boot Actuator 
+18. Spring AOP
 
 ---
 
