@@ -20,19 +20,19 @@ public class TrainingDaoMapper {
         TraineeDao traineeDao = TraineeDaoMapper.toDao(training.getTraineeId());
         TrainerDao trainerDao = TrainerDaoMapper.toDao(training.getTrainerId());
         TrainingTypeDao trainingTypeDao = TrainingTypeDaoMapper.toDao(training.getType());
-        return new TrainingDao(training.getName(), training.getDate(), training.getDuration(),
+        return new TrainingDao(training.getName(), training.getDate(), training.getDurationInHours(),
                 traineeDao, trainerDao, trainingTypeDao);
     }
 
     public static Training toDomainForTrainee(TrainingDao dao) {
         Trainer trainer = TrainerDaoMapper.toDomain(dao.getTrainer());
         TrainingType type = TrainingTypeDaoMapper.toDomain(dao.getType());
-        return new Training(type, dao.getName(), dao.getDate(), dao.getDuration(), trainer);
+        return new Training(type, dao.getName(), dao.getDate(), dao.getDurationInHours(), trainer);
     }
 
     public static Training toDomainForTrainer(TrainingDao dao) {
         Trainee trainee = TraineeDaoMapper.toDomain(dao.getTrainee());
         TrainingType type = TrainingTypeDaoMapper.toDomain(dao.getType());
-        return new Training(type, dao.getName(), dao.getDate(), dao.getDuration(), trainee);
+        return new Training(type, dao.getName(), dao.getDate(), dao.getDurationInHours(), trainee);
     }
 }

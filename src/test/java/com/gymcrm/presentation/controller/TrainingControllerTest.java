@@ -50,7 +50,7 @@ class TrainingControllerTest {
         dto.setTrainingType(TrainingTypeEnum.FITNESS);
         dto.setTrainingName("Morning Yoga");
         dto.setDate(LocalDate.now().plusDays(1));
-        dto.setDuration(60);
+        dto.setDurationInHours(60);
         controller.addTraining(dto);
         verify(trainingService).createTraining(any());
     }

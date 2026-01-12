@@ -38,7 +38,7 @@ public class TrainingDao {
     private LocalDate date;
 
     @Column(nullable=false)
-    private int duration;
+    private int durationInHours;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY)
     @JoinColumn(name="trainee_id", nullable = false)
@@ -52,12 +52,12 @@ public class TrainingDao {
     @JoinColumn(name="training_type_id", nullable = false)
     TrainingTypeDao type;
 
-    public TrainingDao(String name, LocalDate date, Integer duration, TraineeDao trainee,
+    public TrainingDao(String name, LocalDate date, Integer durationInHours, TraineeDao trainee,
                        TrainerDao trainer, TrainingTypeDao type) {
 
         this.name = name;
         this.date = date;
-        this.duration = duration;
+        this.durationInHours = durationInHours;
         this.trainee = trainee;
         this.trainer = trainer;
         this.type = type;

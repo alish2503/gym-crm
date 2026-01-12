@@ -25,7 +25,7 @@ public class TrainingDtoMapper {
 
     public static CreateTrainingRequest toCommand(CreateTrainingDto dto) {
         return new CreateTrainingRequest(dto.getTrainerUsername(), dto.getTraineeUsername(),
-                dto.getTrainingType(), dto.getTrainingName(), dto.getDate(), dto.getDuration());
+                dto.getTrainingType(), dto.getTrainingName(), dto.getDate(), dto.getDurationInHours());
     }
 
     public static TrainingFilter toCommand(TrainingFilterForTrainerDto dto) {
@@ -46,7 +46,7 @@ public class TrainingDtoMapper {
         String type = training.getType().typeEnum().name();
         User userProfile = training.getTrainer().getUser();
         FullNameDto fullNameDto = new FullNameDto(userProfile.getFirstName(), userProfile.getLastName());
-        return new TrainingForTraineeDto(training.getName(), training.getDate(), type, training.getDuration(),
+        return new TrainingForTraineeDto(training.getName(), training.getDate(), type, training.getDurationInHours(),
                 fullNameDto);
     }
 
@@ -54,7 +54,7 @@ public class TrainingDtoMapper {
         String type = training.getType().typeEnum().name();
         User userProfile = training.getTrainee().getUser();
         FullNameDto fullNameDto = new FullNameDto(userProfile.getFirstName(), userProfile.getLastName());
-        return new TrainingForTrainerDto(training.getName(), training.getDate(), type, training.getDuration(),
+        return new TrainingForTrainerDto(training.getName(), training.getDate(), type, training.getDurationInHours(),
                 fullNameDto);
     }
 

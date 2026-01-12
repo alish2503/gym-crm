@@ -88,7 +88,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
                         trainer.getUser().getLastName(),
                         trainer.getUser().isActive(),
                         t.getDate(),
-                        t.getDuration(),
+                        t.getDurationInHours(),
                         ActionType.DELETE
                 );
                 workloadClient.sendEvent(event);

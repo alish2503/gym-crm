@@ -86,7 +86,7 @@ class TrainingServiceImplTest {
         trainingService.createTraining(request);
         verify(trainingRepository).saveOrUpdate(argThat(training ->
                 training.getName().equals("Morning Yoga") &&
-                        training.getDuration() == 60 &&
+                        training.getDurationInHours() == 60 &&
                         training.getType() == yogaType &&
                         training.getTraineeId().equals(2L) &&
                         training.getTrainerId().equals(1L) &&
@@ -119,7 +119,7 @@ class TrainingServiceImplTest {
         List<Training> trainings = trainingService.getTrainingsForTrainee("trainee1", filter);
         assertEquals(2, trainings.size());
         assertEquals("Morning Yoga", trainings.get(0).getName());
-        assertEquals(60, trainings.get(0).getDuration());
+        assertEquals(60, trainings.get(0).getDurationInHours());
         assertEquals("Evening Yoga", trainings.get(1).getName());
     }
 
@@ -143,6 +143,6 @@ class TrainingServiceImplTest {
         List<Training> trainings = trainingService.getTrainingsForTrainer("trainer1", filter);
         assertEquals(1, trainings.size());
         assertEquals("Morning Yoga", trainings.get(0).getName());
-        assertEquals(60, trainings.get(0).getDuration());
+        assertEquals(60, trainings.get(0).getDurationInHours());
     }
 }

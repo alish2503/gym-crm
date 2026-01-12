@@ -27,8 +27,7 @@ public class TrainerWorkloadClientImpl implements TrainerWorkloadClient {
         feignClient.sendEvent(event);
     }
 
-    @Override
-    public void fallbackSendEvent(TrainerWorkloadEventDto event, Throwable ex) {
+    private void fallbackSendEvent(TrainerWorkloadEventDto event, Throwable ex) {
         log.warn("Trainer-workload service unavailable. Event skipped. Reason: {}", ex.getMessage());
     }
 }

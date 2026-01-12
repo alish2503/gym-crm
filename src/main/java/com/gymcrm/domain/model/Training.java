@@ -14,42 +14,42 @@ public class Training {
     private final TrainingType type;
     private final String name;
     private final LocalDate date;
-    int duration;
+    int durationInHours;
     Trainer trainer;
     Trainee trainee;
 
-    public Training(TrainingType type, String name, LocalDate date, int duration, Trainer trainer, Trainee trainee) {
+    public Training(TrainingType type, String name, LocalDate date, int durationInHours, Trainer trainer, Trainee trainee) {
         this.type = type;
         this.name = name;
         this.date = date;
-        this.duration = duration;
+        this.durationInHours = durationInHours;
         this.trainer = trainer;
         this.trainee = trainee;
     }
 
-    public Training(TrainingType type, String name, LocalDate date, int duration, Trainer trainer) {
+    public Training(TrainingType type, String name, LocalDate date, int durationInHours, Trainer trainer) {
         this.type = type;
         this.name = name;
         this.date = date;
-        this.duration = duration;
+        this.durationInHours = durationInHours;
         this.trainer = trainer;
     }
 
-    public Training(TrainingType type, String name, LocalDate date, int duration, Trainee trainee) {
+    public Training(TrainingType type, String name, LocalDate date, int durationInHours, Trainee trainee) {
         this.type = type;
         this.name = name;
         this.date = date;
-        this.duration = duration;
+        this.durationInHours = durationInHours;
         this.trainee = trainee;
     }
 
-    public Training(TrainingType type, String name, LocalDate date, int duration, Long trainerId, Long traineeId) {
+    public Training(TrainingType type, String name, LocalDate date, int durationInHours, Long trainerId, Long traineeId) {
         this.traineeId = traineeId;
         this.trainerId = trainerId;
         this.type = type;
         this.name = name;
         this.date = date;
-        this.duration = duration;
+        this.durationInHours = durationInHours;
     }
 
 }

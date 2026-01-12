@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Updated README.md">
+    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Time units of training duration clarified">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +82,7 @@
     "JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor": "Run",
     "JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor": "Run",
     "JUnit.application in gym-crm.executor": "Run",
-    "JUnit.java in gym-crm.executor": "Coverage",
+    "JUnit.java in gym-crm.executor": "Run",
     "JUnit.repository in gym-crm.executor": "Run",
     "JUnit.service in gym-crm.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -96,7 +96,7 @@
     "settings.editor.selected.configurable": "com.github.copilot.settings.customization.CustomizationConfigurable"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.GymApp">
+  <component name="RunManager" selected="JUnit.java in gym-crm">
     <configuration name="DatabaseTablesHealthIndicatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
@@ -174,10 +174,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="Spring Boot.GymApp" />
         <item itemvalue="JUnit.TrainingServiceImplTest" />
         <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
-        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="JUnit.JwtRequestFilterTest" />
       </list>
     </recent_temporary>
@@ -269,7 +269,23 @@
       <option name="project" value="LOCAL" />
       <updated>1767895236733</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fallback method hidden in implementation only">
+      <option name="closed" value="true" />
+      <created>1768203645099</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768203645099</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Time units of training duration clarified">
+      <option name="closed" value="true" />
+      <created>1768206535958</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768206535958</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -278,7 +294,9 @@
     <MESSAGE value="Added protected request creation to another trainer-workload microservice with TrainerWorkloadEventDto" />
     <MESSAGE value="Implemented request to the trainer-workload service using eureka discovery service with FeignClient, used circuit breaker, added necessary configuration properties" />
     <MESSAGE value="Updated README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md" />
+    <MESSAGE value="fallback method hidden in implementation only" />
+    <MESSAGE value="Time units of training duration clarified" />
+    <option name="LAST_COMMIT_MESSAGE" value="Time units of training duration clarified" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

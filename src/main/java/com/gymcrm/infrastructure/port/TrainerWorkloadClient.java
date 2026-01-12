@@ -4,5 +4,4 @@ import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
 
 public interface TrainerWorkloadClient {
     void sendEvent(TrainerWorkloadEventDto event);
-    void fallbackSendEvent(TrainerWorkloadEventDto event, Throwable ex);
 }

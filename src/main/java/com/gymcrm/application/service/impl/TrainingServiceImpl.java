@@ -49,7 +49,7 @@ public class TrainingServiceImpl implements TrainingService {
         String traineeUsername = request.traineeUsername();
         String trainerUsername = request.trainerUsername();
         String trainingName = request.trainingName();
-        int duration = request.duration();
+        int durationInHours = request.durationInHours();
         TrainingTypeEnum typeEnum = request.type();
         LocalDate trainingDate = request.date();
         if (trainingRepository.existsTraining(trainerUsername, traineeUsername, trainingDate, trainingName)) {
@@ -64,7 +64,7 @@ public class TrainingServiceImpl implements TrainingService {
         TrainingType type = trainingTypeRepository.findByName(typeEnum).orElseThrow(
                 () -> new EntityNotFoundException("No training type: " + typeEnum + " found")
         );
-        Training created = new Training(type, trainingName, trainingDate, duration, trainer.getId(), traineeId);
+        Training created = new Training(type, trainingName, trainingDate, durationInHours, trainer.getId(), traineeId);
         trainingRepository.saveOrUpdate(created);
         workloadClient.sendEvent(new TrainerWorkloadEventDto(
                 trainerUsername,
@@ -72,7 +72,7 @@ public class TrainingServiceImpl implements TrainingService {
                 trainer.getUser().getLastName(),
                 trainer.getUser().isActive(),
                 trainingDate,
-                duration,
+                durationInHours,
                 ActionType.ADD
         ));
     }
