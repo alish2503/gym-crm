@@ -1,21 +1,10 @@
 spring:
   jpa:
     open-in-view: false
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: gymuser
-    password: pass
-    publisher-confirm-type: correlated
-    publisher-returns: true
 
 logging:
   pattern:
     console: "[%X{transactionId}] %d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
-    level:
-      org.springframework.amqp.rabbit.core.RabbitAdmin: DEBUG
-      org.springframework.amqp.rabbit.connection: DEBUG
-
 
 security:
   jwt:

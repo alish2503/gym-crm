@@ -4,10 +4,8 @@
 
 **Gym CRM Core Service** is the central microservice of the Gym CRM system responsible for managing
 users, trainees, trainers, and training sessions.
-
 The service exposes a secured REST API, handles authentication and authorization,
-manages core business logic, and communicates with an external microservice responsible
-for trainer workload aggregation.
+manages core business logic, and **publishes trainer workload events to a dedicated Trainer Workload Service via RabbitMQ**.
 
 The application is built with **Spring Boot** and follows **Onion Architecture** principles.
 
@@ -21,10 +19,8 @@ This service is responsible for:
 - Authentication and JWT-based authorization
 - Training session lifecycle management
 - Trainer–Trainee assignments
-- Publishing trainer workload events
+- Publishing trainer workload events asynchronously to the Trainer Workload Service
 - Metrics, logging, and health monitoring
-
-Trainer workload aggregation and analytics are delegated to a separate microservice.
 
 ---
 
@@ -61,12 +57,9 @@ The service follows **Onion Architecture**:
 - **Infrastructure layer** – persistence, security, integrations
 - **Presentation layer** – REST controllers and DTOs
 
-Inter-service communication is implemented using **Spring Cloud OpenFeign**
-with **Netflix Eureka** service discovery.
-
 ---
 
-## Database Setup (PostgreSQL + Docker Compose)
+## Database + RabbitMQ Setup (Docker Compose)
 
 Example `docker-compose.yml`:
 
@@ -84,6 +77,21 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: gym-crm-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: gymuser
+      RABBITMQ_DEFAULT_PASS: pass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+volumes:
+  postgres_data:
+
 ```
 
 > On container startup, `import.sql` automatically populates the `training_type` reference table.
@@ -102,13 +110,13 @@ INSERT INTO training_type (id, name) VALUES (5, 'RESISTANCE');
 
 ## Launch
 
-1. **Start PostgreSQL via Docker Compose**:
+1. **Start PostgreSQL + RabbitMQ via Docker Compose**:
 
 ```bash
 docker-compose up -d
 ```
 
-2. **Configure Hibernate (`application.yml`)**:
+2. **Configure Hibernate**:
 
 ```properties
 spring:
@@ -121,7 +129,7 @@ spring:
             ddl-auto: update
 ```
 
-3. **Configure Security (`application.yml`)**:
+3. **Configure Security**:
 
 ```properties
 security:
@@ -135,42 +143,26 @@ security:
         block-minutes: 5
 ```
 
-4. **Configure external service (`application.yml`)**:
+4. **Configure RabbitMQ**:
 
 ```properties
-service-name:
-    trainer-workload: "trainer-workload-service"
+spring:
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: gymuser
+        password: pass
+        publisher-confirm-type: correlated
+        publisher-returns: true
 ```
 
-5. **Configure Eureka (`application.yml`)**:
-
-```properties
-eureka:
-    client:
-        register-with-eureka: false
-        service-url:
-            defaultZone: http://localhost:8761/eureka/
-```
-
-6. **Configure Feign Client (`application.yml`)**:
-
-```properties
-feign:
-    client:
-        config:
-            trainer-workload-service:
-                connectTimeout: 3000
-                readTimeout: 8000
-```
-
-
-7. **Run the application**:
+5. **Run the application**:
 
 ```bash
 mvn spring-boot:run
 ```
 
-8. **Metrics & Health Endpoints**:
+6. **Metrics & Health Endpoints**:
 
 * Prometheus metrics: `http://localhost:8080/actuator/prometheus`
 * Health check: `http://localhost:8080/actuator/health`
@@ -204,24 +196,17 @@ Two levels of logging are implemented:
 
 1. **Transaction-level**: A unique `transactionId` is generated for each operation, which can be tracked across services.
 2. **REST call-level**: Logs the endpoint called, request payload, response payload, response status, and message.
+3. TransactionId is generated for each operation and propagated through messages sent to the Trainer Workload Service, allowing tracking across services.
 
 ---
 
 ## Inter-Service Communication
 
-1. Trainer workload events are sent to the **Trainer Workload Service**
-2. Communication is performed via **Feign Client**
-3. Service discovery is handled by **Eureka**
-4. No hardcoded host or port configuration
-5. Outgoing calls are protected with **Resilience4j Circuit Breaker**
-
----
-
-## Inter-Service Security
-
-1. Communication between microservices is secured.
-2. Service-to-service requests are authenticated using JWT tokens issued specifically for inter-service communication.
-3. Each outgoing request includes a service token, which is validated by the receiving microservice before processing the request.
+1. Trainer workload events are sent asynchronously to the Trainer Workload Service via **RabbitMQ**.
+2. Messages are serialized in **JSON** format.
+3. Dead Letter Queue (DLQ) is used for messages with missing or invalid information.
+4. Concurrency of consumers is configured for horizontal scaling.
+5. Outgoing calls are protected with **Resilience4j Circuit Breaker** to prevent service failures if RabbitMQ is unavailable.
 
 ---
 
@@ -232,22 +217,41 @@ For this project, only the `local` profile is actively used; other profiles are 
 
 ---
 
+## RabbitMQ Management
+
+The Trainer Workload Service uses RabbitMQ for asynchronous message processing.  
+You can monitor queues, messages, and dead letter queues using the **RabbitMQ Management UI**:
+
+- URL: [http://localhost:15672](http://localhost:15672)
+- Default credentials (for local development):
+    - Username: `gymuser`
+    - Password: `pass`
+
+Through this interface you can:
+- Inspect messages in the `trainer-workload` queue
+- View messages moved to the Dead Letter Queue (DLQ)
+- Monitor consumer concurrency and message throughput
+- Manually publish or requeue messages if necessary
+
+---
+
 ## Project Structure
 
 ```
 com.gymcrm
  ├─ application
+ │   ├─ event         # Message events (TrainerWorkloadEvent)
  │   ├─ request       # helpers for create/update operations
  │   ├─ response      # helpers for service responses
- │   └─ service/port & impl  # Business logic
+ │   └─ service/port & impl  # Orchestrators of business use cases
  ├─ domain
  │   ├─ model         # Entities: User, Trainee, Trainer, Training, TrainingType
  │   └─ port          # Repository interfaces
  ├─ infrastructure
  │   ├─ adapter       # Adapters 
- │   ├─ config        # Feign, Swagger, Security
+ │   ├─ config        # Rabbit, Swagger, Security
  │   ├─ dao           # DAO classes
- │   ├─ feign         # Feign clients 
+ │   ├─ messaging     # Producers 
  │   ├─ mapper        # Entity ↔ DAO mappers
  │   ├─ jpa           # JPARepositories
  │   ├─ logging       # Filter for transaction logging
@@ -287,13 +291,12 @@ mvn test
 9. Swagger/OpenAPI
 10. Spring Data JPA
 11. Spring Web / Spring MVC 
-12. Spring Cloud OpenFeign 
-13. Spring Cloud Netflix Eureka Client 
-14. Resilience4j – для Circuit Breaker 
-15. Jakarta Validation 
-16. Lombok 
-17. Spring Boot Actuator 
-18. Spring AOP
+12. Resilience4j 
+13. Jakarta Validation 
+14. Lombok 
+15. Spring Boot Actuator 
+16. Spring AOP 
+17. Spring AMQP / RabbitMQ
 
 ---
 
@@ -307,3 +310,6 @@ mvn test
 6. All endpoints have proper validation and error handling.
 7. Swagger provides interactive API documentation.
 8. Metrics and health endpoints are exposed via Spring Boot Actuator.
+9. All trainer workload events (ADD/DELETE) are now processed asynchronously via RabbitMQ.
+10. Dead Letter Queue (DLQ) stores messages with missing required fields.
+

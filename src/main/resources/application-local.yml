@@ -10,11 +10,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: gymuser
+    password: pass
+    publisher-confirm-type: correlated
+    publisher-returns: true
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.amqp.rabbit.core.RabbitAdmin: DEBUG
+    org.springframework.amqp.rabbit.connection: DEBUG
 
 management:
   endpoints:
