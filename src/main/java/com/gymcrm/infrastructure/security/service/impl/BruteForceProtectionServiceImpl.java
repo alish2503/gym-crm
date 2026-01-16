@@ -1,6 +1,6 @@
 package com.gymcrm.infrastructure.security.service.impl;
 
-import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
+import com.gymcrm.infrastructure.security.service.BruteForceProtectionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

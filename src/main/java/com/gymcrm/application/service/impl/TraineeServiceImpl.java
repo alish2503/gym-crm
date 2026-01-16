@@ -3,19 +3,19 @@ package com.gymcrm.application.service.impl;
 import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.port.CredentialService;
+import com.gymcrm.application.service.CredentialService;
+import com.gymcrm.application.service.port.TrainerWorkloadProducer;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.model.Trainee;
-import com.gymcrm.application.service.port.TraineeService;
+import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
-import com.gymcrm.presentation.dto.request.ActionType;
-import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
+import com.gymcrm.application.event.ActionType;
+import com.gymcrm.application.event.TrainerWorkloadEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,13 +33,13 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
     private final TrainingRepository trainingRepository;
-    private final TrainerWorkloadClient workloadClient;
+    private final TrainerWorkloadProducer trainerWorkloadProducer;
 
     @Autowired
     public TraineeServiceImpl(TraineeRepository traineeRepository,
                               TrainerRepository trainerRepository,
                               TrainingRepository trainingRepository,
-                              TrainerWorkloadClient workloadClient,
+                              TrainerWorkloadProducer trainerWorkloadProducer,
                               UserProfileRepository userProfileRepository,
                               PasswordEncoder encoder,
                               CredentialService credentialService)
@@ -48,7 +48,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingRepository = trainingRepository;
-        this.workloadClient = workloadClient;
+        this.trainerWorkloadProducer = trainerWorkloadProducer;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
             List<Training> trainings = trainingRepository.findTrainingsForTrainee(username, filter);
             trainings.forEach(t -> {
                 Trainer trainer = t.getTrainer();
-                TrainerWorkloadEventDto event = new TrainerWorkloadEventDto(
+                trainerWorkloadProducer.sendMessage(new TrainerWorkloadEvent(
                         trainer.getUser().getUsername(),
                         trainer.getUser().getFirstName(),
                         trainer.getUser().getLastName(),
@@ -90,8 +90,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
                         t.getDate(),
                         t.getDurationInHours(),
                         ActionType.DELETE
-                );
-                workloadClient.sendEvent(event);
+                ));
             });
             traineeRepository.deleteTrainee(trainee);
         });

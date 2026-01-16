@@ -1,10 +1,21 @@
 spring:
   jpa:
     open-in-view: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: gymuser
+    password: pass
+    publisher-confirm-type: correlated
+    publisher-returns: true
 
 logging:
   pattern:
     console: "[%X{transactionId}] %d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
+    level:
+      org.springframework.amqp.rabbit.core.RabbitAdmin: DEBUG
+      org.springframework.amqp.rabbit.connection: DEBUG
+
 
 security:
   jwt:
@@ -16,29 +27,16 @@ security:
     max-attempts: 3
     block-minutes: 5
 
-service-name:
-  trainer-workload: "trainer-workload-service"
+service-name: "trainer-workload"
 
-eureka:
-  client:
-    register-with-eureka: false
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+queue-name: "trainer-workload"
 
 resilience4j:
   circuitbreaker:
     instances:
-      trainer-workload-service:
+      trainer-workload:
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3
-
-feign:
-  client:
-    config:
-      trainer-workload-service:
-        connectTimeout: 3000
-        readTimeout: 8000
-

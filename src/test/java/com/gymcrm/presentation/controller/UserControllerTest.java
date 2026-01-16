@@ -1,7 +1,7 @@
 package com.gymcrm.presentation.controller;
 
-import com.gymcrm.application.service.port.UserService;
-import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
+import com.gymcrm.application.service.UserService;
+import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
 import com.gymcrm.presentation.controller.impl.UserController;
 import com.gymcrm.presentation.dto.request.ChangePasswordDto;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.gymcrm.presentation.controller;
 
-import com.gymcrm.application.service.port.TrainingService;
+import com.gymcrm.application.service.TrainingService;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.presentation.controller.impl.TrainingController;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;

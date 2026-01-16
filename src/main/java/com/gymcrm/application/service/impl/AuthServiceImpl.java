@@ -1,10 +1,10 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.service.port.AuthService;
-import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
-import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
-import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.application.service.AuthService;
+import com.gymcrm.infrastructure.security.service.BruteForceProtectionService;
+import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
+import com.gymcrm.infrastructure.security.service.JwtService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -12,10 +12,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-
-/**
- * @author Alish
- */
 
 /**
  * @author Alish

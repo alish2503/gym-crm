@@ -1,9 +1,9 @@
 package com.gymcrm.presentation.controller.impl;
 
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.port.TrainerService;
+import com.gymcrm.application.service.TrainerService;
 import com.gymcrm.domain.model.Trainer;
-import com.gymcrm.presentation.controller.port.TrainerControllerApi;
+import com.gymcrm.presentation.controller.TrainerControllerApi;
 import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainerWithTraineesAfterUpdateDto;

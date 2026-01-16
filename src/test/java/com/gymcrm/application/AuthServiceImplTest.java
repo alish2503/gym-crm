@@ -1,10 +1,10 @@
 package com.gymcrm.application;
 
 import com.gymcrm.application.service.impl.AuthServiceImpl;
-import com.gymcrm.infrastructure.security.service.port.BruteForceProtectionService;
-import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
-import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.infrastructure.security.service.BruteForceProtectionService;
+import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
+import com.gymcrm.infrastructure.security.service.JwtService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

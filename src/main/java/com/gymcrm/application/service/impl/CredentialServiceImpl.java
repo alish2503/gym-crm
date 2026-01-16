@@ -1,6 +1,6 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.service.port.CredentialService;
+import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.port.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

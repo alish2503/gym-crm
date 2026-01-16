@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.service;
 
 import com.gymcrm.infrastructure.security.service.impl.TokenBlacklistServiceImpl;
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import org.junit.jupiter.api.Test;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertFalse;

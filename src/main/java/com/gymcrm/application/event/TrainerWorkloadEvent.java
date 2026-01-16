@@ -1,13 +1,14 @@
-package com.gymcrm.presentation.dto.request;
+package com.gymcrm.application.event;
+
 
 import java.time.LocalDate;
 
-public record TrainerWorkloadEventDto(
+public record TrainerWorkloadEvent(
         String username,
         String firstName,
         String lastName,
-        boolean active,
+        Boolean isActive,
         LocalDate date,
-        int duration,
+        Integer durationInHours,
         ActionType actionType
 ) {}

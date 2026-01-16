@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.adapter;
 
 import com.gymcrm.infrastructure.feign.TrainerWorkloadFeignClient;
-import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
+import com.gymcrm.application.event.TrainerWorkloadEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +21,7 @@ class TrainerWorkloadClientImplTest {
 
     @Test
     void sendEvent_callsFeignClientSuccessfully() {
-        TrainerWorkloadEventDto event = new TrainerWorkloadEventDto(null, null, null,
+        TrainerWorkloadEvent event = new TrainerWorkloadEvent(null, null, null,
                 true, null, 0, null);
 
         trainerWorkloadClient.sendEvent(event);

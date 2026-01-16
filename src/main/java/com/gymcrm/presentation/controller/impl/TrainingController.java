@@ -1,7 +1,7 @@
 package com.gymcrm.presentation.controller.impl;
 
-import com.gymcrm.application.service.port.TrainingService;
-import com.gymcrm.presentation.controller.port.TrainingControllerApi;
+import com.gymcrm.application.service.TrainingService;
+import com.gymcrm.presentation.controller.TrainingControllerApi;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;
 import com.gymcrm.presentation.dto.request.TrainingFilterForTraineeDto;
 import com.gymcrm.presentation.dto.request.TrainingFilterForTrainerDto;

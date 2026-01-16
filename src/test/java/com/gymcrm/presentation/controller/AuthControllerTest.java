@@ -1,6 +1,6 @@
 package com.gymcrm.presentation.controller;
 
-import com.gymcrm.application.service.port.AuthService;
+import com.gymcrm.application.service.AuthService;
 import com.gymcrm.presentation.controller.impl.AuthController;
 import com.gymcrm.presentation.dto.request.LoginDto;
 import org.junit.jupiter.api.Test;

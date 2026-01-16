@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.security.provider;
 
-import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.infrastructure.security.service.JwtService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import com.gymcrm.infrastructure.security.token.JwtAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

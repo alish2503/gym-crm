@@ -1,4 +1,4 @@
-package com.gymcrm.presentation.controller.port;
+package com.gymcrm.presentation.controller;
 
 import com.gymcrm.presentation.dto.request.LoginDto;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.security.service.port;
+package com.gymcrm.infrastructure.security.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

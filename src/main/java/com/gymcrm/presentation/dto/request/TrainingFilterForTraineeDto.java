@@ -18,6 +18,5 @@ public class TrainingFilterForTraineeDto extends TrainingFilterDto {
     @Schema(description= "Example: John Doe")
     @Size(max = 50)
     private String trainerName;
-
     private TrainingTypeEnum type;
 }
