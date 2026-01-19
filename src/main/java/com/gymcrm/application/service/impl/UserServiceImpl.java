@@ -1,6 +1,6 @@
 package com.gymcrm.application.service.impl;
 
-import com.gymcrm.application.service.port.UserService;
+import com.gymcrm.application.service.UserService;
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
 import jakarta.persistence.EntityNotFoundException;

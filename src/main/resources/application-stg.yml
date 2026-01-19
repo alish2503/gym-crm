@@ -7,11 +7,20 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+  rabbitmq:
+    host: stg-rabbit.mycompany.com
+    port: 5672
+    username: stguser
+    password: stgpass
+    publisher-confirm-type: correlated
+    publisher-returns: true
 
 logging:
   level:
-    com.gymcrm: info
-    org.springframework: warn
+    com.gymcrm: INFO
+    org.springframework: WARN
+    org.springframework.amqp.rabbit.core.RabbitAdmin: INFO
+    org.springframework.amqp.rabbit.connection: INFO
 
 management:
   endpoints:

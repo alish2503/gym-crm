@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.service;
 
 import com.gymcrm.infrastructure.security.service.impl.JwtServiceImpl;
-import com.gymcrm.infrastructure.security.service.port.JwtService;
+import com.gymcrm.infrastructure.security.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

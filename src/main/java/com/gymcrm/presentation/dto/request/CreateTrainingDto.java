@@ -1,6 +1,5 @@
 package com.gymcrm.presentation.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
@@ -42,12 +41,11 @@ public class CreateTrainingDto {
     private String trainingName;
 
     @Schema(example = "2026-10-10")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Training date cannot be blank")
     @Future(message = "Date must be in the future")
     private LocalDate date;
 
-    @Schema(example = "80")
+    @Schema(example = "2")
     @Positive(message = "Duration must be positive")
-    private int durationInHours;
+    private Integer durationInHours;
 }

@@ -1,6 +1,6 @@
 package com.gymcrm.infrastructure.security.service.impl;
 
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

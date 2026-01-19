@@ -1,8 +1,8 @@
 package com.gymcrm.presentation.controller.impl;
 
-import com.gymcrm.application.service.port.UserService;
-import com.gymcrm.infrastructure.security.service.port.CustomUserDetailsService;
-import com.gymcrm.presentation.controller.port.UserControllerApi;
+import com.gymcrm.application.service.UserService;
+import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
+import com.gymcrm.presentation.controller.UserControllerApi;
 import com.gymcrm.presentation.dto.request.ChangePasswordDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

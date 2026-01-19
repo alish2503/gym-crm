@@ -14,17 +14,21 @@ spring:
         order_inserts: true
         order_updates: true
         generate_statistics: false
+  rabbitmq:
+    host: rabbit.prod.mycompany.com
+    port: 5672
+    username: produser
+    password: prodpass
+    publisher-confirm-type: correlated
+    publisher-returns: true
 
 logging:
   level:
-    root: info
-    com.gymcrm: warn
-    org.springframework: warn
-
-server:
-  error:
-    include-message: never
-    include-binding-errors: never
+    root: INFO
+    com.gymcrm: WARN
+    org.springframework: WARN
+    org.springframework.amqp.rabbit.core.RabbitAdmin: WARN
+    org.springframework.amqp.rabbit.connection: WARN
 
 management:
   endpoints:

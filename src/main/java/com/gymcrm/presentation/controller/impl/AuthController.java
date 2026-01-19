@@ -1,7 +1,7 @@
 package com.gymcrm.presentation.controller.impl;
 
-import com.gymcrm.application.service.port.AuthService;
-import com.gymcrm.presentation.controller.port.AuthControllerApi;
+import com.gymcrm.application.service.AuthService;
+import com.gymcrm.presentation.controller.AuthControllerApi;
 import com.gymcrm.presentation.dto.request.LoginDto;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

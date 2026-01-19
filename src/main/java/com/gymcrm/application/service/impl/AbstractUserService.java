@@ -2,7 +2,7 @@ package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.UpdateUserRequest;
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.port.CredentialService;
+import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.domain.model.FullName;
 import com.gymcrm.domain.model.UserProfile;
 import com.gymcrm.domain.model.User;

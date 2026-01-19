@@ -2,8 +2,8 @@ package com.gymcrm.infrastructure.provider;
 
 
 import com.gymcrm.infrastructure.security.provider.JwtAuthenticationProvider;
-import com.gymcrm.infrastructure.security.service.port.JwtService;
-import com.gymcrm.infrastructure.security.service.port.TokenBlacklistService;
+import com.gymcrm.infrastructure.security.service.JwtService;
+import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import com.gymcrm.infrastructure.security.token.JwtAuthenticationToken;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

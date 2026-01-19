@@ -1,4 +1,4 @@
-package com.gymcrm.presentation.controller.port;
+package com.gymcrm.presentation.controller;
 
 import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainerDto;

@@ -1,4 +1,4 @@
-package com.gymcrm.application.service.port;
+package com.gymcrm.application.service;
 
 import com.gymcrm.application.request.CreateTrainerRequest;
 import com.gymcrm.application.request.UpdateTrainerRequest;

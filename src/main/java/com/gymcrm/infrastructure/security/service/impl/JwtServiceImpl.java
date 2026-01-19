@@ -1,6 +1,6 @@
 package com.gymcrm.infrastructure.security.service.impl;
 
-import com.gymcrm.infrastructure.security.service.port.JwtService;
+import com.gymcrm.infrastructure.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;

@@ -1,16 +1,16 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTrainingRequest;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.application.service.port.TrainingService;
+import com.gymcrm.application.service.TrainingService;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
-import com.gymcrm.presentation.dto.request.ActionType;
-import com.gymcrm.presentation.dto.request.TrainerWorkloadEventDto;
+import com.gymcrm.application.event.ActionType;
+import com.gymcrm.application.event.TrainerWorkloadEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,20 +28,20 @@ public class TrainingServiceImpl implements TrainingService {
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
     private final UserProfileRepository userProfileRepository;
-    private final TrainerWorkloadClient workloadClient;
+    private final TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
                                TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository,
                                UserProfileRepository userProfileRepository,
-                               TrainerWorkloadClient workloadClient)
+                               TrainerWorkloadEventPublisher trainerWorkloadEventPublisher)
     {
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.userProfileRepository = userProfileRepository;
-        this.workloadClient = workloadClient;
+        this.trainerWorkloadEventPublisher = trainerWorkloadEventPublisher;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TrainingServiceImpl implements TrainingService {
         );
         Training created = new Training(type, trainingName, trainingDate, durationInHours, trainer.getId(), traineeId);
         trainingRepository.saveOrUpdate(created);
-        workloadClient.sendEvent(new TrainerWorkloadEventDto(
+        trainerWorkloadEventPublisher.publish(new TrainerWorkloadEvent(
                 trainerUsername,
                 trainer.getUser().getFirstName(),
                 trainer.getUser().getLastName(),

@@ -2,6 +2,7 @@ package com.gymcrm.application;
 
 import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.application.service.impl.TrainingServiceImpl;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
@@ -13,7 +14,6 @@ import com.gymcrm.domain.port.TrainerRepository;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.domain.port.TrainingTypeRepository;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.port.TrainerWorkloadClient;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ class TrainingServiceImplTest {
     private UserProfileRepository userProfileRepository;
 
     @Mock
-    private TrainerWorkloadClient workloadClient;
+    private TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @InjectMocks
     private TrainingServiceImpl trainingService;

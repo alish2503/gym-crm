@@ -7,11 +7,21 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+  rabbitmq:
+    host: dev-rabbit.mycompany.com
+    port: 5672
+    username: devuser
+    password: devpass
+    publisher-confirm-type: correlated
+    publisher-returns: true
+
 
 logging:
   level:
-    com.gymcrm: debug
-    org.springframework: info
+    com.gymcrm: DEBUG
+    org.springframework: INFO
+    org.springframework.amqp.rabbit.core.RabbitAdmin: DEBUG
+    org.springframework.amqp.rabbit.connection: DEBUG
 
 management:
   endpoints:

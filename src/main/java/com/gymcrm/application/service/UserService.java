@@ -1,4 +1,4 @@
-package com.gymcrm.application.service.port;
+package com.gymcrm.application.service;
 
 /**
  * @author Alish

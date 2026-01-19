@@ -12,3 +12,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: gym-crm-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: gymuser
+      RABBITMQ_DEFAULT_PASS: pass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+volumes:
+  postgres_data:

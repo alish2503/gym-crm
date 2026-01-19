@@ -1,4 +1,4 @@
-package com.gymcrm.presentation.dto.request;
+package com.gymcrm.application.event;
 
 public enum ActionType {
     ADD,

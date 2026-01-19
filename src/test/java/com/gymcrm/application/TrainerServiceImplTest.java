@@ -3,7 +3,7 @@ package com.gymcrm.application;
 import com.gymcrm.application.request.UpdateTrainerRequest;
 import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.request.CreateTrainerRequest;
-import com.gymcrm.application.service.port.CredentialService;
+import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TrainerServiceImpl;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;

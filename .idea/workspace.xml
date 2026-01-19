@@ -4,14 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Time units of training duration clarified">
+    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/presentation/controller/TrainingControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/port/TrainerWorkloadProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/port/TrainerWorkloadEventPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/messaging/producer/TrainerWorkloadProducerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/messaging/producer/TrainerWorkloadEventRabbitPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TraineeServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TraineeServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TrainingServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TrainingServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/messaging/TrainerWorkloadProducerImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/messaging/TrainerWorkloadEventPublisherImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/alito/MyProjects/gym-crm" value="36HTtmqqXdBSJlNDi9IMP6RqhVK" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -24,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="main-microservice" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,6 +57,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.GymApp.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
     "JUnit.AuthServiceImplTest.executor": "Run",
     "JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor": "Run",
     "JUnit.DatabaseTablesHealthIndicatorTest.executor": "Run",
@@ -69,10 +81,13 @@
     "JUnit.TraineeRepositoryImplTest.delete_shouldRemoveEntity.executor": "Run",
     "JUnit.TraineeRepositoryImplTest.executor": "Run",
     "JUnit.TraineeServiceImplTest.deleteTrainee_existingTrainee_callsDelete.executor": "Run",
+    "JUnit.TraineeServiceImplTest.executor": "Run",
     "JUnit.TrainerRepositoryImplTest.executor": "Run",
     "JUnit.TrainerRepositoryImplTest.findTrainer_shouldReturnMappedDomainObject.executor": "Run",
     "JUnit.TrainerRepositoryImplTest.findTrainersByUserNamesIn_shouldReturnTrainers.executor": "Run",
     "JUnit.TrainerWorkloadClientImplTest.sendEvent_callsFeignClientSuccessfully.executor": "Run",
+    "JUnit.TrainerWorkloadProducerImplTest.executor": "Run",
+    "JUnit.TrainerWorkloadProducerImplTest.sendMessage_shouldSendMessageWithTransactionIdHeader.executor": "Run",
     "JUnit.TrainingRepositoryImplTest.executor": "Run",
     "JUnit.TrainingServiceImplTest.createTraining_shouldSaveTraining.executor": "Run",
     "JUnit.TrainingServiceImplTest.executor": "Run",
@@ -89,40 +104,46 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.GymApp.executor": "Run",
-    "git-widget-placeholder": "main-microservice",
+    "git-widget-placeholder": "messaging",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/alito/MyProjects/gym-crm/pom.xml",
     "settings.editor.selected.configurable": "com.github.copilot.settings.customization.CustomizationConfigurable"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.java in gym-crm">
-    <configuration name="DatabaseTablesHealthIndicatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.gymcrm.presentation.controller" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.GymApp">
+    <configuration name="TrainerWorkloadProducerImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.gymcrm.infrastructure.health.*" />
+          <option name="PATTERN" value="com.gymcrm.infrastructure.messaging.producer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.health" />
-      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.health.DatabaseTablesHealthIndicatorTest" />
+      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.messaging.producer" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.messaging.producer.TrainerWorkloadProducerImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtRequestFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrainerWorkloadProducerImplTest.sendMessage_shouldSendMessageWithTransactionIdHeader" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.gymcrm.infrastructure.filter.*" />
+          <option name="PATTERN" value="com.gymcrm.infrastructure.messaging.producer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.filter" />
-      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.filter.JwtRequestFilterTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="com.gymcrm.infrastructure.messaging.producer" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.infrastructure.messaging.producer.TrainerWorkloadProducerImplTest" />
+      <option name="METHOD_NAME" value="sendMessage_shouldSendMessageWithTransactionIdHeader" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -165,27 +186,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
-      <item itemvalue="JUnit.JwtRequestFilterTest" />
+      <item itemvalue="JUnit.TrainerWorkloadProducerImplTest" />
+      <item itemvalue="JUnit.TrainerWorkloadProducerImplTest.sendMessage_shouldSendMessageWithTransactionIdHeader" />
       <item itemvalue="JUnit.TrainingServiceImplTest" />
       <item itemvalue="JUnit.java in gym-crm" />
       <item itemvalue="Spring Boot.GymApp" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="Spring Boot.GymApp" />
+        <item itemvalue="JUnit.java in gym-crm" />
+        <item itemvalue="JUnit.TrainerWorkloadProducerImplTest.sendMessage_shouldSendMessageWithTransactionIdHeader" />
+        <item itemvalue="JUnit.TrainerWorkloadProducerImplTest" />
         <item itemvalue="JUnit.TrainingServiceImplTest" />
-        <item itemvalue="JUnit.DatabaseTablesHealthIndicatorTest" />
-        <item itemvalue="JUnit.JwtRequestFilterTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
       </set>
     </attachedChunks>
   </component>
@@ -285,7 +312,63 @@
       <option name="project" value="LOCAL" />
       <updated>1768206535958</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fallback method hidden in implementation only, units of time for training duration clarified, code refactored">
+      <option name="closed" value="true" />
+      <created>1768207909962</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1768207909962</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fallback method hidden in implementation only, units of time for training duration clarified, code refactored">
+      <option name="closed" value="true" />
+      <created>1768208507691</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1768208507691</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Replaced REST communication between microservices with RabbitMQ asynchronous communication.">
+      <option name="closed" value="true" />
+      <created>1768562734948</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768562734949</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Replaced REST communication between microservices with RabbitMQ asynchronous communication.">
+      <option name="closed" value="true" />
+      <created>1768562842861</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768562842861</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added necessary unit tests, separated queues declaration from config, updated README.md">
+      <option name="closed" value="true" />
+      <created>1768580818863</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1768580818863</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added necessary unit tests, separated queues declaration from config, updated README.md">
+      <option name="closed" value="true" />
+      <created>1768581132409</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1768581132409</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added necessary unit tests, separated queues declaration from config, updated README.md">
+      <option name="closed" value="true" />
+      <created>1768581921218</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1768581921218</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -296,14 +379,17 @@
     <MESSAGE value="Updated README.md" />
     <MESSAGE value="fallback method hidden in implementation only" />
     <MESSAGE value="Time units of training duration clarified" />
-    <option name="LAST_COMMIT_MESSAGE" value="Time units of training duration clarified" />
+    <MESSAGE value="fallback method hidden in implementation only, units of time for training duration clarified, code refactored" />
+    <MESSAGE value="Replaced REST communication between microservices with RabbitMQ asynchronous communication." />
+    <MESSAGE value="Added necessary unit tests, separated queues declaration from config, updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added necessary unit tests, separated queues declaration from config, updated README.md" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1767881271953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/gym_crm$java_in_gym_crm.ic" NAME="java in gym-crm Coverage Results" MODIFIED="1768564699453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

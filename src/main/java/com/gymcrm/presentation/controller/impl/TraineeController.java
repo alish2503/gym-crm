@@ -1,10 +1,10 @@
 package com.gymcrm.presentation.controller.impl;
 
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.port.TraineeService;
+import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
-import com.gymcrm.presentation.controller.port.TraineeControllerApi;
+import com.gymcrm.presentation.controller.TraineeControllerApi;
 import com.gymcrm.presentation.dto.request.CreateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTraineeDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainersDto;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,7 +1,7 @@
 package com.gymcrm.presentation.controller;
 
 import com.gymcrm.application.response.UserCredentials;
-import com.gymcrm.application.service.port.TraineeService;
+import com.gymcrm.application.service.TraineeService;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.TrainingType;
