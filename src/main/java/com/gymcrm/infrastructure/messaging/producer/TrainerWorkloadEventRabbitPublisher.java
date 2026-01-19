@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.messaging.producer;
 
 import com.gymcrm.application.event.TrainerWorkloadEvent;
-import com.gymcrm.application.service.port.TrainerWorkloadProducer;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class TrainerWorkloadProducerImpl implements TrainerWorkloadProducer {
+public class TrainerWorkloadEventRabbitPublisher implements TrainerWorkloadEventPublisher {
     private final RabbitTemplate rabbitTemplate;
     private final String queueName;
 
     @Autowired
-    public TrainerWorkloadProducerImpl(RabbitTemplate rabbitTemplate,
-                                       @Value("${queue-name}") String queueName)
+    public TrainerWorkloadEventRabbitPublisher(RabbitTemplate rabbitTemplate,
+                                               @Value("${queue-name}") String queueName)
     {
         this.rabbitTemplate = rabbitTemplate;
         this.queueName = queueName;
@@ -26,7 +26,7 @@ public class TrainerWorkloadProducerImpl implements TrainerWorkloadProducer {
 
     @Override
     @CircuitBreaker(name = "trainer-workload", fallbackMethod = "fallback")
-    public void sendMessage(TrainerWorkloadEvent trainerWorkloadEvent) {
+    public void publish(TrainerWorkloadEvent trainerWorkloadEvent) {
         rabbitTemplate.convertAndSend(queueName, trainerWorkloadEvent, m -> {
             String transactionId = MDC.get("transactionId");
             if (transactionId != null) {

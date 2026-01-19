@@ -5,7 +5,7 @@ import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.service.CredentialService;
 import com.gymcrm.application.service.impl.TraineeServiceImpl;
-import com.gymcrm.application.service.port.TrainerWorkloadProducer;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
@@ -65,7 +65,7 @@ class TraineeServiceImplTest {
     private PasswordEncoder encoder;
 
     @Mock
-    private TrainerWorkloadProducer trainerWorkloadProducer;
+    private TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @InjectMocks
     private TraineeServiceImpl traineeService;

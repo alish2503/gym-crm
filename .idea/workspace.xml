@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Added necessary unit tests, separated queues declaration from config, updated README.md">
+    <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TraineeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/TrainingServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/port/TrainerWorkloadProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/port/TrainerWorkloadEventPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/messaging/producer/TrainerWorkloadProducerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/messaging/producer/TrainerWorkloadEventRabbitPublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TraineeServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TraineeServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TrainingServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/application/TrainingServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/messaging/TrainerWorkloadProducerImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/infrastructure/messaging/TrainerWorkloadEventPublisherImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +97,7 @@
     "JUnit.UserProfileRepositoryImplTest.existsByUserName_shouldReturnFalse.executor": "Run",
     "JUnit.UserProfileRepositoryImplTest.findProfileByUserName_shouldReturnDomainUser.executor": "Run",
     "JUnit.application in gym-crm.executor": "Run",
-    "JUnit.java in gym-crm.executor": "Coverage",
+    "JUnit.java in gym-crm.executor": "Run",
     "JUnit.repository in gym-crm.executor": "Run",
     "JUnit.service in gym-crm.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -195,9 +202,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.GymApp" />
+        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="JUnit.TrainerWorkloadProducerImplTest.sendMessage_shouldSendMessageWithTransactionIdHeader" />
         <item itemvalue="JUnit.TrainerWorkloadProducerImplTest" />
-        <item itemvalue="JUnit.java in gym-crm" />
         <item itemvalue="JUnit.TrainingServiceImplTest" />
       </list>
     </recent_temporary>
@@ -353,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768581132409</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added necessary unit tests, separated queues declaration from config, updated README.md">
+      <option name="closed" value="true" />
+      <created>1768581921218</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1768581921218</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

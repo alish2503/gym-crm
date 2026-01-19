@@ -2,7 +2,7 @@ package com.gymcrm.application;
 
 import com.gymcrm.application.request.CreateTrainingRequest;
 import com.gymcrm.application.service.impl.TrainingServiceImpl;
-import com.gymcrm.application.service.port.TrainerWorkloadProducer;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
@@ -54,7 +54,7 @@ class TrainingServiceImplTest {
     private UserProfileRepository userProfileRepository;
 
     @Mock
-    private TrainerWorkloadProducer trainerWorkloadProducer;
+    private TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @InjectMocks
     private TrainingServiceImpl trainingService;

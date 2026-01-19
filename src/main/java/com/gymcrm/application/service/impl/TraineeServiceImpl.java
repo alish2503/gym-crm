@@ -4,7 +4,7 @@ import com.gymcrm.application.request.CreateTraineeRequest;
 import com.gymcrm.application.request.UpdateTraineeRequest;
 import com.gymcrm.application.response.UserCredentials;
 import com.gymcrm.application.service.CredentialService;
-import com.gymcrm.application.service.port.TrainerWorkloadProducer;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
@@ -33,13 +33,13 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
     private final TrainingRepository trainingRepository;
-    private final TrainerWorkloadProducer trainerWorkloadProducer;
+    private final TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @Autowired
     public TraineeServiceImpl(TraineeRepository traineeRepository,
                               TrainerRepository trainerRepository,
                               TrainingRepository trainingRepository,
-                              TrainerWorkloadProducer trainerWorkloadProducer,
+                              TrainerWorkloadEventPublisher trainerWorkloadEventPublisher,
                               UserProfileRepository userProfileRepository,
                               PasswordEncoder encoder,
                               CredentialService credentialService)
@@ -48,7 +48,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingRepository = trainingRepository;
-        this.trainerWorkloadProducer = trainerWorkloadProducer;
+        this.trainerWorkloadEventPublisher = trainerWorkloadEventPublisher;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
             List<Training> trainings = trainingRepository.findTrainingsForTrainee(username, filter);
             trainings.forEach(t -> {
                 Trainer trainer = t.getTrainer();
-                trainerWorkloadProducer.sendMessage(new TrainerWorkloadEvent(
+                trainerWorkloadEventPublisher.publish(new TrainerWorkloadEvent(
                         trainer.getUser().getUsername(),
                         trainer.getUser().getFirstName(),
                         trainer.getUser().getLastName(),

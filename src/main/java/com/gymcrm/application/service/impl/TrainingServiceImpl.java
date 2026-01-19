@@ -1,7 +1,7 @@
 package com.gymcrm.application.service.impl;
 
 import com.gymcrm.application.request.CreateTrainingRequest;
-import com.gymcrm.application.service.port.TrainerWorkloadProducer;
+import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import com.gymcrm.domain.model.*;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainerRepository;
@@ -28,20 +28,20 @@ public class TrainingServiceImpl implements TrainingService {
     private final TrainerRepository trainerRepository;
     private final TrainingTypeRepository trainingTypeRepository;
     private final UserProfileRepository userProfileRepository;
-    private final TrainerWorkloadProducer trainerWorkloadProducer;
+    private final TrainerWorkloadEventPublisher trainerWorkloadEventPublisher;
 
     @Autowired
     public TrainingServiceImpl(TrainingRepository trainingRepository, TraineeRepository traineeRepository,
                                TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository,
                                UserProfileRepository userProfileRepository,
-                               TrainerWorkloadProducer trainerWorkloadProducer)
+                               TrainerWorkloadEventPublisher trainerWorkloadEventPublisher)
     {
         this.trainingRepository = trainingRepository;
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.userProfileRepository = userProfileRepository;
-        this.trainerWorkloadProducer = trainerWorkloadProducer;
+        this.trainerWorkloadEventPublisher = trainerWorkloadEventPublisher;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TrainingServiceImpl implements TrainingService {
         );
         Training created = new Training(type, trainingName, trainingDate, durationInHours, trainer.getId(), traineeId);
         trainingRepository.saveOrUpdate(created);
-        trainerWorkloadProducer.sendMessage(new TrainerWorkloadEvent(
+        trainerWorkloadEventPublisher.publish(new TrainerWorkloadEvent(
                 trainerUsername,
                 trainer.getUser().getFirstName(),
                 trainer.getUser().getLastName(),

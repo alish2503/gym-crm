@@ -1,7 +1,7 @@
 package com.gymcrm.infrastructure.messaging;
 
 import com.gymcrm.application.event.TrainerWorkloadEvent;
-import com.gymcrm.infrastructure.messaging.producer.TrainerWorkloadProducerImpl;
+import com.gymcrm.infrastructure.messaging.producer.TrainerWorkloadEventRabbitPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,19 +22,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class TrainerWorkloadProducerImplTest {
+public class TrainerWorkloadEventRabbitPublisherTest {
 
     @Mock
     private RabbitTemplate rabbitTemplate;
 
     @InjectMocks
-    private TrainerWorkloadProducerImpl producer;
+    private TrainerWorkloadEventRabbitPublisher producer;
     private final String QUEUE_NAME = "test-queue";
     private TrainerWorkloadEvent event;
 
     @BeforeEach
     void setUp() {
-        producer = new TrainerWorkloadProducerImpl(rabbitTemplate, QUEUE_NAME);
+        producer = new TrainerWorkloadEventRabbitPublisher(rabbitTemplate, QUEUE_NAME);
         event = new TrainerWorkloadEvent(
                 null, null, null,
                 null, null, null, null
@@ -42,9 +42,9 @@ public class TrainerWorkloadProducerImplTest {
     }
 
     @Test
-    void sendMessage_shouldSendMessageWithTransactionIdHeader() {
+    void sendMessage_shouldPublishWithTransactionIdHeader() {
         MDC.put("transactionId", "12345");
-        producer.sendMessage(event);
+        producer.publish(event);
         ArgumentCaptor<MessagePostProcessor> processorCaptor = ArgumentCaptor.forClass(MessagePostProcessor.class);
         verify(rabbitTemplate, times(1)).convertAndSend(eq(QUEUE_NAME),
                 eq(event), processorCaptor.capture());
@@ -56,8 +56,8 @@ public class TrainerWorkloadProducerImplTest {
     }
 
     @Test
-    void sendMessage_shouldSendMessageWithoutTransactionIdHeaderIfMdcIsEmpty() {
-        producer.sendMessage(event);
+    void sendMessage_shouldPublishWithoutTransactionIdHeaderIfMdcIsEmpty() {
+        producer.publish(event);
         ArgumentCaptor<MessagePostProcessor> processorCaptor = ArgumentCaptor.forClass(MessagePostProcessor.class);
         verify(rabbitTemplate).convertAndSend(eq(QUEUE_NAME), eq(event), processorCaptor.capture());
         Message message = new Message(new byte[0], new MessageProperties());
