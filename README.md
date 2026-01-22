@@ -118,42 +118,42 @@ docker-compose up -d
 
 2. **Configure Hibernate**:
 
-```properties
+```yaml
 spring:
-    datasource:
-        url: jdbc:postgresql://localhost:5432/gymdb
-        username: gymuser
-        password: pass
-    jpa:
-        hibernate:
-            ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gymdb
+    username: gymuser
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  
 ```
 
 3. **Configure Security**:
 
-```properties
+```yaml
 security:
-    jwt:
-        user:
-            expiration-ms: 3600000
-        service:
-            expiration-ms: 300000
-    login:
-        max-attempts: 3
-        block-minutes: 5
+  jwt:
+    user:
+      expiration-ms: 3600000
+    service:
+      expiration-ms: 300000
+  login:
+    max-attempts: 3
+    block-minutes: 5
 ```
 
 4. **Configure RabbitMQ**:
 
-```properties
+```yaml
 spring:
-    rabbitmq:
-        host: localhost
-        port: 5672
-        username: gymuser
-        password: pass
-        publisher-confirm-type: correlated
-        publisher-returns: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: gymuser
+    password: pass
+    publisher-confirm-type: correlated
+    publisher-returns: true
 ```
 
 5. **Run the application**:
@@ -248,16 +248,17 @@ com.gymcrm
  │   ├─ model         # Entities: User, Trainee, Trainer, Training, TrainingType
  │   └─ port          # Repository interfaces
  ├─ infrastructure
- │   ├─ adapter       # Adapters 
  │   ├─ config        # Rabbit, Swagger, Security
- │   ├─ dao           # DAO classes
  │   ├─ messaging     # Producers 
- │   ├─ mapper        # Entity ↔ DAO mappers
- │   ├─ jpa           # JPARepositories
  │   ├─ logging       # Filter for transaction logging
  │   ├─ metrics       # Custom metrics service + AOP aspect
  │   ├─ health        # Custom health indicators
- │   └─ security      # JWT, Brute-force protection, filter, custom user details, authprovider
+ │   ├─ security      # JWT, Brute-force protection, filter, custom user details, authprovider
+ │   └─ persistance
+ │      ├─ adapter     # Adapters
+ │      ├─ dao         # DAO classes
+ │      ├─ jpa         # JPARepositories
+ │      └─ mapper      # Entity ↔ DAO mappers
  └─ presentation
      ├─ controller    # REST controllers
      ├─ dto           # REST request/response DTOs
