@@ -2,8 +2,9 @@ package com.gymcrm.infrastructure.adapter;
 
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
-import com.gymcrm.infrastructure.dao.TrainingTypeDao;
-import com.gymcrm.infrastructure.jpa.TrainingTypeJpaRepository;
+import com.gymcrm.infrastructure.persistence.adapter.TrainingTypeRepositoryImpl;
+import com.gymcrm.infrastructure.persistence.dao.TrainingTypeDao;
+import com.gymcrm.infrastructure.persistence.jpa.TrainingTypeJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

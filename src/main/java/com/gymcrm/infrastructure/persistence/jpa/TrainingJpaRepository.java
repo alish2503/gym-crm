@@ -1,6 +1,6 @@
-package com.gymcrm.infrastructure.jpa;
+package com.gymcrm.infrastructure.persistence.jpa;
 
-import com.gymcrm.infrastructure.dao.TrainingDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.time.LocalDate;

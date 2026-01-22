@@ -1,9 +1,9 @@
-package com.gymcrm.infrastructure.mapper;
+package com.gymcrm.infrastructure.persistence.mapper;
 
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
-import com.gymcrm.infrastructure.dao.TraineeDao;
-import com.gymcrm.infrastructure.dao.TrainerDao;
+import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
+import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
 
 import java.util.List;
 

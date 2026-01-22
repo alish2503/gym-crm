@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.dao;
+package com.gymcrm.infrastructure.persistence.dao;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

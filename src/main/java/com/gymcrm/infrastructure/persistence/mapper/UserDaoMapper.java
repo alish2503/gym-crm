@@ -1,7 +1,7 @@
-package com.gymcrm.infrastructure.mapper;
+package com.gymcrm.infrastructure.persistence.mapper;
 
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.dao.UserDao;
+import com.gymcrm.infrastructure.persistence.dao.UserDao;
 
 /**
  * @author Alish

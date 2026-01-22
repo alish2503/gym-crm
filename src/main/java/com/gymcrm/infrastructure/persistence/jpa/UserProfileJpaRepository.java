@@ -1,6 +1,6 @@
-package com.gymcrm.infrastructure.jpa;
+package com.gymcrm.infrastructure.persistence.jpa;
 
-import com.gymcrm.infrastructure.dao.UserDao;
+import com.gymcrm.infrastructure.persistence.dao.UserDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

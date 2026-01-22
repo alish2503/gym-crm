@@ -1,10 +1,10 @@
-package com.gymcrm.infrastructure.adapter;
+package com.gymcrm.infrastructure.persistence.adapter;
 
 import com.gymcrm.domain.model.TrainingType;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingTypeRepository;
-import com.gymcrm.infrastructure.jpa.TrainingTypeJpaRepository;
-import com.gymcrm.infrastructure.mapper.TrainingTypeDaoMapper;
+import com.gymcrm.infrastructure.persistence.jpa.TrainingTypeJpaRepository;
+import com.gymcrm.infrastructure.persistence.mapper.TrainingTypeDaoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

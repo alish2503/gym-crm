@@ -1,10 +1,10 @@
-package com.gymcrm.infrastructure.adapter;
+package com.gymcrm.infrastructure.persistence.adapter;
 
 import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
-import com.gymcrm.infrastructure.jpa.UserProfileJpaRepository;
-import com.gymcrm.infrastructure.mapper.UserDaoMapper;
-import com.gymcrm.infrastructure.dao.UserDao;
+import com.gymcrm.infrastructure.persistence.jpa.UserProfileJpaRepository;
+import com.gymcrm.infrastructure.persistence.mapper.UserDaoMapper;
+import com.gymcrm.infrastructure.persistence.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

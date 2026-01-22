@@ -1,4 +1,4 @@
-package com.gymcrm.infrastructure.adapter;
+package com.gymcrm.infrastructure.persistence.adapter;
 
 import com.gymcrm.domain.port.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;

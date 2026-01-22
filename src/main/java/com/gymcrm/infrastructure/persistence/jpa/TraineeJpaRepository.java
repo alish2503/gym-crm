@@ -1,6 +1,6 @@
-package com.gymcrm.infrastructure.jpa;
+package com.gymcrm.infrastructure.persistence.jpa;
 
-import com.gymcrm.infrastructure.dao.TraineeDao;
+import com.gymcrm.infrastructure.persistence.dao.TraineeDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

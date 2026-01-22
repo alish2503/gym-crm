@@ -1,11 +1,11 @@
-package com.gymcrm.infrastructure.adapter;
+package com.gymcrm.infrastructure.persistence.adapter;
 
 import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.port.TrainingRepository;
-import com.gymcrm.infrastructure.dao.TrainingDao;
-import com.gymcrm.infrastructure.jpa.TrainingJpaRepository;
-import com.gymcrm.infrastructure.mapper.TrainingDaoMapper;
+import com.gymcrm.infrastructure.persistence.dao.TrainingDao;
+import com.gymcrm.infrastructure.persistence.jpa.TrainingJpaRepository;
+import com.gymcrm.infrastructure.persistence.mapper.TrainingDaoMapper;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;

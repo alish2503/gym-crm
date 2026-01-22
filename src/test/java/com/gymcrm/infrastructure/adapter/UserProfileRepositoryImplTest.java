@@ -1,9 +1,10 @@
 package com.gymcrm.infrastructure.adapter;
 
 import com.gymcrm.domain.model.User;
-import com.gymcrm.infrastructure.jpa.UserProfileJpaRepository;
-import com.gymcrm.infrastructure.mapper.UserDaoMapper;
-import com.gymcrm.infrastructure.dao.UserDao;
+import com.gymcrm.infrastructure.persistence.adapter.UserProfileRepositoryImpl;
+import com.gymcrm.infrastructure.persistence.jpa.UserProfileJpaRepository;
+import com.gymcrm.infrastructure.persistence.mapper.UserDaoMapper;
+import com.gymcrm.infrastructure.persistence.dao.UserDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

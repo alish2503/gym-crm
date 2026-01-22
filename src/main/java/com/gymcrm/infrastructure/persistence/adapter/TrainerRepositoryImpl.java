@@ -1,12 +1,12 @@
-package com.gymcrm.infrastructure.adapter;
+package com.gymcrm.infrastructure.persistence.adapter;
 
 import com.gymcrm.domain.model.Trainee;
 import com.gymcrm.domain.model.Trainer;
 import com.gymcrm.domain.port.TrainerRepository;
-import com.gymcrm.infrastructure.jpa.TrainerJpaRepository;
-import com.gymcrm.infrastructure.mapper.TraineeDaoMapper;
-import com.gymcrm.infrastructure.dao.TrainerDao;
-import com.gymcrm.infrastructure.mapper.TrainerDaoMapper;
+import com.gymcrm.infrastructure.persistence.jpa.TrainerJpaRepository;
+import com.gymcrm.infrastructure.persistence.mapper.TraineeDaoMapper;
+import com.gymcrm.infrastructure.persistence.dao.TrainerDao;
+import com.gymcrm.infrastructure.persistence.mapper.TrainerDaoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;

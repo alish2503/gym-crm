@@ -1,7 +1,10 @@
-package com.gymcrm.infrastructure.dao;
+package com.gymcrm.infrastructure.persistence.dao;
 
+import com.gymcrm.domain.model.TrainingTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,25 +20,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_profile")
-public class UserDao {
+@Table(name = "training_type")
+public class TrainingTypeDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique = true)
-    private String username;
-
-    @Column(nullable=false)
-    private String password;
-
-    @Column(nullable=false, name = "first_name")
-    private String firstName;
-
-    @Column(nullable=false, name = "last_name")
-    private String lastName;
-
-    @Column(nullable=false, name = "is_active")
-    private boolean isActive;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false, unique=true)
+    private TrainingTypeEnum name;
 }
