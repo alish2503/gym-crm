@@ -77,6 +77,7 @@ public interface TraineeControllerApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trainers updated successfully",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TrainerDto.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content),
             @ApiResponse(responseCode = "401", description = "Invalid token", content = @Content),
             @ApiResponse(responseCode = "404", description = "Trainee or trainer not found", content = @Content)
     })

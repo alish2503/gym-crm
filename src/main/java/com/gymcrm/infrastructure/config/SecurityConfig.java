@@ -6,14 +6,13 @@ import com.gymcrm.infrastructure.security.provider.JwtAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
@@ -30,6 +29,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  * @author Alish
  */
 @Configuration
+@Profile("!no-security")
 @EnableMethodSecurity
 public class SecurityConfig {
 
@@ -71,10 +71,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(JwtAuthenticationProvider jwtAuthenticationProvider) {
         return new ProviderManager(List.of(jwtAuthenticationProvider));
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

@@ -3,6 +3,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/gymdb
     username: gymuser
     password: pass
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -24,6 +28,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.amqp.rabbit.core.RabbitAdmin: DEBUG
     org.springframework.amqp.rabbit.connection: DEBUG
+    org.springframework.boot.autoconfigure.security: DEBUG
+    org.springframework.security: DEBUG
 
 management:
   endpoints:
@@ -39,3 +45,9 @@ security:
     secret: 8r7u6y5t4r3e2w1q0p9o8i7u6y5t4r3e
   cors:
     allowed-origins: http://localhost:3000
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

@@ -48,4 +48,15 @@ public class CreateTrainingDto {
     @Schema(example = "2")
     @Positive(message = "Duration must be positive")
     private Integer durationInHours;
+
+    public CreateTrainingDto(String trainerUsername, String traineeUsername, TrainingTypeEnum trainingType,
+                             String trainingName, LocalDate date, Integer durationInHours)
+    {
+        this.trainerUsername = trainerUsername;
+        this.traineeUsername = traineeUsername;
+        this.trainingType = trainingType;
+        this.trainingName = trainingName;
+        this.date = date;
+        this.durationInHours = durationInHours;
+    }
 }

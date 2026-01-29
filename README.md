@@ -156,6 +156,16 @@ spring:
     publisher-returns: true
 ```
 
+5. **Configure Eureka**:
+
+```yaml
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
 5. **Run the application**:
 
 ```bash
@@ -206,7 +216,10 @@ Two levels of logging are implemented:
 2. Messages are serialized in **JSON** format.
 3. Dead Letter Queue (DLQ) is used for messages with missing or invalid information.
 4. Concurrency of consumers is configured for horizontal scaling.
-5. Outgoing calls are protected with **Resilience4j Circuit Breaker** to prevent service failures if RabbitMQ is unavailable.
+5. Service discovery is handled by **Eureka**
+6. No hardcoded host or port configuration
+7. Each outgoing request includes a service token, which is validated by the receiving microservice before processing the request.
+8. Outgoing calls are protected with **Resilience4j Circuit Breaker** to prevent service failures if RabbitMQ is unavailable.
 
 ---
 
@@ -270,13 +283,19 @@ com.gymcrm
 
 ## Testing
 
-1. Unit tests with **JUnit 5** covering services, repositories, and controllers.
-2. Run tests via:
+The project includes several levels of automated tests:
+
+1. **Unit tests (JUnit 5)** covering core services, repositories, and controllers.
+2. **Integration tests** verifying interaction with external infrastructure components such as **RabbitMQ**.
+3. **Component tests** ensuring correct behavior of the service in a near-production setup.
+4. **BDD scenario tests (Cucumber)** that validate communication between this microservice and another running microservice
+(Cucumber end-to-end scenarios expect the second microservice to be running with activated profile "no-security" in addition to "local" during execution.)
+
+Tests can be executed with:
 
 ```bash
 mvn test
 ```
-
 ---
 
 ## Dependencies
@@ -293,11 +312,12 @@ mvn test
 10. Spring Data JPA
 11. Spring Web / Spring MVC 
 12. Resilience4j 
-13. Jakarta Validation 
-14. Lombok 
-15. Spring Boot Actuator 
-16. Spring AOP 
-17. Spring AMQP / RabbitMQ
+13. Spring Cloud Netflix Eureka Client 
+14. Jakarta Validation 
+15. Lombok 
+16. Spring Boot Actuator 
+17. Spring AOP 
+18. Spring AMQP / RabbitMQ
 
 ---
 

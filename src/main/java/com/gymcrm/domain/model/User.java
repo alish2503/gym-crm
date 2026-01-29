@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class User extends FullName {
-    Long id;
+    private Long id;
     private String username;
     private String password;
     private boolean isActive;
