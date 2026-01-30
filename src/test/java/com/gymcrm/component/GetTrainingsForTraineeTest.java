@@ -1,7 +1,6 @@
 package com.gymcrm.component;
 
 import com.gymcrm.presentation.dto.response.TrainingForTraineeDto;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@NoSecurityTest
 class GetTrainingsForTraineeTest extends BaseComponentTest {
     private static final String BASE_URL = "/trainings/trainees/";
     private static final String USERNAME = "Emma.Brown";

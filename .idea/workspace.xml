@@ -5,8 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1ce1a2a-34d0-4944-a79c-d9146699ea45" name="Changes" comment="Implemented some component, integration, bdd tests">
+      <change afterPath="$PROJECT_DIR$/src/test/resources/application-security-test.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/application/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/filter/JwtRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/filter/JwtRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/provider/JwtAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/provider/JwtAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/BruteForceProtectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/BruteForceProtectionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/JwtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/JwtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/TokenBlacklistServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/security/service/impl/TokenBlacklistServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/presentation/controller/impl/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-local.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-stg.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-stg.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/bdd/config/CucumberSpringConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/bdd/config/CucumberSpringConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/bdd/steps/TraineeWorkloadSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/bdd/steps/TrainerWorkloadSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/AuthComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/AuthComponentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/BaseComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/BaseComponentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/GetTrainingsForTraineeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/GetTrainingsForTraineeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/TraineeComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/UpdateTrainersForTraineeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/TrainerComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/PostAndPutTrainerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/TrainerSecurityComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/GetTrainerWithSecurityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/UserComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/component/ActionsForUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/BaseIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/BaseIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/TraineeIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/DeleteTraineeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/TrainingIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/integration/PostTrainingTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/testconfig/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/gymcrm/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/testconfig/DisabledAuthorizationTestConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymcrm/infrastructure/config/DisabledAuthorizationTestConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/gymcrm/testconfig/NoSecurityTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +93,7 @@
     "JUnit.AuthServiceImplTest.executor": "Run",
     "JUnit.AuthServiceImplTest.logout_shouldBlacklist.executor": "Run",
     "JUnit.CucumberRunner.executor": "Run",
+    "JUnit.CucumberRunnerTest.executor": "Run",
     "JUnit.DatabaseTablesHealthIndicatorTest.executor": "Run",
     "JUnit.GetTrainingsForTraineeTest.executor": "Run",
     "JUnit.GetTrainingsForTraineeTest.shouldReturnTrainingsFilteredByDateAndType.executor": "Run",
@@ -106,6 +137,7 @@
     "JUnit.TrainerSecurityComponentTest.getTrainerProfileWithValidTokenForAnotherUserShouldReturn403.executor": "Run",
     "JUnit.TrainerSecurityComponentTest.getTrainerProfileWithValidTokenShouldReturn200.executor": "Run",
     "JUnit.TrainerSecurityComponentTest.getTrainerProfileWithoutAuthShouldReturn403.executor": "Run",
+    "JUnit.TrainerSecurityComponentTest.getTrainerProfileWithoutTokenShouldReturn403.executor": "Run",
     "JUnit.TrainerTest.executor": "Run",
     "JUnit.TrainerTest.shouldRegisterTrainerSuccessfully.executor": "Run",
     "JUnit.TrainerTest.shouldReturn400WhenTrainingTypeIsInvalid.executor": "Run",
@@ -157,8 +189,27 @@
       <recent name="C:\Users\alito\MyProjects\gym-crm\src\test\resources" />
       <recent name="C:\Users\alito\MyProjects\gym-crm\src\test\resources\com\gymcrm\bdd" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.gymcrm" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.CucumberRunnerTest">
+  <component name="RunManager">
+    <configuration name="AuthComponentTest.loginWithValidCredentials_shouldReturnToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gym-crm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.component.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.component" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.component.AuthComponentTest" />
+      <option name="METHOD_NAME" value="loginWithValidCredentials_shouldReturnToken" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CucumberRunnerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
       <extension name="coverage">
@@ -174,34 +225,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="component in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GetTrainerWithSecurityTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/com/gymcrm/component" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.component.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.component" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.component.GetTrainerWithSecurityTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="integration in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GetTrainerWithSecurityTest.getTrainerProfileWithoutTokenShouldReturn403" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/com/gymcrm/integration" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.component.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.component" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.component.GetTrainerWithSecurityTest" />
+      <option name="METHOD_NAME" value="getTrainerProfileWithoutTokenShouldReturn403" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="java in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GetTrainingsForTraineeTest.shouldReturnTrainingsFilteredByDateAndType" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="unit in gym-crm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="gym-crm" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/src/test/java/com/gymcrm/unit" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gymcrm.component.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.gymcrm.component" />
+      <option name="MAIN_CLASS_NAME" value="com.gymcrm.component.GetTrainingsForTraineeTest" />
+      <option name="METHOD_NAME" value="shouldReturnTrainingsFilteredByDateAndType" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -222,20 +288,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.AuthComponentTest.loginWithValidCredentials_shouldReturnToken" />
+      <item itemvalue="JUnit.GetTrainerWithSecurityTest" />
+      <item itemvalue="JUnit.GetTrainerWithSecurityTest.getTrainerProfileWithoutTokenShouldReturn403" />
+      <item itemvalue="JUnit.GetTrainingsForTraineeTest.shouldReturnTrainingsFilteredByDateAndType" />
       <item itemvalue="JUnit.CucumberRunnerTest" />
-      <item itemvalue="JUnit.integration in gym-crm" />
-      <item itemvalue="JUnit.java in gym-crm" />
-      <item itemvalue="JUnit.unit in gym-crm" />
-      <item itemvalue="JUnit.component in gym-crm" />
       <item itemvalue="Spring Boot.GymApp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GetTrainerWithSecurityTest" />
+        <item itemvalue="JUnit.GetTrainerWithSecurityTest.getTrainerProfileWithoutTokenShouldReturn403" />
         <item itemvalue="JUnit.CucumberRunnerTest" />
-        <item itemvalue="JUnit.java in gym-crm" />
-        <item itemvalue="JUnit.component in gym-crm" />
-        <item itemvalue="JUnit.integration in gym-crm" />
-        <item itemvalue="JUnit.unit in gym-crm" />
+        <item itemvalue="JUnit.AuthComponentTest.loginWithValidCredentials_shouldReturnToken" />
+        <item itemvalue="JUnit.GetTrainingsForTraineeTest.shouldReturnTrainingsFilteredByDateAndType" />
       </list>
     </recent_temporary>
   </component>
@@ -374,7 +440,23 @@
       <option name="project" value="LOCAL" />
       <updated>1769711053066</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Implemented some component, integration, bdd tests">
+      <option name="closed" value="true" />
+      <created>1769711752993</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1769711752993</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Implemented some component, integration, bdd tests">
+      <option name="closed" value="true" />
+      <created>1769711932598</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1769711932598</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="UnknownFeatures">

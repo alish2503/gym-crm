@@ -29,7 +29,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
  * @author Alish
  */
 @Configuration
-@Profile("!no-security")
+@Profile("security")
 @EnableMethodSecurity
 public class SecurityConfig {
 

@@ -15,7 +15,6 @@ spring:
     publisher-confirm-type: correlated
     publisher-returns: true
 
-
 logging:
   level:
     com.gymcrm: DEBUG
@@ -34,6 +33,13 @@ management:
 
 security:
   jwt:
+    user:
+      expiration-ms: 3600000
+    service:
+      expiration-ms: 300000
     secret: 8r7u6y5t4r3e2w1q0p9o8i7u6y5t4r3e
+  login:
+    max-attempts: 3
+    block-minutes: 5
   cors:
     allowed-origins: http://dev.example.com

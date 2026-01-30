@@ -2,7 +2,6 @@ package com.gymcrm.component;
 
 import com.gymcrm.presentation.dto.request.UpdateTrainersDto;
 import com.gymcrm.presentation.dto.response.TrainerDto;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
@@ -22,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@NoSecurityTest
-class TraineeComponentTest extends BaseComponentTest {
+class UpdateTrainersForTraineeTest extends BaseComponentTest {
     private static final String BASE_URL = "/trainees/";
     private static final String TRAINEE_EMMA = "Emma.Brown";
     private static final String TRAINER_JOHN = "John.Doe";
@@ -31,7 +29,7 @@ class TraineeComponentTest extends BaseComponentTest {
     private static final String TRAINER_NON_EXISTENT = "Non.Existent";
 
     @Autowired
-    public TraineeComponentTest(TestRestTemplate testRestTemplate) {
+    public UpdateTrainersForTraineeTest(TestRestTemplate testRestTemplate) {
         super(testRestTemplate);
     }
 

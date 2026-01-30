@@ -6,7 +6,6 @@ import com.gymcrm.domain.model.Training;
 import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.port.TraineeRepository;
 import com.gymcrm.domain.port.TrainingRepository;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@NoSecurityTest
-class TraineeIntegrationTest extends BaseIntegrationTest {
+class DeleteTraineeTest extends BaseIntegrationTest {
     private static final String TRAINEE_EMMA = "Emma.Brown";
     private static final int TRAININGS_COUNT = 3;
     private final RabbitTemplate rabbitTemplate;
@@ -33,8 +31,8 @@ class TraineeIntegrationTest extends BaseIntegrationTest {
     private String queueName;
 
     @Autowired
-    public TraineeIntegrationTest(TestRestTemplate testRestTemplate, RabbitTemplate rabbitTemplate,
-                                  TrainingRepository trainingRepository, TraineeRepository traineeRepository) {
+    public DeleteTraineeTest(TestRestTemplate testRestTemplate, RabbitTemplate rabbitTemplate,
+                             TrainingRepository trainingRepository, TraineeRepository traineeRepository) {
         super(testRestTemplate);
         this.rabbitTemplate = rabbitTemplate;
         this.trainingRepository = trainingRepository;

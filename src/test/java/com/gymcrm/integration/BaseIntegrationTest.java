@@ -1,6 +1,6 @@
 package com.gymcrm.integration;
 
-import com.gymcrm.testconfig.BaseTest;
+import com.gymcrm.BaseTest;
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.RabbitMQContainer;
