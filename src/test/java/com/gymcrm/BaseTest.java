@@ -1,4 +1,4 @@
-package com.gymcrm.testconfig;
+package com.gymcrm;
 
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;

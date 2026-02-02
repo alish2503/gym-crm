@@ -6,6 +6,7 @@ import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
 import com.gymcrm.infrastructure.security.service.JwtService;
 import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
@@ -18,6 +19,7 @@ import java.util.Date;
  */
 
 @Service
+@Profile("security")
 public class AuthServiceImpl implements AuthService {
     private final BruteForceProtectionService bruteForceProtectionService;
     private final TokenBlacklistService tokenBlacklistService;

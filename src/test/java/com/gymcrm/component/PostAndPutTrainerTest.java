@@ -5,7 +5,6 @@ import com.gymcrm.presentation.dto.request.CreateTrainerDto;
 import com.gymcrm.presentation.dto.request.UpdateTrainerDto;
 import com.gymcrm.presentation.dto.response.TrainerWithTraineesAfterUpdateDto;
 import com.gymcrm.presentation.dto.response.UserCredentialsDto;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
@@ -16,15 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@NoSecurityTest
-class TrainerComponentTest extends BaseComponentTest {
+class PostAndPutTrainerTest extends BaseComponentTest {
     private static final String BASE_URL = "/trainers";
     private static final String TRAINER_JOHN_DOE = "John.Doe";
     private static final String FIRST_NAME = "John";
@@ -32,7 +28,7 @@ class TrainerComponentTest extends BaseComponentTest {
     private static final String UPDATED_LAST_NAME = "Updated";
 
     @Autowired
-    public TrainerComponentTest(TestRestTemplate testRestTemplate) {
+    public PostAndPutTrainerTest(TestRestTemplate testRestTemplate) {
         super(testRestTemplate);
     }
 
@@ -79,7 +75,7 @@ class TrainerComponentTest extends BaseComponentTest {
     }
 
     private String buildTrainerUrl() {
-        return UriComponentsBuilder.fromUriString(BASE_URL + "/" + TrainerComponentTest.TRAINER_JOHN_DOE).toUriString();
+        return UriComponentsBuilder.fromUriString(BASE_URL + "/" + PostAndPutTrainerTest.TRAINER_JOHN_DOE).toUriString();
     }
 
     private <T> ResponseEntity<T> postJson(String url, String json) {

@@ -4,7 +4,6 @@ import com.gymcrm.domain.model.User;
 import com.gymcrm.domain.port.UserProfileRepository;
 import com.gymcrm.infrastructure.security.service.CustomUserDetailsService;
 import com.gymcrm.presentation.dto.request.ChangePasswordDto;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
@@ -20,16 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@NoSecurityTest
-class UserComponentTest extends BaseComponentTest {
+class ActionsForUserTest extends BaseComponentTest {
     private final UserProfileRepository userProfileRepository;
     private final CustomUserDetailsService userDetailsService;
     private static final String BASE_URL = "/users";
     private static final String USER_JOHN = "John.Doe";
 
     @Autowired
-    public UserComponentTest(TestRestTemplate testRestTemplate, UserProfileRepository userProfileRepository,
-                             CustomUserDetailsService userDetailsService) {
+    public ActionsForUserTest(TestRestTemplate testRestTemplate, UserProfileRepository userProfileRepository,
+                              CustomUserDetailsService userDetailsService) {
         super(testRestTemplate);
         this.userProfileRepository = userProfileRepository;
         this.userDetailsService = userDetailsService;

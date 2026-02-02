@@ -10,21 +10,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.test.context.ActiveProfiles;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TrainerSecurityComponentTest extends BaseComponentTest {
+@ActiveProfiles("security-test")
+class GetTrainerWithSecurityTest extends BaseComponentTest {
     private final JwtService jwtService;
     private static final String BASE_URL = "/trainers/";
     private static final String USER_ALEX = "Alex.Johnson";
     private static final String USER_JANE = "Jane.Smith";
 
     @Autowired
-    public TrainerSecurityComponentTest(TestRestTemplate testRestTemplate, JwtService jwtService) {
+    public GetTrainerWithSecurityTest(TestRestTemplate testRestTemplate, JwtService jwtService) {
         super(testRestTemplate);
         this.jwtService = jwtService;
     }

@@ -41,6 +41,13 @@ management:
 
 security:
   jwt:
+    user:
+      expiration-ms: 3600000
+    service:
+      expiration-ms: 300000
     secret: ${JWT_SECRET_PROD}
+  login:
+    max-attempts: 3
+    block-minutes: 5
   cors:
     allowed-origins: https://www.example.com

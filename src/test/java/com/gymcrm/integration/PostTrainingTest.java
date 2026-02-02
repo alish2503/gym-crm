@@ -7,7 +7,6 @@ import com.gymcrm.domain.model.TrainingFilter;
 import com.gymcrm.domain.model.TrainingTypeEnum;
 import com.gymcrm.domain.port.TrainingRepository;
 import com.gymcrm.presentation.dto.request.CreateTrainingDto;
-import com.gymcrm.testconfig.NoSecurityTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,11 @@ import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@NoSecurityTest
-class TrainingIntegrationTest extends BaseIntegrationTest {
+class PostTrainingTest extends BaseIntegrationTest {
     private static final String URL_TRAININGS = "/trainings";
     private static final String TRAINER_JOHN = "John.Doe";
     private static final String TRAINEE_SARAH = "Sarah.Lee";
@@ -36,8 +32,8 @@ class TrainingIntegrationTest extends BaseIntegrationTest {
     private String queueName;
 
     @Autowired
-    public TrainingIntegrationTest(TestRestTemplate testRestTemplate, RabbitTemplate rabbitTemplate,
-                                   TrainingRepository trainingRepository) {
+    public PostTrainingTest(TestRestTemplate testRestTemplate, RabbitTemplate rabbitTemplate,
+                            TrainingRepository trainingRepository) {
         super(testRestTemplate);
         this.rabbitTemplate = rabbitTemplate;
         this.trainingRepository = trainingRepository;

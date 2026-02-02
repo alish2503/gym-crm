@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 
 @Component
-@Profile("!no-security")
+@Profile("security")
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final AuthenticationManager authenticationManager;
 

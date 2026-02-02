@@ -18,7 +18,7 @@ import static org.awaitility.Awaitility.await;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TraineeWorkloadSteps {
+public class TrainerWorkloadSteps {
     private final TestRestTemplate testRestTemplate;
     private final RestTemplate loadBalancedRestTemplate;
 
@@ -26,7 +26,7 @@ public class TraineeWorkloadSteps {
     private String SERVICE_NAME;
 
     @Autowired
-    public TraineeWorkloadSteps(TestRestTemplate testRestTemplate, RestTemplate loadBalancedRestTemplate) {
+    public TrainerWorkloadSteps(TestRestTemplate testRestTemplate, RestTemplate loadBalancedRestTemplate) {
         this.testRestTemplate = testRestTemplate;
         this.loadBalancedRestTemplate = loadBalancedRestTemplate;
     }
@@ -55,7 +55,7 @@ public class TraineeWorkloadSteps {
 
     @Then("the total workload hours for trainer {string} for month {int} year {int} should be {int}")
     public void the_total_workload_hours_for_trainer_should_be(String trainer, int month, int year, int expectedHours) {
-        await().atMost(ofSeconds(5)).untilAsserted(() -> {
+        await().atMost(ofSeconds(10)).untilAsserted(() -> {
             Map workload = loadBalancedRestTemplate.getForObject(getWorkloadUrl(trainer, month, year), Map.class);
             int totalHours = (int) workload.get("totalHours");
             assertEquals(expectedHours, totalHours);

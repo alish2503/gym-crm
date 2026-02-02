@@ -1,7 +1,7 @@
 package com.gymcrm.component;
 
 import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
-import com.gymcrm.testconfig.BaseTest;
+import com.gymcrm.BaseTest;
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

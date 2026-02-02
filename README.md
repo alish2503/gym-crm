@@ -289,7 +289,7 @@ The project includes several levels of automated tests:
 2. **Integration tests** verifying interaction with external infrastructure components such as **RabbitMQ**.
 3. **Component tests** ensuring correct behavior of the service in a near-production setup.
 4. **BDD scenario tests (Cucumber)** that validate communication between this microservice and another running microservice
-(Cucumber end-to-end scenarios expect the second microservice to be running with activated profile "no-security" in addition to "local" during execution.)
+(Cucumber end-to-end scenarios expect the second microservice to be running during execution.)
 
 Tests can be executed with:
 
@@ -318,6 +318,9 @@ mvn test
 16. Spring Boot Actuator 
 17. Spring AOP 
 18. Spring AMQP / RabbitMQ
+19. Testcontainers
+20. Cucumber
+21. Mockito
 
 ---
 
