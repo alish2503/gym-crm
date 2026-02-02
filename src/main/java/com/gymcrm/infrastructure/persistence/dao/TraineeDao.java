@@ -52,7 +52,7 @@ public class TraineeDao {
     )
     private List<TrainerDao> trainers = new ArrayList<>();
 
-    @OneToMany(mappedBy="trainee", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="trainee", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<TrainingDao> trainings = new ArrayList<>();
 
     public TraineeDao(Long id, UserDao user, LocalDate dateOfBirth, String address) {
