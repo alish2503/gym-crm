@@ -1,20 +1,19 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    group:
+      local: local
+      dev: dev,security
+      stage: stage,security
+      prod: prod,security
+      security-test: security
   jpa:
     open-in-view: false
 
 logging:
   pattern:
     console: "[%X{transactionId}] %d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
-
-security:
-  jwt:
-    user:
-      expiration-ms: 3600000
-    service:
-      expiration-ms: 300000
-  login:
-    max-attempts: 3
-    block-minutes: 5
 
 service-name: "trainer-workload"
 

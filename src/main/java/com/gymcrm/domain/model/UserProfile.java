@@ -15,11 +15,9 @@ import lombok.Setter;
 public abstract class UserProfile {
     private Long id;
     private User user;
-
     protected UserProfile(User user) {
         this.user = user;
     }
-
     public UserProfile(Long id) {
         this.id = id;
     }

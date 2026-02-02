@@ -4,6 +4,7 @@ import com.gymcrm.infrastructure.security.service.JwtService;
 import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
 import com.gymcrm.infrastructure.security.token.JwtAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import java.util.Collections;
  */
 
 @Component
+@Profile("security")
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtService jwtService;
     private final TokenBlacklistService tokenBlacklistService;

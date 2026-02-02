@@ -7,18 +7,21 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("!component-test")
 @Slf4j
 public class RabbitQueueDeclarator {
+
+    @Value("${queue-name}")
+    private String queueName;
     private final RabbitAdmin rabbitAdmin;
-    private final String queueName;
 
     @Autowired
-    public RabbitQueueDeclarator(RabbitAdmin rabbitAdmin, @Value("${queue-name}") String queueName) {
+    public RabbitQueueDeclarator(RabbitAdmin rabbitAdmin) {
         this.rabbitAdmin = rabbitAdmin;
-        this.queueName = queueName;
     }
 
     @PostConstruct

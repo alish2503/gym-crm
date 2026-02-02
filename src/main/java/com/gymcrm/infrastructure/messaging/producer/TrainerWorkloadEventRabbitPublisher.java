@@ -3,6 +3,7 @@ package com.gymcrm.infrastructure.messaging.producer;
 import com.gymcrm.application.event.TrainerWorkloadEvent;
 import com.gymcrm.application.service.port.TrainerWorkloadEventPublisher;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,15 +14,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class TrainerWorkloadEventRabbitPublisher implements TrainerWorkloadEventPublisher {
+
+    @Setter
+    @Value("${queue-name}")
+    private String queueName;
     private final RabbitTemplate rabbitTemplate;
-    private final String queueName;
 
     @Autowired
-    public TrainerWorkloadEventRabbitPublisher(RabbitTemplate rabbitTemplate,
-                                               @Value("${queue-name}") String queueName)
+    public TrainerWorkloadEventRabbitPublisher(RabbitTemplate rabbitTemplate)
     {
         this.rabbitTemplate = rabbitTemplate;
-        this.queueName = queueName;
     }
 
     @Override

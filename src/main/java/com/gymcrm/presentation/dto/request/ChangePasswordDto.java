@@ -21,4 +21,9 @@ public class ChangePasswordDto {
     @Schema(example = "newPassword")
     @NotBlank(message = "New password required")
     private String newPassword;
+
+    public ChangePasswordDto(String oldPassword, String newPassword) {
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
+    }
 }

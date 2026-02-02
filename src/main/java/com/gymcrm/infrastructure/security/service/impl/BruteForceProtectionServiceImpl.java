@@ -2,6 +2,7 @@ package com.gymcrm.infrastructure.security.service.impl;
 
 import com.gymcrm.infrastructure.security.service.BruteForceProtectionService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Alish
  */
 @Service
+@Profile("security")
 public class BruteForceProtectionServiceImpl implements BruteForceProtectionService {
     private final int maxAttempts;
     private final long blockMillis;

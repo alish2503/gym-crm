@@ -1,6 +1,7 @@
 package com.gymcrm.infrastructure.security.service.impl;
 
 import com.gymcrm.infrastructure.security.service.TokenBlacklistService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Alish
  */
 @Service
+@Profile("security")
 public class TokenBlacklistServiceImpl implements TokenBlacklistService {
     private final Map<String, Long> blacklist = new ConcurrentHashMap<>();
 
