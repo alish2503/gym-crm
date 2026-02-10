@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("!component-test")
+@Profile("integration")
 @Slf4j
 public class RabbitConfig {
 

@@ -12,8 +12,7 @@ spring:
       ddl-auto: validate
     show-sql: false
   rabbitmq:
-    host: stg-rabbit.mycompany.com
-    port: 5672
+    addresses: amqp://stg-rabbit.mycompany.com
     username: stguser
     password: stgpass
     publisher-confirm-type: correlated

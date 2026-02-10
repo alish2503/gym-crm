@@ -15,8 +15,7 @@ spring:
         order_updates: true
         generate_statistics: false
   rabbitmq:
-    host: rabbit.prod.mycompany.com
-    port: 5672
+    addresses: amqp://rabbit.prod.mycompany.com
     username: produser
     password: prodpass
     publisher-confirm-type: correlated

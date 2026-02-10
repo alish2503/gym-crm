@@ -40,7 +40,7 @@ public class TraineeDao {
     private LocalDate dateOfBirth;
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", unique=true, nullable=false)
     private UserDao user;
 
