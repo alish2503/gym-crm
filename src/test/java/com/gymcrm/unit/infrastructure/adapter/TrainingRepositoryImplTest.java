@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -130,5 +131,13 @@ class TrainingRepositoryImplTest {
         assertFalse(exists);
         verify(trainingJpaRepository).existsByTrainerUserUsernameAndTraineeUserUsernameAndDateAndName(
                 anyString(), anyString(), any(), anyString());
+    }
+
+    @Test
+    void delete_shouldRemoveEntity() {
+        repository.deleteAllTrainingsByTraineeUsername("john");
+        verify(trainingJpaRepository).deleteAllByTraineeUsername(
+                argThat(username -> username.equals("john"))
+        );
     }
 }

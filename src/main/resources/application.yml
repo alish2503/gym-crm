@@ -3,9 +3,10 @@ spring:
     allow-bean-definition-overriding: true
   profiles:
     group:
-      dev: security
-      stage: security
-      prod: security
+      local: integration
+      dev: security, integration
+      stage: security, integration
+      prod: security, integration
       security-test: security
   jpa:
     open-in-view: false

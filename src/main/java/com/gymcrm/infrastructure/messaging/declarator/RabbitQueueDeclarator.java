@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!component-test")
+@Profile("integration")
 @Slf4j
 public class RabbitQueueDeclarator {
 

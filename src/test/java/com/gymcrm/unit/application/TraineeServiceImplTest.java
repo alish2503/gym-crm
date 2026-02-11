@@ -142,6 +142,7 @@ class TraineeServiceImplTest {
 
         traineeService.deleteTrainee("John.Doe");
         verify(traineeRepository).deleteTrainee(trainee);
+        verify(trainingRepository).deleteAllTrainingsByTraineeUsername("John.Doe");
     }
 
     @Test
@@ -149,6 +150,7 @@ class TraineeServiceImplTest {
         when(traineeRepository.findTrainee("unknown")).thenReturn(Optional.empty());
         traineeService.deleteTrainee("unknown");
         verify(traineeRepository, never()).deleteTrainee(any());
+        verify(trainingRepository, never()).deleteAllTrainingsByTraineeUsername("unknown");
     }
 
     @Test

@@ -16,6 +16,7 @@ public class Trainee extends UserProfile {
     private LocalDate dateOfBirth;
     private String address;
     private List<Trainer> trainers = new ArrayList<>();
+    private List<Training> trainings = new ArrayList<>();
 
     public Trainee(LocalDate dateOfBirth, String address) {
         this.dateOfBirth = dateOfBirth;

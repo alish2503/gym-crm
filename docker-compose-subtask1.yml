@@ -1,0 +1,28 @@
+services:
+  main-service:
+    image: main-service
+    container_name: main-service
+    environment:
+      SPRING_PROFILES_ACTIVE: no-integration
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  report-service:
+    image: report-service
+    container_name: report-service
+    environment:
+      SPRING_PROFILES_ACTIVE: no-integration
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8081"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+

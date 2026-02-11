@@ -1,0 +1,135 @@
+services:
+  eureka-server:
+    image: eurekaserver
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - gymcrm
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8761"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  main-service:
+    image: main-service
+    container_name: main-service
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-server:5432/gymdb
+      SPRING_DATASOURCE_USERNAME: gymuser
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_RABBITMQ_ADDRESSES: amqp://rabbitmq-server:5672
+      SPRING_RABBITMQ_USERNAME: gymuser
+      SPRING_RABBITMQ_PASSWORD: pass
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    ports:
+      - "8080:8080"
+    networks:
+      - gymcrm
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      postgres-server:
+        condition: service_healthy
+      rabbitmq-server:
+        condition: service_healthy
+
+  report-service:
+    image: report-service
+    container_name: report-service
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_MONGODB_URI: mongodb://gymuser:pass@mongo-server:27017/gymdb?authSource=admin
+      SPRING_RABBITMQ_ADDRESSES: amqp://rabbitmq-server:5672
+      SPRING_RABBITMQ_USERNAME: gymuser
+      SPRING_RABBITMQ_PASSWORD: pass
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    ports:
+      - "8081:8081"
+    networks:
+      - gymcrm
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8081"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      mongo-server:
+        condition: service_healthy
+      rabbitmq-server:
+        condition: service_healthy
+
+  postgres-server:
+    image: postgres:16
+    container_name: gym-crm-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: gymdb
+      POSTGRES_USER: gymuser
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gymcrm
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gymuser -d gymdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq-server:
+    image: rabbitmq:3-management
+    container_name: gym-crm-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: gymuser
+      RABBITMQ_DEFAULT_PASS: pass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - gymcrm
+    restart: always
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo-server:
+    image: mongo:7.0
+    container_name: gym-crm-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: gymuser
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: gymdb
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - gymcrm
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  gymcrm:

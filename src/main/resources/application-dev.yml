@@ -8,8 +8,7 @@ spring:
       ddl-auto: update
     show-sql: false
   rabbitmq:
-    host: dev-rabbit.mycompany.com
-    port: 5672
+    addresses: amqp://dev-rabbit.mycompany.com
     username: devuser
     password: devpass
     publisher-confirm-type: correlated

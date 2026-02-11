@@ -46,6 +46,11 @@ public class TrainingRepositoryImpl extends BaseRepositoryImpl<Training, Trainin
     }
 
     @Override
+    public void deleteAllTrainingsByTraineeUsername(String username) {
+        trainingJpaRepository.deleteAllByTraineeUsername(username);
+    }
+
+    @Override
     public boolean existsTraining(String trainerUsername, String traineeUsername,
                                   LocalDate trainingDate, String trainingName)
     {

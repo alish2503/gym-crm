@@ -9,6 +9,7 @@ import java.util.List;
  * @author Alish
  */
 public interface TrainingRepository extends BaseRepository<Training> {
+    void deleteAllTrainingsByTraineeUsername(String username);
     List<Training> findTrainingsForTrainee(String username, TrainingFilter trainingFilter);
     List<Training> findTrainingsForTrainer(String username, TrainingFilter trainingFilter);
     boolean existsTraining(String trainerUsername, String traineeUsername, LocalDate trainingDate,

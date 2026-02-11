@@ -80,7 +80,6 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
         traineeRepository.findTrainee(username).ifPresent(trainee -> {
             TrainingFilter filter = new TrainingFilter(null, null, null, null);
             List<Training> trainings = trainingRepository.findTrainingsForTrainee(username, filter);
-
             trainings.forEach(t -> {
                 Trainer trainer = t.getTrainer();
                 trainerWorkloadEventPublisher.publish(new TrainerWorkloadEvent(
@@ -93,6 +92,7 @@ public class TraineeServiceImpl extends AbstractUserService<Trainee> implements 
                         ActionType.DELETE
                 ));
             });
+            trainingRepository.deleteAllTrainingsByTraineeUsername(username);
             traineeRepository.deleteTrainee(trainee);
         });
 

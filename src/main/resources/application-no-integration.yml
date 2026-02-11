@@ -1,21 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/gymdb
-    username: gymuser
-    password: pass
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-    properties:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    jpa:
       hibernate:
-        format_sql: true
-  rabbitmq:
-    addresses: amqp://localhost:5672
-    username: gymuser
-    password: pass
-    publisher-confirm-type: correlated
-    publisher-returns: true
+        ddl-auto: create-drop
+      show-sql: true
 
 logging:
   level:
@@ -38,5 +30,6 @@ management:
 eureka:
   client:
     register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://localhost:8761/eureka/
